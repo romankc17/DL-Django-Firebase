@@ -1,0 +1,35 @@
+{%extends 'liscence/base.html'%}
+{%block title%} fill_data {%endblock%}
+{%block content%}
+<div class="container" >
+
+    <h2 class="text-white bg-dark">Select the Category</h2>
+    <form method='post'>
+    {%csrf_token%}
+        <td><table id="tbl1"><tbody><tr><td>
+ <input type="radio" name="cate" id="cate1" value="1" style="font-size: bold"><label for="cate1" style="font-size: bold">A-Motorcycle, Scooter, Moped</label>
+<br><input type="radio" name="cate" id="cate2" value="2" style="font-size: bold"><label for="cate2" style="font-size: bold">B-Car, Jeep, Delivery Van</label>
+<br><input type="radio" name="cate" id="cate3" value="3" style="font-size: bold"><label for="cate3" style="font-size: bold">C-Tempo, Autorickshaw</label>
+<br><input type="radio" name="cate" id="cate23" value="23" style="font-size: bold"><label for="cate23" style="font-size: bold">C1-ERickshaw</label>
+<br><input type="radio" name="cate" id="cate4" value="4" style="font-size: bold"><label for="cate4" style="font-size: bold">D-Powertiller</label>
+<br><input type="radio" name="cate" id="cate5" value="5" style="font-size: bold"><label for="cate5" style="font-size: bold">E-Tractor, Trailer Tractor (Low Bed)</label>
+<br><input type="radio" name="cate" id="cate8" value="8" style="font-size: bold"><label for="cate8" style="font-size: bold">H-Road Toller, Dozer</label>
+<br><input type="radio" name="cate" id="cate21" value="21" style="font-size: bold"><label for="cate21" style="font-size: bold">H1-DOZER</label>
+<br><input type="radio" name="cate" id="cate22" value="22" style="font-size: bold"><label for="cate22" style="font-size: bold">H2-ROAD ROLLER</label>
+<br><input type="radio" name="cate" id="cate9" value="9" style="font-size: bold"><label for="cate9" style="font-size: bold">I-Crane, Fire brigade, Loader</label>
+<br><input type="radio" name="cate" id="cate14" value="14" style="font-size: bold"><label for="cate14" style="font-size: bold">I1-CRANE, MOBILE CRANE, CRANE MOUNTED TRUCK</label>
+<br><input type="radio" name="cate" id="cate15" value="15" style="font-size: bold"><label for="cate15" style="font-size: bold">I2-FIRE BRIGADE</label>
+<br><input type="radio" name="cate" id="cate16" value="16" style="font-size: bold"><label for="cate16" style="font-size: bold">I3-LOADER</label>
+<br><input type="radio" name="cate" id="cate17" value="17" style="font-size: bold"><label for="cate17" style="font-size: bold">J1-EXCAVATOR</label>
+<br><input type="radio" name="cate" id="cate18" value="18" style="font-size: bold"><label for="cate18" style="font-size: bold">J2-BACKHOE LOADER</label>
+<br><input type="radio" name="cate" id="cate19" value="19" style="font-size: bold"><label for="cate19" style="font-size: bold">J3-GRADER</label>
+<br><input type="radio" name="cate" id="cate20" value="20" style="font-size: bold"><label for="cate20" style="font-size: bold">J4-FORKLIFT</label>
+<br><input type="radio" name="cate" id="cate10" value="10" style="font-size: bold"><label for="cate10" style="font-size: bold">J5-Other</label>
+<br><input type="radio" name="cate" id="cate50" value="50" style="font-size: bold"><label for="cate50" style="font-size: bold">K-Scooter, Moped</label>
+<br></td></tr></tbody></table></td>
+<button class='btm btn btn-secondary btn-lg mx-10 mt-3 mb-5' type="submit">Submit</button>
+
+    </form>
+</div>
+{%endblock%}
+

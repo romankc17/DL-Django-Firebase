@@ -1,0 +1,28 @@
+{%extends 'liscence/base.html'%}
+{%block title%} captcha_entry {%endblock%}
+{%block content%}
+
+<div class="container" >
+{%if context%}
+<form method="post" action="{% url 'captcha_entry' %}" >
+    {%csrf_token%}
+ <ul>
+
+{%for object in context%}
+
+        <li style="list-style-type: none">
+            <img class ='m-2' src="{{object.captcha.url}}">
+            <input type="text"  name="captcha{{object.id}}" >
+            <input type="hidden" name="session{{object.id}}" value="{{object.session}}">
+        </li>
+{%endfor%}
+
+</ul>
+<input class="btn btn-lg bg-success mx-5 p-8" type="submit" value="Submit">
+</form>
+    {% else %}
+    <tr><td>You have no captchas to be entered.</td></tr>
+    {%endif%}
+</div>
+{%endblock%}
+

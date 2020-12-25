@@ -1,0 +1,113 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <link rel="icon" href="{% static 'favicon/favicon.ico' %}" />
+    <link rel="stylesheet" href="{%static 'css/base.css'%}" />
+    <link
+      href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css"
+      rel="stylesheet"
+      id="bootstrap-css"
+    />
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+
+    <script src="https://www.gstatic.com/firebasejs/8.2.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.1/firebase-analytics.js"></script>
+
+
+    <title>DL-{%block title%} Driving Liscence Form Entry {%endblock%}</title>
+    {%block head%} {%endblock%}
+  </head>
+  <body>
+    <div
+      style="padding: 30px; position: sticky; top: 0"
+      class="navbar myNavbar"
+    >
+      <div>
+        <a style="color: white; font-weight: bold" href="{% url 'index' %}">
+          <i class="fa fa-home" style="color: white"></i> Home
+        </a>
+      </div>
+
+      <div>
+        {%if user.is_staff%}
+        <a style="color: white; font-weight: bold" href="{%url 'clients'%}">
+          <i class="fa fa-users" style="color: black"></i>
+          Clients
+        </a>
+        {%endif%}
+      </div>
+
+      {%if user.is_superuser%}
+      <div>
+        <a
+          class="nav-link nav-item m-1 px-3"
+          style="color: white; font-weight: bold"
+          href="{%url 'create_user'%}"
+        >
+          Create User
+        </a>
+      </div>
+
+      <div>
+        <a
+          class="nav-link nav-item m-1 px-3"
+          style="color: white; font-weight: bold"
+          href="{%url 'list_users'%}"
+        >
+          List Users
+        </a>
+      </div>
+      {%endif%}
+      <div>
+        <a
+          class="nav-link nav-item m-1 px-3"
+          style="color: white; font-weight: bold"
+          href="{%url 'logout'%}"
+        >
+          <i class="fa fa-sign-out" style="color: yellow"></i>
+          Logout
+        </a>
+      </div>
+    </div>
+
+    <div id="messages">
+      {% if messages %} {%for message in messages%}
+      <div class="alert alert-{{message.tags}}">{{message}}</div>
+      {%endfor%} {%endif%}
+    </div>
+
+    <div class="container-lg">{%block content%} {%endblock%}</div>
+
+    <script
+      src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+      integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <script>
+
+      {% block script %} {%endblock%}
+    </script>
+    <script src="{% static "js/firebase.js" %}"></script>
+  </body>
+</html>

@@ -1,0 +1,35 @@
+{%extends 'liscence/base.html'%}
+{%block title%}{{object.firstname}} {{object.lastname}} - DETAILS {%endblock%}
+{%block content%}
+
+{% if object.staff == user %}
+{%if object.is_submitted%}
+    <div class="p-3 mb-2 bg-success text-white">Successfully Registered!</div>
+{%else%}
+    <div class="p-3 mb-2 bg-danger text-warning">Not Registered yet!</div>
+{%endif%}
+
+<ul class="list-group ">
+    <li class="list-group">Name: </li><nobr class="text-light bg-dark mb-2">{{object.firstname}} {{object.middlename}} {{object.lastname}}</nobr>
+    <li class="list-group">Age: <nobr class="text-light bg-dark mb-2">{{object.age}}</nobr></li>
+    <li class="list-group">Citizenship Number: <nobr class="text-light mb-2 bg-dark">{{object.citizenshipNumber}}</nobr></li>
+    <li class="list-group">Contact: <nobr class="text-light bg-dark mb-2">{{object.permMobilemumber}}</nobr></li>
+    <li class="list-group">Client Added At: <nobr class="text-light bg-dark">{{object.client_added_at}}</nobr></li><br>
+
+</ul>
+<div>
+    {%if  object.submitted%}
+<!--        <a href="{%url 'success_link' object.id%}" class="list-group">Get Link</a>-->
+        <a class = "btn btn-success btn-sm my-1" href="{%url 'success_link' object.id%}">Get Link</a>
+    {%else%}
+
+        <a class = "btn btn-primary btn-sm my-1" href="{% url 'client_update' object.id %}">Update</a>
+        <a class = "btn btn-danger btn-sm my-1" href="{% url 'client_delete' object.id %}">Delete</a>
+
+    {%endif%}
+</div>
+
+{%else%}
+<h1>You are not allowed to show the client informations.</h1>
+{% endif %}
+{%endblock%}

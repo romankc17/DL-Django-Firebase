@@ -1,0 +1,12 @@
+{%extends 'liscence/base.html'%}
+{%block title%}results{%endblock%}
+{%block content%}
+    <ul>
+        {%for cResult in cResults%}
+            <li style="list-style-type: none" class="p-3 mb-2 bg-info text-white">{{cResult}}</li>
+        {%endfor%}
+        {%for sResult in sResults%}
+            <li style="list-style-type: none" class="p-3 mb-2 bg-warning text-white">{{sResult}}</li>
+        {%endfor%}
+    </ul>
+{%endblock%}

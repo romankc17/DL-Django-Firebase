@@ -1,0 +1,42 @@
+{%extends 'liscence/base.html'%}
+
+{%block title%} My Submissions {%endblock%}
+
+{%block content%}
+
+<!-- {%if counts > 0%}
+  <div class="alert alert-danger" role="alert">
+    You have {{counts}} data to be pushed!!!
+  </div>
+{%else%}
+  <div class="alert alert-success" role="alert">
+    You don't have any data to push
+  </div>
+{%endif%} -->
+
+<table class="table table-striped table-light">
+  <thead >
+    <tr style="background-color: black; ">
+      <th>#</th>
+      <th style="color:white" scope="col">Name</th>
+      <th style="color:white" scope="col">Date Submitted</th>
+    </tr>
+  </thead>
+  <tbody >
+  {%for mySub in mySubs%}
+    {%if today.date == mySub.client_submitted_at %}
+      <tr id='clients-info' style="background-color: rgb(85, 235, 98);">
+    {%else%}
+      <tr id='clients-info'>
+    {%endif%}
+      <td style="color:black;">{{forloop.counter}}</td>
+      <th style="color:black;" scope="row">{{mySub.full_name}}</th>
+      <td style="color:black;">{{mySub.client_submitted_at}}</td>
+      </tr>
+  {%endfor%}
+  </tbody>
+</table>
+
+
+
+{%endblock%}

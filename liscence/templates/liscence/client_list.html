@@ -1,0 +1,404 @@
+{%extends 'liscence/base.html'%}
+
+{%block head%}
+<!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/8.1.2/firebase-app.js"></script>
+
+<!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+<script src="https://www.gstatic.com/firebasejs/8.1.2/firebase-analytics.js"></script>
+<style>
+  .flex-container {
+    display: flex;
+  }
+  .flex-item-left {
+    flex: 80%;
+  }
+
+  .flex-item-right {
+    margin-left: 5%;
+    background: #eaeaea;
+    padding: 10px;
+    flex: 20%;
+  }
+
+  .cate{
+    padding:10px 0;
+  }
+</style>
+{%endblock%}
+
+{%block content%}
+<div class="flex-container">
+  <div class="flex-item-left">
+    <table class="table table-striped">
+      <thead style="font-weight:900;color:red;">
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Name</th>
+          <th scope="col">Category</th>
+          <th scope="col">Contact</th>
+          <th scope="col">Added</th>
+          <th scope="col">Submitted</th>
+          {%if user.is_superuser%}
+          <th scope="col">Submitted By</th>
+          {%endif%}
+        </tr>
+      </thead>
+      <tbody style="font-size:15px;font-weight:600;">
+        {%for client in clients%} 
+        {%if client.submitted %}
+        <tr id="ctr" style="background: #66ff66">
+        {%else%}
+        <tr id="ctr">
+        {%endif%}
+          <td id="{{client.id}}" style="width: 10%">
+            {% csrf_token %} 
+            {%if not client.submitted%}
+            <span
+              style="margin-right: 6px; width: 100%"
+              data-placement="top"
+              data-toggle="tooltip"
+              title="Edit"
+            >
+              <button
+                class="btn btn-primary btn-xs editBtn"
+                data-title="Edit"
+                data-toggle="modal"
+                data-target="#edit"
+              >
+                <span class="glyphicon glyphicon-pencil"></span>
+              </button>
+            </span>
+            {%endif%}
+            <span
+              style="margin-top: 6px; item-align: left; width: 100%"
+              data-placement="top"
+              data-toggle="tooltip"
+              title="Delete"
+            >
+              <button
+                class="btn btn-danger btn-xs deleteBtn"
+                data-title="Delete"
+                data-toggle="modal"
+                data-target="#delete"
+              >
+                <span class="glyphicon glyphicon-trash"></span>
+              </button>
+            </span>
+          </td>
+          <td class="fullName">{{client.full_name}}</td>
+          <td style="text-align:center;">{{client.category}}</td>
+          <td>{{client.mobileNumber}}</td>
+          <td>{{client.clientAddedAt.date}}</td>
+          <td>
+            {%if not client.submitted%} 
+            &#10060; 
+            {%else%}
+            {{client.clientSubmittedAt.date}}
+            {%endif%}
+          </td>
+          {%if user.is_superuser%}
+          <td>
+          {%if client.submitted%}
+            {{client.submitted_by}}
+          {%endif%}
+          </td>
+          {%endif%}
+        </tr>
+        {%endfor%}
+      </tbody>
+    </table>
+  </div>
+
+  <div class="flex-item-right" id="filterForm">
+    <form method="POST" action="{%url 'clients_filter'%}">
+      {%csrf_token%}
+      <div style="background:#447e9b;color:white;text-align:center;font-weight:600">Filter</div>
+
+
+      {%if user.is_superuser%}
+      <div class="cate" id='institute'>
+        <div  style="font-weight:900">By Institute</div>
+          <div>
+            <select style="font-size:16px;" class="browser-default custom-select" name="institutes" id="institutes">
+              <option value="all">All</option>
+              {%for inst in institutes%}
+              <option value="{{inst.id}}">{{inst.name}}</option>
+              {%endfor%}
+            </select>
+          </div>
+      </div>
+
+      <div class="cate" id='submitted_by'>
+        <div  style="font-weight:900">By Submitted_by</div>
+          <div>
+            <select style="font-size:16px;" class="browser-default custom-select" id="sb" name="submitted_by">
+              <option value="all">All</option>
+              {%for user in users%}
+              <option value="{{user.uid}}">{{user.uid}}</option>
+              {%endfor%}
+            </select>
+          </div>
+      </div>
+      {%endif%}
+
+
+      <div class="cate" id="submitted">
+        <div style="font-weight:900">By Submitted</div>
+        <div>
+          <input
+            class="ckb"
+            name="submitted"
+            type="radio"
+            id="staffCheck0"
+            checked="checked"
+            value="all"
+            {%if submitted_all%}
+            checked="checked"
+            {%endif%}
+          />
+          <label for="staffCheck0"> All </label>
+        </div>
+        <div>
+          <input
+            class="ckb"
+            name="submitted"
+            type="radio"
+            id="staffCheck1"
+            value="yes"
+            {%if submitted_yes%}
+            checked="checked"
+            {%endif%}
+          />
+          <label for="staffCheck1"> Yes </label>
+        </div>
+
+        <div>
+          <input
+            class="ckb"
+            name="submitted"
+            type="radio"
+            id="staffCheck2"
+            value="no"
+            {%if submitted_no%}
+            checked="checked"
+            {%endif%}
+          />
+          <label for="staffCheck2"> NO </label>
+        </div>
+      </div>
+      <br>
+
+      <div class="cate" id="category" >
+        <div style="font-weight:900">By Category</div>
+        <div>
+          <input
+            class="ckb"
+            name="cate"
+            type="radio"
+            id="check332"
+            checked="checked"
+            value="all"
+            {%if cate_all%}
+            checked="checked"
+            {%endif%}
+          />
+          <label for="check332"> All </label>
+        </div>
+
+        <div>
+          <input
+            class="ckb"
+            name="cate"
+            type="radio"
+            id="check32"
+            value="A"
+            {%if cateA%}
+            checked="checked"
+            {%endif%}
+          />
+          <label for="check32"> A </label>
+        </div>
+        <div>
+          <input
+            class="ckb"
+            name="cate"
+            type="radio"
+            id="check3"
+            value="B"
+            {%if cateB%}
+            checked="checked"
+            {%endif%}
+          />
+          <label for="check3"> B </label>
+        </div>
+
+        <div>
+          <input
+            class="ckb"
+            name="cate"
+            type="radio"
+            id="check4"
+            value="K"
+            {%if cateK%}
+            checked="checked"
+            {%endif%}
+          />
+          <label for="check4"> K </label>
+        </div>
+      </div>
+
+      <div class="cate" id="added_date" >
+        <div style="font-weight:900">By Added Date</div>
+        <div>
+          <input
+            class="ckb"
+            name="added_date"
+            type="radio"
+            id="09223"
+            value="all"
+            {%if added_at_all%}
+            checked="checked"
+            {%endif%}
+          />
+          <label for="09223"> All Date </label>
+        </div>
+        <div>
+          <input
+            class="ckb"
+            name="added_date"
+            type="radio"
+            id="staffCheck4"
+            value="today"
+            {%if added_at_today%}
+            checked="checked"
+            {%endif%}
+          />
+          <label for="staffCheck4"> Today </label>
+        </div>
+
+        <div>
+          <input
+            class="ckb"
+            name="added_date"
+            type="radio"
+            id="staffCheck5"
+            value="week"
+            {%if added_at_week%}
+            checked="checked"
+            {%endif%}
+          />
+          <label for="staffCheck5"> Last 7 Days </label>
+        </div>
+
+
+        <div>
+          <input
+            class="ckb"
+            name="added_date"
+            type="radio"
+            id="staffCheck6"
+            value="month"
+            {%if added_at_month%}
+            checked="checked"
+            {%endif%}
+          />
+          <label for="staffCheck6"> Last 30 Days </label>
+        </div>
+      </div>
+
+      <div class="cate" id="submitted_date" >
+        <div style="font-weight:900">By Submitted Date</div>
+        <div>
+          <input
+            class="ckb"
+            name="submitted_date"
+            type="radio"
+            id="staffCheck8"
+            checked="checked"
+            value="all"
+            {%if submitted_at_all%}
+            checked="checked"
+            {%endif%}
+          />
+          <label for="staffCheck8"> All Date </label>
+        </div>
+        <div>
+          <input
+            class="ckb"
+            name="submitted_date"
+            type="radio"
+            id="staffCheck9"
+            value="today"
+            {%if submitted_at_today%}
+            checked="checked"
+            {%endif%}
+          />
+          <label for="staffCheck9"> Today </label>
+        </div>
+
+        <div>
+          <input
+            class="ckb"
+            name="submitted_date"
+            type="radio"
+            id="staffCheck11"
+            value="week"
+            {%if submitted_at_week%}
+            checked="checked"
+            {%endif%}
+          />
+          <label for="staffCheck11"> Last 7 Days </label>
+        </div>
+
+        <div>
+          <input
+            class="ckb"
+            name="submitted_date"
+            type="radio"
+            id="staffCheck22"
+            value="month"
+            {%if submitted_at_month%}
+            checked="checked"
+            {%endif%}
+          />
+          <label for="staffCheck22"> Last 30 Days </label>
+        </div>
+      </div>
+
+      <p style="padding:10px 0"><input style="width:100%" class="btn btn-primary" id="filterGet" type="submit" value="Get Value" /></p>
+    </form>
+  </div>
+
+  <script>
+    $(document).ready(function () {
+      $(document).on("click", ".deleteBtn", function () {
+        event.preventDefault();
+        var id = $(this).parents("td").attr("id");
+        var name = $(this).parents("td").siblings(".fullName").html();
+        if (
+          confirm(`Are you sure you want to delete user ${name} ?`)
+        ) {
+          $(this).parents("#ctr").remove();
+          $.ajax({
+            type: "POST",
+            url: '{%url "delete_client"%}',
+            dataType: "json",
+            data: { id: `${id}`, csrfmiddlewaretoken: "{{csrf_token}}" },
+            success: function (data) {
+              alert(data.a);
+            },
+          });
+        }
+      });
+      $("[data-toggle=tooltip]").tooltip();
+
+      $('select#institutes').val('{{inst}}');
+      $('select#sb').val('{{submitted_by}}');
+
+    });
+  </script>
+
+  {%endblock%}
+

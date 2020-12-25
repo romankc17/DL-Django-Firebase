@@ -1,0 +1,13 @@
+**/migrations/
+*.DS_Store
+**/__pycache__/
+**/.DS_Store
+venv/
+db.sqlite3
+firebaseDb.py
+ServiceAccountKey.json
+.vscode
+.idea
+__pycache__
+firebaseConfig.py
+media/

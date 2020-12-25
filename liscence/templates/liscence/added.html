@@ -1,0 +1,15 @@
+
+<!-- CAPTCHAS LIST-->
+
+<div class="capClass container" >
+
+<form method="post" action="{% url 'captcha_entry' %}">
+    {%csrf_token%}
+ <ul id="captcha_list">
+
+</ul>
+
+</form>
+
+
+</div>
