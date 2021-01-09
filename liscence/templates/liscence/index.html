@@ -60,12 +60,12 @@
 <ul id="menu">
     {%for client in clients%}
         <div style="padding:0;margin:0;font-weight:bold;">{{client.full_name}}</div>
-        <li style="list-style-type:none;margin-bottom:4px;height:70px;" class="menu-li" id="menu-li{{client.id}}">
+        <li style="list-style-type:none;margin-bottom:4px;height:70px;" class="menu-li">
             {% csrf_token %}
-            <button class="get-cap reload{{client.id}}" style="display:inline;">
+            <button class="get-cap" style="display:inline;">
                 <i class="fa fa-refresh" style="font-size:35px;color:blue;"></i>
             </button>
-            <div style="display:inline;" class="span{{client.id}}"></div>
+            <div style="display:inline;" class="afterLoaded"></div>
             <input type="hidden" name="client_id" value="{{client.id}}">
         </li>
         <hr style="background-color:black;;margin:0;">
@@ -78,75 +78,72 @@
 
 <script>
     $(document).ready(function(){
-      {%for client in clients%}
-          $(document).on('click', '.reload{{client.id}}', function(event){
-             event.preventDefault();
-             $("#submit{{client.id}}").html('<i style="font-size:40px;color:red;"type="submit" class="fa fa-arrow-right"></i>');
+        $(document).on('click', '.get-cap', function(event){
+            event.preventDefault();
+            $(this).parents('.menu-li').css("background","white");
+            $(this).html('<i class="fa fa-refresh fa-spin spin-sub" style="font-size:40px;color:blue;"></i>')
+            $.ajax({
+              async:true,
+              type:'POST',
+              url:'{% url "ajax_captcha_entry" %}',
+              data:{
+                'csrfmiddlewaretoken':'{{ csrf_token }}'
+              },
+                dataType: 'json',
+              success: (data) => {
+                var fm = `
+                    <input type="hidden" name="cookie" value="${data.sess}">
+                    <div style="display:inline" class='li-b'>
+                        <img class='li-img' style="margin:0;padding:0;" src="${data.img_url}">
+                        <input name="captcha_text" class='li-in' type="text" style="margin:0;padding:0;" >
+                    </div>
+                    <button style="position:absolute;" class="sub-cap">
+                        <i style="font-size:40px;color:red;"type="submit" class="fa fa-arrow-right"></i>
+                        <i class="fa fa-close sub-close" style="position:absolute;display:none;font-size:40px;color:red"></i>
+                    </button>
+                `;
+                $(this).siblings('div.afterLoaded').html(fm);
+                $(this).html('<i class="fa fa-refresh" style="font-size:35px;color:blue;"></i>');
+              },
+            });
+        });
 
-             $('#menu-li{{client.id}}').css("background","");
-             $(".reload{{client.id}}").html('<i class="fa fa-refresh fa-spin" style="font-size:32px;color:blue;"></i>');
-             $.ajax({
-                  type:'POST',
-                  url:'{% url "ajax_captcha_entry" %}',
-                  dataType: 'json',
-                  data:{
-                        'csrfmiddlewaretoken':'{{ csrf_token }}',
-                        },
-                  success: function(data){
-                    fm = `
-                            <input type="hidden"  id="session{{client.id}}" value="${data.sess}">
-
-                            <div style="display:inline" class='li-b'>
-                                <img class='li-img' style="margin:0;padding:0;" src="${data.img_url}">
-                                <input class='li-in' type="text" style="margin:0;padding:0;" id="captcha{{client.id}}" >
-                            </div>
-
-                            <button style="position:absolute;" class="sub-cap" id='submit{{client.id}}'>
-                                <i style="font-size:40px;color:red;"type="submit" class="fa fa-arrow-right"></i>
-                                <i class="fa fa-close sub-close" style="position:absolute;display:none;font-size:40px;color:red"></i>
-                            </button>
-                          `;
-                  $(".span{{client.id}}").html(fm);
-                  $(".reload{{client.id}}").html('<i class="fa fa-refresh" style="font-size:35px;color:blue;"></i>');
-                  },
-             });
-          });
-          $(document).on('click', '#submit{{client.id}}', function(event){
-             event.preventDefault();
-             $("#submit{{client.id}}").html('<i class="fa fa-refresh fa-spin spin-sub" style="font-size:40px;color:red;"></i>');
-             var session=$('#session{{client.id}}').val();
-             var captcha=$('#captcha{{client.id}}').val();
-             $.ajax({
-                  type:'POST',
-                  url:'{% url "ajax_submit_captcha" %}',
-                  data:{'session':session,
-                        'captcha':captcha,
-                        'client_id':'{{ client.id }}',
-                        'csrfmiddlewaretoken':'{{ csrf_token }}'
-                        },
-                  dataType: 'json',
-
-                  success: function(data){
+        $(document).on('click','.sub-cap',function(event){
+            event.preventDefault();
+            var session=$(this).siblings("input[name='cookie']").val();
+            var client_id = $(this).parents("li").children("input[name='client_id']").val()
+            var captcha = $(this).siblings("div.li-b").children('input[name="captcha_text"]').val()
+            $(this).html('<i class="fa fa-refresh fa-spin spin-sub" style="font-size:40px;color:red;"></i>');
+            $.ajax({
+                type:'POST',
+                url:'{%url "ajax_submit_captcha"%}',
+                data:{
+                    'session':session,
+                    'captcha':captcha,
+                    'client_id':client_id,
+                    'csrfmiddlewaretoken':'{{ csrf_token }}'
+                },
+                dataType: 'json',
+                success:(data)=>{
                     fm = `<span style="font-weight:bold;" class="p-3 mb-0 text-white">${data.info}</span>`;
                     if (data.submitted)
-                        $('#menu-li{{client.id}}').css("background","green");
+                        $(this).parents('.menu-li').css("background","green");
                     else
-                        $('#menu-li{{client.id}}').css("background","red");
-                    $(".span{{client.id}}").html(fm);
-                    $("#submit{{client.id}}").css("display","none");
-               },
-
-             });
-          });
-      {%endfor%}
+                        $(this).parents('.menu-li').css("background","red");
+                    $(this).parents("div.afterLoaded").html(fm);
+                    $(this).css("display","none");
+                }
+            })
+        });
     });
-
     $('#triggerAll').on('click',function(){
-        $('.get-cap').trigger('click');
+        var buttons = document.getElementsByClassName("get-cap")
+        for (var i=0; i<buttons.length; i++)
+            buttons[i].click();
     });
     $('#submitAll').on('click',function(){
-            $('.sub-cap').trigger('click');
-        });
+        $('.sub-cap').trigger('click');
+    });
 
 </script>
 {%endblock%}

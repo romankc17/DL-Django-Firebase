@@ -140,6 +140,7 @@ def submit_form(client,cookies,captcha,current_user):
 
 
 def captcha_entry(request):
+    time.sleep(2)
     if request.method=="POST" and request.is_ajax():
         obj = Cookies()
         # calling method to save captcha
