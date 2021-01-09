@@ -12,12 +12,15 @@ urlpatterns = [
     path('clients/', views.list_clients, name='clients'),
     # path('client/<int:pk>', views.ClientDetailView.as_view(), name='client_detail'),
     # path('client/<int:pk>/delete/', views.ClientDeleteView.as_view(), name='client_delete'),
-    # path('client/<int:pk>/success_link', views.success_link, name='success_link'),
+    path('sl/<str:client_id>/', views.success_link, name='success_link'),
+    path('sl/<str:mobile>/<str:ref>/', views.success_link2, name='success_link2'),
+
     # path('client/<int:pk>/update/', views.ClientUpdateView.as_view(), name = 'client_update' ),
 
     path('users/create',views.create_user,name='create_user'),
     path('users/',views.list_users,name='list_users'),
     path('clients/filter/',views.clients_filter,name='clients_filter'),
+    path('add_clients/',views.add_clients,name='add_clients'),
 
     #ajax
     path('ajax_captcha_entry', ajax.captcha_entry, name='ajax_captcha_entry'),
@@ -25,7 +28,10 @@ urlpatterns = [
     path('delete_client', ajax.delete_client, name='delete_client'),
     path('reset_password', ajax.reset_password, name='reset_password'),
     path('user_update', ajax.user_update, name='user_update'),
+    path('client_update', ajax.client_update, name='client_update'),
     path('user_delete', ajax.user_delete, name='user_delete'),
+    path('subUpdate', ajax.subUpdate, name='subUpdate'),
+    path('edit_entryUsers', ajax.edit_entryUsers, name='edit_entryUsers'),
 
 
 

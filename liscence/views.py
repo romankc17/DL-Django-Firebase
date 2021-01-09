@@ -1,16 +1,14 @@
-import ast
-import json
-import random
 import datetime
+import pytz
+local=pytz.timezone('Asia/Kathmandu')
 
-from firebaseDb import clients,institutes
+from firebaseDb import clients,institutes,users
 from firebase_admin import auth,firestore
 db = firestore.client()
 
 
 from django.http import Http404
 from django.shortcuts import render,redirect
-from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib import messages
 
@@ -23,6 +21,10 @@ def is_staff(user):
 def is_superuser(user):
     return  user.is_superuser
 
+def sortClients(_clients,reverse=False):
+    _clients = sorted(_clients, key=lambda x: x.clientAddedAt, reverse=reverse)
+    return _clients
+
 
 @login_required
 def index(request):
@@ -30,14 +32,18 @@ def index(request):
     for cookie in Cookies.objects.all():
         cookie.captcha.delete(save=True)
         cookie.delete()
-    # to_be_entered = request.user.client_set.filter(submitted=False)
+    # to_be_enterd = request.user.client_set.filter(submitted=False)
     from firebaseDb import clients
-    to_be_entered = clients.for_staff_sub(request.user)
-    counts = len(to_be_entered)
-    clients=sorted(to_be_entered, key=lambda x: random.random())
+    if request.user.is_superuser:
+        _clients=clients.filter(submitted=False,allow=True)
+    else:
+        _clients = clients.for_staff_sub(request.user)
+    _clients = sorted(_clients, key=lambda x: x.clientAddedAt, reverse=False)
+    counts = len(_clients)
+    # clients=sorted(to_be_entered, key=lambda x: random.random())
     context={'user':request.user,
              'counts':counts,
-             'clients': clients}
+             'clients': _clients}
     return render(request, 'liscence/index.html',context )
         
 
@@ -45,114 +51,51 @@ def index(request):
 def list_clients(request):
     payload={}
     if request.user.is_superuser:
-        _clients=clients.all()
-        users = [user for user in auth.list_users().iterate_all()]
+        _clients=sortClients(clients.all(),reverse=True)
+        _users = users.all()
         payload.update({'institutes':institutes.all(),
-                        'users':users,
+                        'users':users.all(),
+                        'staffs':[user for user in _users if user.staff],
                         'submitted_by':'all',
-                        'inst': 'all'
+                        'entry_users':'all',
+                        'staff': 'all'
                         })
     else:
-        _clients = clients.filter(staff=request.user.username)
+        _clients = sortClients(clients.filter(staff=request.user.username),reverse=True)
     payload.update({'submitted_all': True, 'cate_all': True, 'added_at_all': True, 'submitted_at_all': True,})
-    payload.update({'clients':_clients})
+    payload.update({'clients':_clients,'counts':len(_clients)})
     return render(request,'liscence/client_list.html',payload)
 
 
-@user_passes_test(is_staff)
-def success_link(request, pk):
-    try:
-        object = Client.objects.using('auth_db').get(id = pk)
-    except:
-        raise Http404
-    r = requests.get('http://onlineedlreg.dotm.gov.np/newDlApplicationEntryResult_.action', params=ast.literal_eval(object.payload), verify=False)
-
-    if request.user == object.staff:
-        return render(request, 'liscence/success_link.html', {"link":r.url})
-    else:
-        raise Http404
-
-@user_passes_test(is_superuser)
-def create_user(request):
-    if request.method == 'POST':
-        uid=request.POST.get('username')
-        display_name = request.POST.get('fullName')
-        email = request.POST.get('email')
-        password = request.POST.get('password')
-        phoneNumber = request.POST.get('phoneNumber')
-        staffCheck = request.POST.get('checkStaff')
-
-        staff = False
-        if staffCheck:
-            staff=True
-
-
-        try:
-            ph=int(phoneNumber)
-            if len(phoneNumber)!=10 and len(phoneNumber)!=0:
-                messages.error(request,'Invalid PhoneNumber')
-                return redirect('create_user')
-        except :
-            messages.error(request, 'Invalid PhoneNumber')
-            return redirect('create_user')
-
-        if phoneNumber:
-            phoneNumber = '+977'+phoneNumber
-        else:
-            phoneNumber = None
-
-        try:
-            user = auth.create_user(
-                uid=uid,
-                email=email,
-                email_verified=True,
-                password=password,
-                display_name=display_name,
-                phone_number=phoneNumber,
-                disabled=False)
-            auth.set_custom_user_claims(user.uid, {'staff': staff,'admin':False})
-            messages.success(request, 'Sucessfully created new user: {0}'.format(user.uid))
-            return redirect('list_users')
-        except Exception as ec:
-            messages.error(request, ec)
-        return redirect('create_user')
-    else:
-        return render(request,'liscence/create_user.html')
-
-@user_passes_test(is_superuser)
-def list_users(request):
-    users=[user for user in auth.list_users().iterate_all()]
-    params={
-        'users':users
-    }
-    return render(request,'liscence/list_users.html',params)
-
 def clients_filter(request):
-
     submitted = request.POST['submitted']
     category = request.POST['cate']
     clientAddedAt = request.POST['added_date']
     clientSubmittedAt = request.POST['submitted_date']
-
 
     to_filter = {}
     payload = {}
 
     if request.method == 'POST':
         if request.user.is_superuser:
-            inst = request.POST['institutes']
+            staff = request.POST['staffs']
             submitted_by=request.POST['submitted_by']
-            payload['inst']=inst
+            entry_users=request.POST['entry_users']
+            print(entry_users)
+            payload['staff']=staff
             payload['submitted_by']=submitted_by
-            payload['institutes']=institutes.all()
-            if not inst=='all':
-                to_filter['institute_id']=inst
+            payload['entry_users']=entry_users
+            payload['staffs']=users.filter_by_staff()
+            if not staff=='all':
+                to_filter['staff']=staff
             if not submitted_by=='all':
                 to_filter['submitted_by']=submitted_by
-            users = [user for user in auth.list_users().iterate_all()]
-            payload['users']=users
+            if not entry_users=='all':
+                to_filter['entry_users']=entry_users
+            _users = users.all()
+            payload['users']=_users
 
-            if inst==submitted_by==submitted == category == clientAddedAt == clientSubmittedAt== 'all':
+            if staff==submitted_by==submitted == category == clientAddedAt == clientSubmittedAt==entry_users=='all':
                 return redirect('clients')
         else:
             if submitted==category==clientAddedAt==clientSubmittedAt=='all':
@@ -203,8 +146,205 @@ def clients_filter(request):
 
         _clients=clients.page_filter(to_filter)
 
-        payload['clients']=_clients
-
+        payload['clients']=sortClients(_clients,reverse=True)
+        payload['counts']=len(_clients)
         return render(request,'liscence/client_list.html',payload)
     else:
         raise Http404()
+
+
+@user_passes_test(is_staff)
+def success_link(request, client_id):
+    client=clients.get_by_id(client_id)
+    if hasattr(client,'success_url') and client.submitted:
+        return redirect(client.success_url)
+    elif hasattr(client,'refNo') and client.submitted:
+        ref=client.refNo
+        if client.statusType.lower() == 'addcategory':
+            status = 'ADDCATEGORY'
+        else:
+            status = 'Registered'
+        rvd=RegVisit()
+        payload = {
+            'successMessage': f'APPLICATION SAVED SUCCESSFULLY REFERENCE NO: {ref}',
+            'referenceNo': ref,
+            'applicantfullname': client.firstname + " " + client.middlename + " " + client.lastname,
+            'regdate': rvd.getRegDate(),
+            'status': status,
+            'citizenshipnumber': client.citizenshipNumber,
+            'expiryDate': 'N/A',
+            'bloodgroup': client.displayBG,
+            'dobStr': client.dob[:10],
+            'mobilenumber': client.mobileNumber,
+            'selectedcategories': client.category,
+            'fathername': client.witnessFirstname + " " + client.witnessMiddlename + " " + client.witnessLastname,
+            'Address': client.tole + " " + client.wardNumber + " " + client.districtName + " " + client.zoneName + " Nepal",
+            'appointmentDate': rvd.getVisitDate(),
+            'applyZone': 'Lumbini',
+            'applyOffice': 'Lumbini'
+        }
+        url = requests.get(
+            'http://onlineedlreg.dotm.gov.np/newDlApplicationEntryResult_.action',
+            params=payload,
+            verify=False,
+            timeout=(1000, 1000),
+        ).url
+        return redirect(url)
+    return Http404("Can't Find Url")
+
+@user_passes_test(is_staff)
+def success_link2(request, mobile,ref):
+    client=clients.filter(mobileNumber=mobile)[0]
+    if not client:
+        return Http404('No client with this mobilenumber')
+    try :
+        return redirect(client.success_url)
+    except:
+        pass
+
+    if client.statusType.lower() == 'addcategory':
+        status='ADDCATEGORY'
+    else:
+        status='Registered'
+    try:
+        district=client.districtName
+        zone=client.zoneName
+    except:
+        district=client.district
+        zone=client.zone
+    payload = {'successMessage': f'APPLICATION SAVED SUCCESSFULLY REFERENCE NO: {ref}',
+               'referenceNo': ref,
+               'applicantfullname': client.firstname+" "+client.middlename+" "+client.lastname,
+               'regdate': '1/7/21',
+               'status': status,
+               'citizenshipnumber': client.citizenshipNumber,
+               'expiryDate': 'N/A',
+               'bloodgroup': client.displayBG,
+               'dobStr': client.dob[:10],
+               'mobilenumber': client.mobileNumber,
+               'selectedcategories': client.category,
+               'fathername': client.witnessFirstname+" "+client.witnessMiddlename+" "+client.witnessLastname,
+               'Address': client.tole+" "+client.wardNumber+" "+district+" "+zone+" Nepal",
+               'appointmentDate': '1/13/21',
+               'applyZone': 'Lumbini',
+               'applyOffice': 'Lumbini'}
+    r = requests.get('http://onlineedlreg.dotm.gov.np/newDlApplicationEntryResult_.action',
+                     params=payload,
+                     verify=False,
+                     timeout=(1000,1000),)
+    return render(request, 'liscence/success_link.html', {"link":r.url})
+
+@user_passes_test(is_superuser)
+def create_user(request):
+    if request.method == 'POST':
+        uid=request.POST.get('username')
+        display_name = request.POST.get('fullName')
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+        phoneNumber = request.POST.get('phoneNumber')
+        staffCheck = request.POST.get('checkStaff')
+
+        staff = False
+        if staffCheck:
+            staff=True
+
+        try:
+            ph=int(phoneNumber)
+            if len(phoneNumber)!=10 and len(phoneNumber)!=0:
+                messages.error(request,'Invalid PhoneNumber')
+                return redirect('create_user')
+        except :
+            messages.error(request, 'Invalid PhoneNumber')
+            return redirect('create_user')
+
+        if phoneNumber:
+            phoneNumber = '+977'+phoneNumber
+        else:
+            phoneNumber = None
+
+        try:
+            user = auth.create_user(
+                uid=uid,
+                email=email,
+                email_verified=True,
+                password=password,
+                display_name=display_name,
+                phone_number=phoneNumber,
+                disabled=False)
+            auth.set_custom_user_claims(user.uid, {'staff': staff,'admin':False})
+            messages.success(request, 'Sucessfully created new user: {0}'.format(user.uid))
+            return redirect('list_users')
+        except Exception as ec:
+            messages.error(request, ec)
+        return redirect('create_user')
+    else:
+        return render(request,'liscence/create_user.html')
+
+@user_passes_test(is_superuser)
+def list_users(request):
+    params={
+        'us':users.all()
+    }
+    return render(request,'liscence/list_users.html',params)
+
+
+def add_clients(request):
+    if request.method=='POST':
+        data={
+            'firstname':request.POST.get('firstname').upper().strip(),
+            'middlename':request.POST.get('middlename').upper().strip(),
+            'lastname':request.POST.get('lastname').upper().strip(),
+            'gender':request.POST.get('gender'),
+            'bloodgroup':request.POST.get('bloodgroup'),
+            'dob':str(request.POST.get('dobAd'))+'T00:00:00+05:45',
+            'dobBs':request.POST.get('dobBs'),
+            'age':request.POST.get('age'),
+            'citizenshipNumber':request.POST.get('citizenshipNumber'),
+            'citizenshipDistrict':request.POST.get('citizenshipDistrict'),
+            'relationtype':request.POST.get('relationtype'),
+            'witnessFirstname':request.POST.get('witnessFirstname').upper().strip(),
+            'witnessMiddlename':request.POST.get('witnessMiddlename').upper().strip(),
+            'witnessLastname':request.POST.get('witnessLastname').upper().strip(),
+            'zone':request.POST.get('zone'),
+            'district':request.POST.get('district'),
+            'village':request.POST.get('village'),
+            'wardNumber':request.POST.get('wardNumber'),
+            'tole':request.POST.get('tole'),
+            'mobileNumber':request.POST.get('mobileNumber'),
+            'cate':request.POST.get('cate'),
+            'appliedZoneOffice':request.POST.get('appliedZoneOffice'),
+            'licenseIssueOffice':request.POST.get('licenseIssueOffice'),
+            'citizenshipID':'269',
+        }
+        try:
+            staff=request.POST.get('staff').strip()
+        except :
+            staff=request.user
+        data.update({
+            'allow':True,
+            'staff':staff,
+            'clientAddedAt':datetime.datetime.now(local),
+            'entry_users':[staff,'romanchhetri02'],
+            'institute_id':'L2NNi7gACKofVU456A2t',
+            'statusType':'newlicense',
+            'submitted':False,
+        })
+        doc_id=data['firstname']+data['lastname']+'-'+data['citizenshipNumber'].replace('/','')
+        clients.add(doc_id,data)
+
+    return render(request, 'liscence/add_clients.html')
+
+class RegVisit:
+    def __init__(self):
+        regDate=datetime.datetime.now(local)-datetime.timedelta(days=1)
+        self.regDate=regDate.strftime("%m/%d/%y")
+        self.visitDate=(regDate+datetime.timedelta(days=6)).strftime("%m/%d/%y")
+
+    def setDate(self,regDate,visitDate):
+        self.regDate=regDate
+        self.visitDate=visitDate
+
+    def getRegDate(self):
+        return self.regDate
+    def getVisitDate(self):
+        return self.visitDate

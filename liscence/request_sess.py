@@ -10,25 +10,25 @@ requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 
 headers = {"Connection": "keep-alive",
            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.132 Safari/537.36"}
-retries = Retry(total=5,
+retries = Retry(total=20,
                 backoff_factor=0.1,
                 status_forcelist=[500, 502, 503, 504])
 
 
 def waitForResourceAvailable(session, request_method, url, **kwargs):
-    session.headers.update(headers)
+    # session.headers.update(headers)
 
     while True:
         try:
-            session.mount(url, HTTPAdapter(max_retries=retries))
+            session.mount(url, HTTPAdapter(max_retries=100),)
             if request_method == 'get':
-                response = session.get(url, verify=False)
+                response = session.get(url, verify=False,headers=headers,timeout=(1000,1000))
 
             elif request_method == 'post':
-                response = session.post(url, data=kwargs['params'], verify=False)
+                response = session.post(url, data=kwargs['params'], verify=False,headers=headers)
             return response
-        except:
-            print('Sleeping')
+        except Exception as ec:
+            print(ec)
             time.sleep(2)
 
 
@@ -39,12 +39,12 @@ def waitforResponse(cookies, request_method, url, **kwargs):
 
         while True:
             try:
-                c.mount(url, HTTPAdapter(max_retries=retries))
+                c.mount(url, HTTPAdapter(max_retries=100))
                 if request_method == 'get':
-                    response = c.get(url, cookies=cookies, verify=False)
+                    response = c.get(url, cookies=cookies, verify=False,headers=headers)
 
                 elif request_method == 'post':
-                    response = c.post(url, data=kwargs['params'], cookies=cookies, verify=False)
+                    response = c.post(url, data=kwargs['params'], cookies=cookies, verify=False,headers=headers)
                 return response
 
 

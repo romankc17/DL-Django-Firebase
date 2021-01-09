@@ -46,11 +46,18 @@
         </a>
       </div>
 
-      <div>
+
         {%if user.is_staff%}
+      <div>
         <a style="color: white; font-weight: bold" href="{%url 'clients'%}">
           <i class="fa fa-users" style="color: black"></i>
           Clients
+        </a>
+      </div>
+      <div>
+        <a style="color: white; font-weight: bold" href="{%url 'add_clients'%}">
+          <i class="fa fa-users" style="color: black"></i>
+          Add Clients
         </a>
         {%endif%}
       </div>

@@ -77,12 +77,15 @@ class Cookies(models.Model):
     captcha = models.ImageField(blank=True, upload_to='images')
     session = models.CharField(max_length=100)
 
-    def get_remote(self, cookie):
-        cookies = {'JSESSIONID': cookie}
+    def get_remote(self):
+        # cookies = {'JSESSIONID': cookie}
         start=time.perf_counter()
-        response = waitforResponse(cookies, 'get', 'http://onlineedlreg.dotm.gov.np/jcaptcha.jpg')
+        with requests.session() as c:
+            response = waitForResourceAvailable(c, 'get', 'https://onlineedlreg.dotm.gov.np/jcaptcha.jpg')
+            cookie=c.cookies.get_dict()['JSESSIONID']
+            Cookies.objects.create(session=cookie)
         finish=time.perf_counter()
-        print(f'GetCaptcha***{cookie[:5]}***: {finish-start}')
+        # print(f'GetCaptcha***{cookie[:5]}***: {finish-start}')
         #response = requests.get('https://onlineedlreg.dotm.gov.np/jcaptcha.jpg', cookies=cookies)
         file_name='jcaptcha.jpg'
         lf = NamedTemporaryFile()
@@ -102,6 +105,7 @@ class Cookies(models.Model):
                 pass
         ffinish=time.perf_counter()
         print(f'SaveCaptchaImg***{cookie[:5]}***: {ffinish - finish}')
+        return cookie
 
 
 

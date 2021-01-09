@@ -58,34 +58,25 @@
 </button>
 <hr style="background-color:black;margin-bottom:0;">
 <ul id="menu">
-  {%for client in clients%}
-     <div style="padding:0;margin:0;font-weight:bold;">{{client.full_name}}</div>
-    <li style="list-style-type:none;margin-bottom:4px;height:70px;" class="menu-li" id="menu-li{{client.id}}">
-        {% csrf_token %}
-
-        <button class="get-cap reload{{client.id}}" style="display:inline;">
-            <i class="fa fa-refresh" style="font-size:35px;color:blue;"></i>
-        </button>
-
-        <div style="display:inline;" class="span{{client.id}}"></div>
-        <input type="hidden" name="client_id" value="{{client.id}}">
-
-      </form>
-
-    </li>
-    <hr style="background-color:black;;margin:0;">
-  {%endfor%}
+    {%for client in clients%}
+        <div style="padding:0;margin:0;font-weight:bold;">{{client.full_name}}</div>
+        <li style="list-style-type:none;margin-bottom:4px;height:70px;" class="menu-li" id="menu-li{{client.id}}">
+            {% csrf_token %}
+            <button class="get-cap reload{{client.id}}" style="display:inline;">
+                <i class="fa fa-refresh" style="font-size:35px;color:blue;"></i>
+            </button>
+            <div style="display:inline;" class="span{{client.id}}"></div>
+            <input type="hidden" name="client_id" value="{{client.id}}">
+        </li>
+        <hr style="background-color:black;;margin:0;">
+    {%endfor%}
 </ul>
 
 <button type="button" class="font-weight-bold w-100 btn btn-danger mb-4 p-3" id="submitAll">
     Submit All
 </button>
 
-
-{%endblock%}
-
-{%block script%}
-
+<script>
     $(document).ready(function(){
       {%for client in clients%}
           $(document).on('click', '.reload{{client.id}}', function(event){
@@ -106,10 +97,7 @@
                             <input type="hidden"  id="session{{client.id}}" value="${data.sess}">
 
                             <div style="display:inline" class='li-b'>
-
                                 <img class='li-img' style="margin:0;padding:0;" src="${data.img_url}">
-
-                                
                                 <input class='li-in' type="text" style="margin:0;padding:0;" id="captcha{{client.id}}" >
                             </div>
 
@@ -160,6 +148,5 @@
             $('.sub-cap').trigger('click');
         });
 
-
-
+</script>
 {%endblock%}

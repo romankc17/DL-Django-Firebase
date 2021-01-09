@@ -1,11 +1,9 @@
 import time
-
-import requests
 from bs4 import BeautifulSoup
 import datetime
 from _firebase import send_password_reset_email
 from django.http import Http404, JsonResponse
-from firebaseDb import clients
+from firebaseDb import clients, users
 from .models import Cookies
 from .request_sess import waitforResponse,waitForResourceAvailable
 from firebase_admin import auth
@@ -13,15 +11,16 @@ from firebase_admin import auth
 import pytz
 local=pytz.timezone('Asia/Kathmandu')
 
-def enter_captcha():
-    with requests.session() as session_object:
+def statusInfo(pos,res):
+    print(f'###############{pos}############################')
+    print('url: ' + res.url)
+    print(f'status_code:{res.status_code}')
+    print('raise_for_status',res.raise_for_status())
+    print(f"isRedirect?: {res.is_redirect}")
+    print(f'HistoryCodes:{res.history}')
+    for i, response in enumerate(res.history, 1):
+        print(i, response.url)
 
-        # waitForResourceAvailable(session_object, 'get', 'http://onlineedlreg.dotm.gov.np/dlNewRegHome')
-        payload={'citizenshipID': '269',
-                'statusType': 'NEWLICENSE'}
-        waitForResourceAvailable(session_object, 'post', 'http://onlineedlreg.dotm.gov.np/newDlApplicationEntry_.action', params=payload)
-        result = session_object.cookies.get_dict()['JSESSIONID']
-        return result
 
 def submit_form(client,cookies,captcha,current_user):
     cookies = {'JSESSIONID':cookies}
@@ -78,30 +77,31 @@ def submit_form(client,cookies,captcha,current_user):
         'statusType': 'NEWLICENSE',
         'saveDetails': 'SUBMIT'
     }
-
     payload = {'citizenshipID': '269',
                 'statusType': 'NEWLICENSE',
                 'action:saveApplicationEntry': 'SAVE DETAILS',
                 'statusType': 'NEWLICENSE'}
-
     start = time.perf_counter()
+
+    # First Url
     res=waitforResponse(cookies, 'post',
-                                   'http://onlineedlreg.dotm.gov.np/applicationSummaryInfo.action',
+                                   'https://onlineedlreg.dotm.gov.np/applicationSummaryInfo.action',
                                    params=person_detail)
+    with open(client.firstname+'.html', 'wb') as f:
+        f.write(res.content)
+    statusInfo('first',res)
 
-    response = waitforResponse(cookies, 'post',
-                                        "http://onlineedlreg.dotm.gov.np/applicationSummaryInfo.action",
-                                        params=payload)
+    # Second Url
+    res = waitforResponse(cookies,
+                        'post',
+                        "https://onlineedlreg.dotm.gov.np/applicationSummaryInfo.action",
+                        params=payload)
+    with open(client.firstname+'final.html', 'wb') as f:
+        f.write(res.content)
+    statusInfo('second',res)
+
     finish = time.perf_counter()
-
-    # with open(client.firstname+'.html', 'wb') as f:
-    #     f.write(res.content)
-
-
-    # with open(client.firstname+'final.html', 'wb') as f:
-    #     f.write(response.content)
-
-    soup = BeautifulSoup(response.content, 'html.parser')
+    soup = BeautifulSoup(res.content, 'html.parser')
     for _ in range(3):
         try:
             ref_no = soup.find('input', attrs={'name': 'referenceNo'})
@@ -128,37 +128,29 @@ def submit_form(client,cookies,captcha,current_user):
                            'submitted_by': current_user,
                            'submitted': True,
                            'clientSubmittedAt': datetime.now(local)})
-            
+            data = {'info': notice + f'\t({(finish - start)} seconds)',
+                    'submitted': False}
+            return data
         except:
             notice = (f"Not Registered!!!")
             data = {'info': notice+f'\t({(finish-start)} seconds)',
                     'submitted': False}
 
-            return data
+    return data
 
 
 def captcha_entry(request):
     if request.method=="POST" and request.is_ajax():
-        start=time.perf_counter()
-        session=enter_captcha()
-        ses_finish=time.perf_counter()
-
-        obj = Cookies(session=session)
-        obj.save()
-
-        print('\n*****************\n')
-
-        obj.get_remote(session)
-        obj = Cookies.objects.get(session=session)
+        obj = Cookies()
+        # calling method to save captcha
+        cookies=obj.get_remote()
+        # getting cookie object
+        obj = Cookies.objects.get(session=cookies)
+        # captcha image url
         img_url = str(obj.captcha.url)
-    
+        #cookie
         sess = str(obj.session)
         id = obj.id
-        finish=time.perf_counter()
-
-        print(f'To get first page***{session[:5]}***: {ses_finish - start}')
-        print(f'TotalTime***{session[:5]}***: '+str(finish-start))
-        print('\n*****************\n')
         return JsonResponse({'img_url': img_url, 'sess':sess, 'id':id})
     else:
         raise Http404()
@@ -196,6 +188,7 @@ def user_update(request):
         uid=request.POST.get('uid')
         phNumber=request.POST.get('phNumber')
         displayName=request.POST.get('displayName')
+        staff=request.POST.get('staff')
 
         if not phNumber:
             phNumber=None
@@ -209,6 +202,10 @@ def user_update(request):
                 phone_number=phNumber,
                 display_name=displayName
             )
+            if staff=='true':
+                auth.set_custom_user_claims(uid,{'staff':True,'admin':users.get_by_id(uid).admin})
+            else:
+                auth.set_custom_user_claims(uid, {'staff': False,'admin':users.get_by_id(uid).admin})
             print('updated')
             data['updated']=True
             data['error']=False
@@ -219,6 +216,27 @@ def user_update(request):
 
         return JsonResponse(data)
 
+def client_update(request):
+    if request.is_ajax():
+        id=request.POST.get('id')
+        allow=request.POST.get('allow')
+        entry_users=request.POST.get('entry_users').strip().replace("\"","")
+        updates={}
+        if allow=='true':
+            updates['allow']=True
+        else:
+            updates['allow']=False
+        updates['entry_users']=list(entry_users.replace("'","").split(","))
+        print(updates)
+        data={}
+        try:
+            clients.update(id,updates)
+            data['updated']=True
+        except Exception as ec:
+            data['updated'] = False
+            data['error'] = str(ec)
+            print(str(ec))
+        return JsonResponse(data)
 
 def user_delete(request):
     if request.is_ajax():
@@ -232,5 +250,43 @@ def user_delete(request):
 
     return JsonResponse(data)
 
+def subUpdate(request):
+    if request.is_ajax() and request.method=='POST':
+        client_id=request.POST.get('client_id')
+        refNo=request.POST.get('refNo')
+
+        updates={'refNo':refNo,
+                 'submitted':True,
+                 'clientSubmittedAt':datetime.datetime.now(local)
+                 }
+        data={}
+        try:
+            clients.update(client_id,updates)
+            data['updated']=True
+            data['message']="Successfully Updated"
+        except Exception as ec:
+            data['updated']=False
+            data['message']=str(ec)
+        return JsonResponse(data)
+    return Http404('Invalid Request!!')
+
+def edit_entryUsers(request):
+    if request.is_ajax and request.method=='POST':
+        client_id=request.POST.get('client_id')
+        entryUsers=request.POST.get('entryUsers')
+
+        updates={
+            'entry_users':entryUsers.split(',')
+        }
+        data={}
+        try:
+            clients.update(client_id,updates)
+            data['updated']=True
+            data['msg']='Successfully Updated!!'
+        except Exception as ec:
+            data['updated']=False
+            data['msg']=str(ec)
+        return JsonResponse(data)
+    return Http404('Invalid Request!!')
 
 
