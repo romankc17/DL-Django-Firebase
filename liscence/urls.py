@@ -31,6 +31,8 @@ urlpatterns = [
     path('client_update', ajax.client_update, name='client_update'),
     path('user_delete', ajax.user_delete, name='user_delete'),
     path('subUpdate', ajax.subUpdate, name='subUpdate'),
+    path('mobileUpdate', ajax.mobileUpdate, name='mobileUpdate'),
+    path('allowUpdate', ajax.allowUpdate, name='allowUpdate'),
     path('edit_entryUsers', ajax.edit_entryUsers, name='edit_entryUsers'),
 
 

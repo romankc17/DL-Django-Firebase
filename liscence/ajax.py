@@ -271,6 +271,44 @@ def subUpdate(request):
         return JsonResponse(data)
     return Http404('Invalid Request!!')
 
+def mobileUpdate(request):
+    if request.is_ajax() and request.method=='POST':
+        client_id=request.POST.get('client_id')
+        mobileNumber=request.POST.get('mobileNumber')
+
+        updates={'mobileNumber':mobileNumber}
+        data={}
+        try:
+            clients.update(client_id,updates)
+            data['updated']=True
+            data['message']="Successfully Updated"
+        except Exception as ec:
+            data['updated']=False
+            data['message']=str(ec)
+        return JsonResponse(data)
+    return Http404('Invalid Request!!')
+
+def allowUpdate(request):
+    if request.is_ajax() and request.method=='POST':
+        client_id=request.POST.get('client_id')
+        allow=request.POST.get('allow')
+        print(allow)
+        if allow=='true':
+            allow=True
+        else:
+            allow=False
+        data={}
+        try:
+            data['allow']=allow
+            clients.update(client_id, {'allow':allow})
+            data['updated']=True
+            data['message']="Successfully Updated"
+        except Exception as ec:
+            data['updated']=False
+            data['message']=str(ec)
+        return JsonResponse(data)
+    return Http404('Invalid Request!!')
+
 def edit_entryUsers(request):
     if request.is_ajax and request.method=='POST':
         client_id=request.POST.get('client_id')

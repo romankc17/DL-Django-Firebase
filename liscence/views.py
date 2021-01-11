@@ -58,6 +58,7 @@ def list_clients(request):
                         'staffs':[user for user in _users if user.staff],
                         'submitted_by':'all',
                         'entry_users':'all',
+                        'allow_clients':'all',
                         'staff': 'all'
                         })
     else:
@@ -81,13 +82,22 @@ def clients_filter(request):
             staff = request.POST['staffs']
             submitted_by=request.POST['submitted_by']
             entry_users=request.POST['entry_users']
-            print(entry_users)
+            allow_clients=request.POST['allow_clients']
             payload['staff']=staff
             payload['submitted_by']=submitted_by
             payload['entry_users']=entry_users
             payload['staffs']=users.filter_by_staff()
             if not staff=='all':
                 to_filter['staff']=staff
+            print(allow_clients)
+            if not allow_clients=='all':
+                if allow_clients=='yes':
+                    allow=True
+                    payload['allow_clients']='yes'
+                else:
+                    allow=False
+                    payload['allow_clients']='no'
+                to_filter['allow']=allow
             if not submitted_by=='all':
                 to_filter['submitted_by']=submitted_by
             if not entry_users=='all':
@@ -95,7 +105,7 @@ def clients_filter(request):
             _users = users.all()
             payload['users']=_users
 
-            if staff==submitted_by==submitted == category == clientAddedAt == clientSubmittedAt==entry_users=='all':
+            if staff==submitted_by==submitted == category == clientAddedAt == clientSubmittedAt==entry_users==allow_clients=='all':
                 return redirect('clients')
         else:
             if submitted==category==clientAddedAt==clientSubmittedAt=='all':
@@ -143,7 +153,7 @@ def clients_filter(request):
         payload['submitted_at_'+clientSubmittedAt]=True
         if not request.user.is_superuser:
             to_filter['staff']=request.user.username
-
+        print(to_filter)
         _clients=clients.page_filter(to_filter)
 
         payload['clients']=sortClients(_clients,reverse=True)
@@ -309,7 +319,7 @@ def add_clients(request):
             'district':request.POST.get('district'),
             'village':request.POST.get('village'),
             'wardNumber':request.POST.get('wardNumber'),
-            'tole':request.POST.get('tole'),
+            'tole':request.POST.get('tole').title(),
             'mobileNumber':request.POST.get('mobileNumber'),
             'cate':request.POST.get('cate'),
             'appliedZoneOffice':request.POST.get('appliedZoneOffice'),
@@ -327,10 +337,12 @@ def add_clients(request):
             'entry_users':[staff,'romanchhetri02'],
             'institute_id':'L2NNi7gACKofVU456A2t',
             'statusType':'newlicense',
+            'zoneName':request.POST.get('zoneName').strip().title(),
+            'districtName':request.POST.get('districtName').strip().title(),
             'submitted':False,
         })
-        doc_id=data['firstname']+data['lastname']+'-'+data['citizenshipNumber'].replace('/','')
-        clients.add(doc_id,data)
+        doc_id=data['firstname']+data['lastname']+'-'+data['mobileNumber']
+        clients.add(doc_id.replace(" ",""),data)
 
     return render(request, 'liscence/add_clients.html')
 
