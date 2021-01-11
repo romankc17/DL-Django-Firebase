@@ -68,7 +68,11 @@
                         {{client.category}}<br>
                         [{{client.statusType.upper}}]
                     </td>
-                    <td>{{client.mobileNumber}}</td>
+                    <td>
+                        <button class="mobno">
+                            {{client.mobileNumber}}
+                        </button>
+                    </td>
                     <td>{{client.clientAddedAt.date}}</td>
                     <td style="white-space: normal !important;">
                     {%if not client.submitted%}
@@ -112,6 +116,11 @@
                                 data-toggle="modal"
                             >
                                 <span class="glyphicon glyphicon-trash"></span>
+                            </button>
+                        </span>
+                        <span style="width: 100%;margin-top:2px;">
+                            <button class="btn btn-primary allow-btn" role="button" value="{{client.allow}}">
+                                Allow?
                             </button>
                         </span>
                     </td>
@@ -160,6 +169,17 @@
                       {%for user in users%}
                       <option value="{{user.uid}}">{{user.uid}}</option>
                       {%endfor%}
+                    </select>
+                </div>
+            </div>
+
+            <div class="cate" id='allow_clients'>
+                <div style="font-weight:900">By Allow Clients</div>
+                <div>
+                    <select style="font-size:16px;" class="browser-default custom-select" id="ac" name="allow_clients">
+                      <option value="all">All</option>
+                      <option value="yes">Yes</option>
+                      <option value="no">No</option>
                     </select>
                 </div>
             </div>
@@ -286,6 +306,7 @@
             $('select#institutes').val('{{staff}}');
             $('select#sb').val('{{submitted_by}}');
             $('select#eu').val('{{entry_users}}');
+            $('select#ac').val('{{allow_clients}}');
 
             $('.notSub').click(function(){
                 var refNo=prompt("If this client is registered, enter the refrence number:");
@@ -312,8 +333,56 @@
                         },
                     });
                 }
-
             });
+
+            $('.mobno').click(function(){
+                var mNumber=prompt("Change Mobile Number:");
+                if (mNumber!=null && mNumber.trim()!='') {
+                    mNumber=mNumber.trim();
+                    var client_id = $(this).parents("tr").attr("cid");
+                    $.ajax({
+                        type: "POST",
+                        url: '{%url "mobileUpdate"%}',
+                        dataType: "json",
+                        data: {
+                            csrfmiddlewaretoken:'{{csrf_token}}',
+                            client_id: client_id,
+                            mobileNumber:mNumber,
+                        },
+                        success: (data)=> {
+                            $(this).html(mNumber);
+                        },
+                    });
+                }
+            });
+
+            $('.allow-btn').click(function(){
+                var client_id = $(this).parents("tr").attr("cid");
+                if ($(this).val()=="True")
+                    var allow = false
+                else
+                    var allow = true
+                $.ajax({
+                        type: "POST",
+                        url: '{%url "allowUpdate"%}',
+                        dataType: "json",
+                        data: {
+                            csrfmiddlewaretoken:'{{csrf_token}}',
+                            client_id: client_id,
+                            allow:allow,
+                        },
+                        success: (data)=> {
+                            if (data.allow) {
+                                $(this).val("True");
+                                $(this).parents('tr').css('background', 'white');
+                            }
+                            else {
+                                $(this).val("False");
+                                $(this).parents('tr').css('background', '#8D3C2B');
+                            }
+                        },
+                    });
+            })
 
             $('.editEntries').click(function(){
                 var entry_users=$(this).html().replace(/\s/g,'');
