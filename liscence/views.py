@@ -93,11 +93,10 @@ def clients_filter(request):
             if not allow_clients=='all':
                 if allow_clients=='yes':
                     allow=True
-                    payload['allow_clients']='yes'
                 else:
                     allow=False
-                    payload['allow_clients']='no'
                 to_filter['allow']=allow
+            payload['allow_clients']=allow_clients
             if not submitted_by=='all':
                 to_filter['submitted_by']=submitted_by
             if not entry_users=='all':

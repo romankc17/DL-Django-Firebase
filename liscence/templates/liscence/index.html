@@ -75,8 +75,9 @@
 <button type="button" class="font-weight-bold w-100 btn btn-danger mb-4 p-3" id="submitAll">
     Submit All
 </button>
-
-<script>
+{%endblock%}
+{%block script%}
+<script type="text/javascript">
     $(document).ready(function(){
       {%for client in clients%}
           $(document).on('click', '.reload{{client.id}}', function(event){

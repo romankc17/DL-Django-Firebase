@@ -11,6 +11,7 @@ from firebase_admin import auth
 import pytz
 local=pytz.timezone('Asia/Kathmandu')
 
+
 def statusInfo(pos,res):
     print(f'###############{pos}############################')
     print('url: ' + res.url)
