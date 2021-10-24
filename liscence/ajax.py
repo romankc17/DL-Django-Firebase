@@ -1,7 +1,6 @@
 import time
 from bs4 import BeautifulSoup
 import datetime
-from _firebase import send_password_reset_email
 from django.http import Http404, JsonResponse
 
 from .models import Cookies
@@ -183,7 +182,11 @@ def delete_client(request):
 def reset_password(request):
     if request.is_ajax():
         email=request.GET.get('email')
-        sent=send_password_reset_email(email.strip())
+        reset = user_obj.send_password_reset_email(email)
+        if 'error' not in reset.keys():
+            sent=1
+        else:
+            sent=0
         return JsonResponse({'sent':sent})
 
 def user_update(request):

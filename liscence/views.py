@@ -1,5 +1,4 @@
 import datetime
-from django.http.response import HttpResponse
 import pytz
 local=pytz.timezone('Asia/Kathmandu')
 

@@ -1,5 +1,7 @@
 from firebase_admin import auth
-# import initialize
+import smtplib
+import json
+import requests
 
 
 class User:
@@ -16,7 +18,7 @@ class User:
     '''
     
     def __init__(self):
-        pass
+        self.api_key = 'AIzaSyC0xnr3u6UdBSr8B92RrmuhSHHWOxoyEWU'
     
     def all(self) -> list:
         users = auth.list_users().users
@@ -68,6 +70,15 @@ class User:
             except Exception as e:
                 pass
         return staffs
+    
+    def send_password_reset_email(self, email):
+        request_ref = "https://www.googleapis.com/identitytoolkit/v3/relyingparty/getOobConfirmationCode?key={0}".format(self.api_key)
+        headers = {"content-type": "application/json; charset=UTF-8"}
+        data = json.dumps({"requestType": "PASSWORD_RESET", "email": email})
+        request_object = requests.post(request_ref, headers=headers, data=data)
+        # raise_detailed_error(request_object)
+        return request_object.json()
+        
               
 if __name__ == '__main__':
     from initialize import initialize_firebase
@@ -82,10 +93,5 @@ if __name__ == '__main__':
         'photo_url':'http://www.example.com/12345678/photo.png',
         'disabled':False
     }
-    staffs = user.get_staffs()
-    # print(staffs[0].user_metadata.last_sign_in_timestamp)
-    print(staffs[0].custom_claims.staff)
-    # staffs = [user for user in _users if user.custom_claims['staff']]
-    # for u in _users:
-   
+    print(user.send_password_reset_email('romdanchhetri02@gmail.com'))
 

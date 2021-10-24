@@ -13,6 +13,8 @@ import os
 from pathlib import Path
 import django_heroku
 
+from firebase_db.initialize import initialize_firebase
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -163,7 +165,7 @@ AUTHENTICATION_BACKENDS = [
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-from _firebase import _initialize
-_initialize()
 
 django_heroku.settings(locals())
+
+initialize_firebase()

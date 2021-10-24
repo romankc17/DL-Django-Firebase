@@ -1,12 +1,13 @@
-import json
-
-import requests
 from django.contrib import messages
 from django.contrib.auth.backends import ModelBackend
 from django.contrib.auth.models import User
+
+import json
+import requests
 from firebase_admin import auth
 
-from _firebase import get_api_key
+API_KEY = 'AIzaSyC0xnr3u6UdBSr8B92RrmuhSHHWOxoyEWU'
+
 rest_api_url = "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword"
 
 class CustomAuthBackend(ModelBackend):
@@ -18,7 +19,7 @@ class CustomAuthBackend(ModelBackend):
         })
 
         r = requests.post(rest_api_url,
-                          params={'key': get_api_key()},
+                          params={'key':API_KEY},
                           data=payload)
         try:
             localId = r.json()['localId']
