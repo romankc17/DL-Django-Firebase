@@ -1,0 +1,2369 @@
+
+
+
+
+
+<!--<meta http-equiv="Pragma" content="no-cache"/>
+<meta http-equiv="Expires" content="-1"/>-->
+
+<html>
+    <head>
+        <title> .:: ONLINE DRIVING LICENSE ::. </title>
+        <link rel="stylesheet" type="text/css" href="/css/style.css" />
+        <link rel="Shortcut icon" href="/Images/favicon.ico" />
+        
+        
+        
+        
+    </head>
+
+    <body class="body">
+        
+        <div align="center">
+            <div style="width: 1000px;" >
+                
+
+
+<div id="header">
+</div>
+<div align="left">
+
+    <div>
+        <!--
+                <span style="display: inline-block;">
+                    <a href="home"  style="color: #ffcc00;">HOME</a>
+                </span>
+                <span style="display: inline-block;">
+                    <a href="newDlApplicationEntry_"  style="color: #ffcc00;">ONLINE DL REGISTRATION</a>
+                </span>
+                <span style="display: inline-block;">
+                    <a href="registerVRS_"  style="color: #ffcc00;">ONLINE VRS REGISTRATION</a>
+                </span>
+                <span style="display: inline-block;">
+                    <a href="nepalikaran_"  style="color: #ffcc00;">NEPALIKARAN</a>
+                </span>
+                <span style="display: inline-block;">
+                    <a href="rcRenewal_"  style="color: #ffcc00;">RC RENEWAL</a>
+                </span>
+                <span style="display: inline-block;">
+                    <a href="checkStatus"  style="color: #ffcc00;">CHECK STATUS</a>
+                </span>-->
+
+
+
+        <ul id="menu-bar">
+            
+            <li><a href="dlNewRegHome">ONLINE REGISTRATION</a></li>
+            <li><a href="checkStatus">CHECK STATUS</a></li>
+                
+            <!--            <li><a href="#">Vehicle Registration</a>
+                            <ul>
+                                <li><a href="showVrsHome">NEW REGISTRATION</a></li>
+                                <li><a href="rcRenewal_">RC RENEWAL</a></li>
+                                <li><a href="checkStatusvrs">CHECK STATUS</a></li>
+                            </ul>
+                        </li>-->
+
+        </ul>
+
+    </div>
+</div>
+
+            </div>
+
+        </div>
+        <div align="center">
+            
+
+<!--<div id="welcomeUser">
+
+    <span style="display: inline-block;">
+        <a href="logout"  style="color: #ffcc00;">[Log Out]</a>
+    </span>
+
+    <span style="display: inline-block;padding-right: 10px;text-decoration: blink">
+        <td>Welcome</td>
+    </span>
+
+</div>-->
+        </div> 
+
+
+
+        <div style="clear: both;"></div>
+
+        <div align="center">
+            <div style="height: 650px;width: 996px;overflow: auto;border: 2px solid #1f5a95;" >
+
+
+                <!--                <div style="float: right;width: 1000px;height: 500px;overflow: auto;border-right: 5px solid #1f5a95;">-->
+                
+                    <!--                        <div style="background-color:#3498db;height: 25px;color: white;font-size: 16px;text-align: center;font-weight: bold">-->
+                    <div style="height: 25px;color:#1f5a95;font-size: 16px;text-align: center;font-weight: bold;">
+                        ONLINE DRIVING LICENSE REGISTRATION FORM
+                    </div>
+                
+
+                
+
+
+
+<script language="JavaScript" type="text/javascript">
+    // Dojo configuration
+    djConfig = {
+        isDebug: false,
+        bindEncoding: "UTF-8"
+          ,baseRelativePath: "/struts/dojo/"
+          ,baseScriptUri: "/struts/dojo/"
+         ,parseWidgets : false
+        
+    };
+</script>
+
+
+
+  <script language="JavaScript" type="text/javascript"
+        src="/struts/dojo/struts_dojo.js"></script>
+
+<script language="JavaScript" type="text/javascript"
+        src="/struts/ajax/dojoRequire.js"></script>
+<link rel="stylesheet" href="/struts/xhtml/styles.css" type="text/css"/>
+
+<script language="JavaScript" src="/struts/utils.js" type="text/javascript"></script>
+<script language="JavaScript" src="/struts/xhtml/validation.js" type="text/javascript"></script>
+<script language="JavaScript" src="/struts/css_xhtml/validation.js" type="text/javascript"></script>
+
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+
+<script type="text/javascript" src="/js/custom.js"></script>
+<script type="text/javascript" src="/js/conformDialog.js"></script>
+
+<script type="text/javascript" src="/js/new/jquery.calendars.js"></script>
+<script type="text/javascript" src="/js/new/jquery.calendars.nepali.js"></script>
+<script type="text/javascript" src="/js/new/jquery.calendars.plus.js"></script>
+<link media="all" rel="stylesheet" type="text/css" href="/css/new/jquery.calendars.picker.css">
+<script type="text/javascript" src="/js/new/jquery.plugin.js"></script>
+<script type="text/javascript" src="/js/new/jquery.calendars.picker.js"></script>
+
+<script type="text/javascript" src="/js/alertMessage.js"></script>
+
+
+
+
+
+<style type="text/css">
+    .errorTextfield{
+        border: #cc0033 1px solid;
+    }
+</style>
+<script type="text/javascript">
+
+    $(document).ready(function() {
+
+        $('#imagePicker').calendarsPicker({showOnFocus: false,
+            showTrigger: '<img src="Images/calendar.gif" alt="Popup" class="trigger">',
+            defaultDate: '-16y', maxDate: '-16y',
+            onSelect: function(dates) {
+                if (document.getElementById("dob").childNodes.length != 0) {
+                    loadAD();
+                }
+            }
+        });
+
+        $('#imagePicker').prop("readonly", true);
+    });
+    function loadAD() {
+        dojo.event.topic.publish("dojoBs");
+
+    }
+    window.onload = function() {
+        document.getElementById('dob').children[1].setAttribute("readonly", "true");
+
+    };
+
+    function dontAllow(evt) {
+        return false;
+    }
+    function numeralsOnly(evt) {
+        // alert("hellloo");
+        evt = (evt) ? evt : event;
+        var charCode = (evt.charCode) ? evt.charCode : ((evt.keyCode) ? evt.keyCode :
+            ((evt.which) ? evt.which : 0));
+        var test = navigator.appName;
+        if (test == "Netscape") {
+            if (evt.keyCode == 37 || evt.keyCode == 39 || charCode == 9 || charCode == 8 || evt.keyCode == 36 || evt.keyCode == 35 || evt.keyCode == 46 || evt.keyCode == 63273 || evt.keyCode == 63272 || evt.keyCode == 63234 || evt.keyCode == 63235 || evt.keyCode == 63232 || evt.keyCode == 63233 || evt.keyCode == 63289 || evt.keyCode == 63275) {
+                return true;
+            }
+        }
+        if (navigator.appVersion.indexOf("Safari") >= 0) {
+
+            if (evt.keyCode == 63275 || evt.keyCode == 63273 || evt.keyCode == 63272 || evt.keyCode == 63234 || evt.keyCode == 63235 || evt.keyCode == 63232 || evt.keyCode == 63233 || evt.keyCode == 13 || evt.keyCode == 8 || evt.keyCode == 63289)
+            {
+                return true;
+            }
+        }
+        if (charCode == 63273 || charCode == 63272 || charCode == 63277 || charCode == 63275 || charCode == 3 || (charCode > 63231 && charCode < 63236) || charCode == 13 || charCode == 8 || charCode == 9 || (charCode > 47 && charCode < 58)) {
+            return true;
+        } else {
+            return false;
+        }
+        return false;
+    }
+
+    function lostfocus(fieldId, fieldName, fieldLength, required) {
+        var filedValue = document.getElementsByName(fieldName);
+        if (required && filedValue[0].value == '') {
+            //                            alert("Field Empty");
+            document.getElementById('Name').focus();
+            return false;
+        }
+        if (filedValue[0].value.length > fieldLength)
+        {
+            //            alert("hi");
+        }
+        //        alert(age[0].value);
+        return true;
+    }
+
+    function calculateAge()
+    {
+
+        //            document.getElementsByName('age')[0].value="";
+        var dob = document.getElementsByName('dob')[0].value;
+        var dobValue = new Date(dob);
+        //                        alert(dobValue);
+        //                        alert(dobValue.getFullYear());
+        if (dobValue != '') {
+            //                alert('inside not nothing');
+            var curDate = new Date();
+
+            //                var res=dobValue.split("-");
+            //                alert(res);
+            //                alert(res.length);
+            //                alert(res[0]);
+            //                alert(res[1]);
+            //                alert(res[2]);
+
+            //                var age=document.getElementsByName('age')[0].value;
+            //                if(res.length!=null && res.length==3){
+            //                    if(age==''){
+            //                alert(curDate.getFullYear());
+            //                alert(dobValue.getFullYear());
+            if (curDate.getFullYear() > dobValue.getFullYear()) {
+                //                        if(curDate.getFullYear()>  res[2]){
+                document.getElementsByName('age')[0].value = curDate.getFullYear() - dobValue.getFullYear();
+                //                            document.getElementsByName('age')[0].value=curDate.getFullYear()-  res[2];
+            } else {
+                document.getElementsByName('age')[0].value = 0;
+            }
+            //                    }
+            //                }else{
+            //                    document.getElementsByName('age')[0].value=0;
+            //                }
+        } else {
+            //                alert('inside nothing');
+            document.getElementsByName('age')[0].value = 0;
+        }
+
+        //        alert(curDate.getFullYear()- dob.getFullYear());
+    }
+
+function getAge()
+    {
+
+
+        var dob = document.getElementsByName('dob')[0].value;
+        var dobValue = new Date(dob);
+
+        if (dobValue != '') {
+            var curDate = new Date();
+
+            if (curDate.getFullYear() > dobValue.getFullYear()) {
+
+                //document.getElementsByName('age')[0].value = curDate.getFullYear() - dobValue.getFullYear();
+                var ageVal=curDate.getFullYear()-dobValue.getFullYear();
+                var m=curDate.getMonth()-dobValue.getMonth();
+                if(m<0 || (m===0 && curDate.getDate() < dobValue.getDate())){
+                    ageVal--;
+                }
+                document.getElementsByName('age')[0].value =ageVal;
+            } else {
+                document.getElementsByName('age')[0].value = 0;
+            }
+
+        } else {
+
+            document.getElementsByName('age')[0].value = 0;
+        }
+
+
+    }
+
+
+    function allowAlphabet(fieldid) {
+        //        alert("hii");
+        //        var filedValue=document.getElementsByName(fieldid);
+        var a = document.getElementById(fieldid).value.match(/^[a-zA-Z]+$/);
+        //        alert(a);
+        if (a == null) {
+            document.getElementById(fieldid).value = "";
+            document.getElementById(fieldid).focus();
+            alert("Only alphabets are allowed");
+        }
+
+
+    }
+    function onlyAlphabets(e, t) {
+        try {
+            if (window.event) {
+                var charCode = window.event.keyCode;
+            }
+            else if (e) {
+                var charCode = e.which;
+            }
+            else {
+                return true;
+            }
+            if ((charCode > 64 && charCode < 91) || (charCode > 96 && charCode < 123) || (e.keyCode == 8) || (e.keyCode == 9) || (charCode == 32) || (charCode == 46)) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+        catch (err) {
+            alert(err.Description);
+        }
+    }
+
+
+
+
+    function loadPermDistricts()
+    {
+        //            document.forms[0].action="/loadPermDistricts";
+        //            document.forms[0].submit();
+
+        dojo.event.topic.publish("dojoPermDistricts");
+        //            var tes= "<div id=\"wwgrp_permVillage\" class=\"wwgrp\"><div id=\"wwctrl_permVillage\" class=\"wwctrl\">";
+        //            var tes1="<select name=\"permVillage\" id=\"permVillage\" class=\"textfield\" required=\"true\"> <option value=\"\">Select</option></select>";
+        //            var tes2="</div></div>";
+        //
+        document.getElementById("permVillage").innerHTML = "<option value=\"\">Select</option>";
+
+        //            document.getElementById("permVillageDetails").innerHTML=tes+tes1+tes2;
+        //            dojo.event.topic.publish("dojoPermVillages");
+    }
+    function loadPermVillages()
+    {
+        //            document.forms[0].action="/loadPermVillages";
+        //            document.forms[0].submit();
+        dojo.event.topic.publish("dojoPermVillages");
+
+    }
+    function loadPresDistricts()
+    {
+        //            loadPresDistricts
+        //            alert('loading district');
+        //            document.forms[0].action="/loadPresDistricts";
+        //            document.forms[0].submit();
+        dojo.event.topic.publish("dojoPresDistricts");
+        //            var tes= "<div id=\"wwgrp_presVillage\" class=\"wwgrp\"><div id=\"wwctrl_presVillage\" class=\"wwctrl\">";
+        //            var tes1="<select name=\"presVillage\" id=\"presVillage\" class=\"textfield\" required=\"true\"> <option value=\"\">Select</option></select>";
+        //            var tes2="</div></div>";
+
+        //            document.getElementById("presVillageDetails").innerHTML=tes+tes1+tes2;
+
+        document.getElementById("presVillage").innerHTML = "<option value=\"\">Select</option>";
+    }
+    function loadPresVillages()
+    {
+        //            document.forms[0].action="/loadPresVillages";
+        //            document.forms[0].submit();
+        dojo.event.topic.publish("dojoPresVillages");
+    }
+    function citizenshipNoValidation(event) {
+        if (event.charCode == 0) {
+            return true;
+        }
+        var regex = new RegExp("^[a-zA-Z0-9\-\s\(\s\)/]+$");
+        var key = String.fromCharCode(event.charCode ? event.which : event.charCode);
+        if (!regex.test(key)) {
+            event.preventDefault();
+
+            return false;
+        }
+    }
+
+
+    function copyAddress()
+    {
+        var chkAdd = document.getElementsByName('chkAddress');
+        if (chkAdd[0].checked) {
+
+            var permWardnumber = document.getElementsByName('dlOnlineReg.permWardnumber');
+            var permTole = document.getElementsByName('dlOnlineReg.permTole');
+            var permBlocknumber = document.getElementsByName('dlOnlineReg.permBlocknumber');
+            var permContactnumber = document.getElementsByName('dlOnlineReg.permContactnumber');
+            var permMobilemumber = document.getElementsByName('dlOnlineReg.permMobilemumber');
+           // var permMobilemumber = document.getElementsByName('mobilenumber');
+            var permOfficecontact = document.getElementsByName('dlOnlineReg.permOfficecontact');
+            var permEmail = document.getElementsByName('dlOnlineReg.permEmail');
+
+
+            var wardnumber = document.getElementsByName('dlOnlineReg.wardnumber');
+            var tole = document.getElementsByName('dlOnlineReg.tole');
+            var blocknumber = document.getElementsByName('dlOnlineReg.blocknumber');
+            var contactnumber = document.getElementsByName('dlOnlineReg.contactnumber');
+            var mobilenumber = document.getElementsByName('dlOnlineReg.mobilenumber');
+            var contactoffice = document.getElementsByName('dlOnlineReg.contactoffice');
+            var email = document.getElementsByName('dlOnlineReg.email');
+
+            wardnumber[0].value = permWardnumber[0].value;
+            tole[0].value = permTole[0].value;
+            blocknumber[0].value = permBlocknumber[0].value;
+            contactnumber[0].value = permContactnumber[0].value;
+            mobilenumber[0].value = permMobilemumber[0].value;
+            contactoffice[0].value = permOfficecontact[0].value;
+            email[0].value = permEmail[0].value;
+
+
+            document.getElementById("presDistrict").innerHTML = document.getElementById("permDistrict").innerHTML;
+            document.getElementById("presVillage").innerHTML = document.getElementById("permVillage").innerHTML;
+
+            document.getElementById("presZone").selectedIndex = document.getElementById("permZone").selectedIndex;
+            document.getElementById("presDistrict").selectedIndex = document.getElementById("permDistrict").selectedIndex;
+            document.getElementById("presVillage").selectedIndex = document.getElementById("permVillage").selectedIndex;
+
+        }
+    }
+    function applicantLastNameValidation(e, t) {
+        try {
+            if (window.event) {
+                var charCode = window.event.keyCode;
+            }
+            else if (e) {
+                var charCode = e.which;
+            }
+            else {
+                return true;
+            }
+            if ((charCode > 64 && charCode < 91) || (charCode > 96 && charCode < 123) || (e.keyCode == 8) || (e.keyCode == 9) || (charCode == 32) || (charCode > 39 && charCode < 42)) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+        catch (err) {
+            alert(err.Description);
+        }
+    }
+
+    function loadLicenseIssueOffice()
+    {
+        dojo.event.topic.publish("dojoLicenseIssueOffice");
+        document.getElementById("LicenseIssueOffice").innerHTML = "<option value=\"\">Select</option>";
+    }
+    function autocaps(cObj)
+    {
+        cObj.value = cObj.value.charAt(0).toUpperCase() + cObj.value.slice(1);
+    }
+    function citizenshipNoValidation(event) {
+        if (event.charCode == 0) {
+            return true;
+        }
+        var regex = new RegExp("^[a-zA-Z0-9\-\s\(\s\)/]+$");
+        var key = String.fromCharCode(event.charCode ? event.which : event.charCode);
+        if (!regex.test(key)) {
+            event.preventDefault();
+
+            return false;
+        }
+    }
+</script>
+<style>
+    .captcha-box {
+        border: 1px solid #2b6a9c;
+        width: 30%;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+</style>
+
+<script type="text/javascript">
+    function reloadCaptcha() {
+
+        var d = new Date();
+        $("#captcha_image").attr("src", "/jcaptcha.jpg?" + d.getTime());
+        window.scrollTo(0, document.querySelector("</body>").scrollHeight);
+    }
+</script>
+
+</head>
+
+<input type="hidden" id="path" value=""/>
+
+
+
+
+
+
+
+<script type="text/javascript" src="/struts/css_xhtml/validation.js"></script>
+        
+<form id="appEntry" name="appEntry" onsubmit="return validateForm_appEntry();" action="/applicationSummaryInfo.action" method="post"  onreset="clearErrorMessages(this);clearErrorLabels(this);"
+>
+
+
+    <div id="check" style="color: red">
+    </div>
+
+    <div style="color: #cc0033">**Fields marked with * are mandatory</div>
+    <div style="color: #cc0033">**To calculate Age,place the cursor in age field</div>
+
+    <div class="application">
+        <table style="width: 100%">
+            <thead>
+                <tr>
+                    <th colspan="4" align="center">
+                        <label id="appEntry_com_eagle_edlvrs_dl_action_NewDlApplicationEntryAction_demographicsdetails">DEMOGRAPHIC DETAILS</label>
+                    </th>
+                </tr>
+            </thead>
+            <tr>
+                <td>
+                    <label id="appEntry_com_eagle_edlvrs_dl_action_NewDlApplicationEntryAction_applicant_firstname">APPLICANT FIRST NAME</label>
+                    <font style="color: red">* </font>
+                </td>
+                <td>
+                    <div id="wwgrp_firstname" class="wwgrp">
+<div id="wwctrl_firstname" class="wwctrl">
+<input type="text" name="dlOnlineReg.firstname" maxlength="50" value="" id="firstname" class="textfield" onclick="this.placeholder=''" onkeypress="return onlyAlphabets(event,this.id)" onkeyup="return autocaps(this);" required="true" placeholder="First Name"/></div> </div>
+                </td>
+                <td>
+                    <label id="appEntry_com_eagle_edlvrs_dl_action_NewDlApplicationEntryAction_applicant_middlename">APPLICANT MIDDLE NAME</label>
+                </td>
+                <td>
+                    <div id="wwgrp_middlename" class="wwgrp">
+<div id="wwctrl_middlename" class="wwctrl">
+<input type="text" name="dlOnlineReg.middlename" maxlength="50" value="" id="middlename" class="textfield" onclick="this.placeholder=''" onkeypress="return onlyAlphabets(event,this.id)" onkeyup="return autocaps(this);" placeholder="Middle Name"/></div> </div>
+                </td>
+
+            </tr>
+            <tr>
+                <td>
+                    <label id="appEntry_com_eagle_edlvrs_dl_action_NewDlApplicationEntryAction_applicant_lastname">APPLICANT LAST NAME</label>
+                    <font style="color: red">* </font>
+                </td>
+                <td>
+                    <div id="wwgrp_lastname" class="wwgrp">
+<div id="wwctrl_lastname" class="wwctrl">
+<input type="text" name="dlOnlineReg.lastname" maxlength="50" value="" id="lastname" class="textfield" onclick="this.placeholder=''" onblur="lostfocus(this.id,this.name,'2',true);" onkeypress="return applicantLastNameValidation(event,this.id)" onkeyup="return autocaps(this);" required="true" placeholder="Last Name"/></div> </div>
+                </td>
+                <td>
+                    <label id="appEntry_com_eagle_edlvrs_dl_action_NewDlApplicationEntryAction_dob">DOB</label>
+                    <font style="color: red">*</font>
+                </td>
+                <td>
+                    <!--                    AD calendar-->
+                    
+                    <div dojoType="struts:BindDiv"
+    preload="false"  	id="tfh"  	formId="appEntry"  	href="/loadAdCalander.action"    executeScripts="true"    listenTopics="dojoBs"    showError="true"    scriptSeparation="true"    parseContent="true">
+
+
+                    </div>
+<script language="JavaScript" type="text/javascript">djConfig.searchIds.push("tfh");</script>
+
+                            
+<div
+     dojoType="struts:StrutsDatePicker"    id="dob"    value="2005-01-14T09:51:37"    name="dob"    inputName="dojo.dob"    endDate="2005-01-14T09:51:37"    displayFormat="dd-MMM-yyyy"	valueNotifyTopics="dojoAd"  saveFormat="rfc" onblur="validate(this);"></div>
+<script language="JavaScript" type="text/javascript">djConfig.searchIds.push("dob");</script>
+
+                    <!--                    AD calendar-->
+
+                    <!--Nepali Calendar-->
+                    
+                    <div dojoType="struts:BindDiv"
+    preload="false"  	id="tf"  	formId="appEntry"  	href="/loadBsCalander.action"    executeScripts="true"    listenTopics="dojoAd"    showError="true"    scriptSeparation="true"    parseContent="true">
+
+                        <div id="wwgrp_imagePicker" class="wwgrp">
+<div id="wwctrl_imagePicker" class="wwctrl">
+<input type="text" name="dobBs" size="11px" value="" id="imagePicker"/></div> </div>
+                    </div>
+<script language="JavaScript" type="text/javascript">djConfig.searchIds.push("tf");</script>
+
+                    <!--Nepali Calendar-->
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label id="appEntry_com_eagle_edlvrs_dl_action_NewDlApplicationEntryAction_age">AGE</label><font style="color: red">*</font></td>
+                <td>
+                    
+                       <div id="wwgrp_age" class="wwgrp">
+<div id="wwctrl_age" class="wwctrl">
+<input type="text" name="age" value="0" id="age" class="textfield" onmouseover="getAge()" onkeypress="return dontAllow(event);"/></div> </div>
+                </td>
+                <td>
+                    <label id="appEntry_com_eagle_edlvrs_dl_action_NewDlApplicationEntryAction_gender">GENDER</label>
+                    <font style="color: red">* </font>
+                </td>
+                <td>
+                    <div id="wwgrp_appEntry_dlOnlineReg_gender_id" class="wwgrp">
+<div id="wwctrl_appEntry_dlOnlineReg_gender_id" class="wwctrl">
+<select name="dlOnlineReg.gender.id" id="appEntry_dlOnlineReg_gender_id" class="textfield" onchange="getAge()" required="true">
+    <option value=""
+    >Select</option>
+    <option value="2">Male</option>
+    <option value="1">Female</option>
+    <option value="3">Other</option>
+
+
+</select>
+</div> </div>
+                </td>
+
+            </tr>
+            <tr>
+                <td>
+                    <label id="appEntry_com_eagle_edlvrs_dl_action_NewDlApplicationEntryAction_applicant_occupation">OCCUPATION </label>
+                </td>
+                <td>
+                    <div id="wwgrp_appEntry_dlOnlineReg_occupation" class="wwgrp">
+<div id="wwctrl_appEntry_dlOnlineReg_occupation" class="wwctrl">
+<input type="text" name="dlOnlineReg.occupation" value="" id="appEntry_dlOnlineReg_occupation" class="textfield" onkeyup="return autocaps(this);"/></div> </div>
+                </td>
+                <td>
+                    <label id="appEntry_com_eagle_edlvrs_dl_action_NewDlApplicationEntryAction_applicant_education">EDUCATION</label>
+                </td>
+                <td>
+                    <div id="wwgrp_appEntry_dlOnlineReg_education" class="wwgrp">
+<div id="wwctrl_appEntry_dlOnlineReg_education" class="wwctrl">
+<input type="text" name="dlOnlineReg.education" maxlength="50" value="" id="appEntry_dlOnlineReg_education" class="textfield" onkeyup="return autocaps(this);"/></div> </div>
+                </td>
+
+            </tr>
+            
+            <tr>
+                <td>
+                    <label id="appEntry_com_eagle_edlvrs_dl_action_NewDlApplicationEntryAction_bloodgroup">BLOOD GROUP</label>
+                    <font style="color: red">* </font>
+                </td>
+                <td>
+                    <div id="wwgrp_appEntry_dlOnlineReg_bloodgroup_id" class="wwgrp">
+<div id="wwctrl_appEntry_dlOnlineReg_bloodgroup_id" class="wwctrl">
+<select name="dlOnlineReg.bloodgroup.id" id="appEntry_dlOnlineReg_bloodgroup_id" class="textfield" required="true">
+    <option value=""
+    >Select</option>
+    <option value="1">A+</option>
+    <option value="2">B+</option>
+    <option value="3">AB+</option>
+    <option value="4">O+</option>
+    <option value="5">A-</option>
+    <option value="6">B-</option>
+    <option value="7">AB-</option>
+    <option value="8">O-</option>
+
+
+</select>
+</div> </div>
+                </td>
+                <td>
+                    <label id="appEntry_com_eagle_edlvrs_dl_action_NewDlApplicationEntryAction_citizenship">CITIZENSHIP</label>
+                    <font style="color: red">* </font>
+                </td>
+                <td>
+                    <div id="wwgrp_appEntry_citizenshipID" class="wwgrp">
+<div id="wwctrl_appEntry_citizenshipID" class="wwctrl">
+<select name="citizenshipID" disabled="disabled" id="appEntry_citizenshipID" class="textfield" onblur="lostfocus(this.id,this.name,'100',true);">
+    <option value=""
+    >Select</option>
+    <option value="1">Afghanistan</option>
+    <option value="3">Albania</option>
+    <option value="4">Algeria</option>
+    <option value="5">American Samoa</option>
+    <option value="6">Andorra</option>
+    <option value="7">Angola</option>
+    <option value="8">Anguilla</option>
+    <option value="9">Antarctica</option>
+    <option value="10">Antigua and Barbuda</option>
+    <option value="13">Arctic Ocean</option>
+    <option value="11">Argentina</option>
+    <option value="12">Armenia</option>
+    <option value="14">Aruba</option>
+    <option value="15">Ashmore and Cartier Islands</option>
+    <option value="16">Atlantic Ocean</option>
+    <option value="17">Australia</option>
+    <option value="18">Austria</option>
+    <option value="19">Azerbaijan</option>
+    <option value="20">Bahamas</option>
+    <option value="21">Bahrain</option>
+    <option value="22">Baker Island</option>
+    <option value="23">Bangladesh</option>
+    <option value="24">Barbados</option>
+    <option value="25">Bassas da India</option>
+    <option value="26">Belarus</option>
+    <option value="27">Belgium</option>
+    <option value="28">Belize</option>
+    <option value="29">Benin</option>
+    <option value="30">Bermuda</option>
+    <option value="31">Bhutan</option>
+    <option value="32">Bolivia</option>
+    <option value="33">Bosnia and Herzegovina</option>
+    <option value="34">Botswana</option>
+    <option value="35">Bouvet Island</option>
+    <option value="36">Brazil</option>
+    <option value="37">British Virgin Islands</option>
+    <option value="38">Brunei</option>
+    <option value="39">Bulgaria</option>
+    <option value="40">Burkina Faso</option>
+    <option value="41">Burundi</option>
+    <option value="42">Cambodia</option>
+    <option value="43">Cameroon</option>
+    <option value="44">Canada</option>
+    <option value="45">Cape Verde</option>
+    <option value="46">Cayman Islands</option>
+    <option value="47">Central African Republic</option>
+    <option value="48">Chad</option>
+    <option value="49">Chile</option>
+    <option value="50">China</option>
+    <option value="51">Christmas Island</option>
+    <option value="52">Clipperton Island</option>
+    <option value="53">Cocos Islands</option>
+    <option value="54">Colombia</option>
+    <option value="55">Comoros</option>
+    <option value="56">Cook Islands</option>
+    <option value="57">Coral Sea Islands</option>
+    <option value="58">Costa Rica</option>
+    <option value="59">Cote d Ivoire</option>
+    <option value="60">Croatia</option>
+    <option value="61">Cuba</option>
+    <option value="62">Cyprus</option>
+    <option value="63">Czech Republic</option>
+    <option value="65">Democratic Republic of the Congo</option>
+    <option value="64">Denmark</option>
+    <option value="66">Djibouti</option>
+    <option value="67">Dominica</option>
+    <option value="68">Dominican Republic</option>
+    <option value="69">East Timor</option>
+    <option value="70">Ecuador</option>
+    <option value="71">Egypt</option>
+    <option value="72">El Salvador</option>
+    <option value="73">Equatorial Guinea</option>
+    <option value="74">Eritrea</option>
+    <option value="75">Estonia</option>
+    <option value="76">Ethiopia</option>
+    <option value="77">Europa Island</option>
+    <option value="78">Falkland Islands (Islas Malvinas)</option>
+    <option value="79">Faroe Islands</option>
+    <option value="80">Fiji</option>
+    <option value="81">Finland</option>
+    <option value="82">France</option>
+    <option value="83">French Guiana</option>
+    <option value="84">French Polynesia</option>
+    <option value="85">French Southern and Antarctic Lands</option>
+    <option value="86">Gabon</option>
+    <option value="87">Gambia</option>
+    <option value="88">Gaza Strip</option>
+    <option value="89">Georgia</option>
+    <option value="90">Germany</option>
+    <option value="91">Ghana</option>
+    <option value="92">Gibraltar</option>
+    <option value="93">Glorioso Islands</option>
+    <option value="94">Greece</option>
+    <option value="95">Greenland</option>
+    <option value="96">Grenada</option>
+    <option value="97">Guadeloupe</option>
+    <option value="98">Guam</option>
+    <option value="99">Guatemala</option>
+    <option value="100">Guernsey</option>
+    <option value="101">Guinea</option>
+    <option value="102">Guinea-Bissau</option>
+    <option value="103">Guyana</option>
+    <option value="104">Haiti</option>
+    <option value="105">Heard Island and McDonald Islands</option>
+    <option value="106">Honduras</option>
+    <option value="107">Hong Kong</option>
+    <option value="108">Howland Island</option>
+    <option value="109">Hungary</option>
+    <option value="110">Iceland</option>
+    <option value="111">India</option>
+    <option value="112">Indian Ocean</option>
+    <option value="113">Indonesia</option>
+    <option value="114">Iran</option>
+    <option value="115">Iraq</option>
+    <option value="116">Ireland</option>
+    <option value="117">Isle of Man</option>
+    <option value="118">Israel</option>
+    <option value="119">Italy</option>
+    <option value="120">Jamaica</option>
+    <option value="121">Jan Mayen</option>
+    <option value="122">Japan</option>
+    <option value="123">Jarvis Island</option>
+    <option value="124">Jersey</option>
+    <option value="125">Johnston Atoll</option>
+    <option value="126">Jordan</option>
+    <option value="127">Juan de Nova Island</option>
+    <option value="128">Kazakhstan</option>
+    <option value="129">Kenya</option>
+    <option value="132">Kerguelen Archipelago</option>
+    <option value="130">Kingman Reef</option>
+    <option value="131">Kiribati</option>
+    <option value="133">Kosovo</option>
+    <option value="134">Kuwait</option>
+    <option value="135">Kyrgyzstan</option>
+    <option value="136">Laos</option>
+    <option value="137">Latvia</option>
+    <option value="138">Lebanon</option>
+    <option value="139">Lesotho</option>
+    <option value="140">Liberia</option>
+    <option value="141">Libya</option>
+    <option value="142">Liechtenstein</option>
+    <option value="143">Lithuania</option>
+    <option value="144">Luxembourg</option>
+    <option value="145">Macau</option>
+    <option value="146">Macedonia</option>
+    <option value="147">Madagascar</option>
+    <option value="148">Malawi</option>
+    <option value="149">Malaysia</option>
+    <option value="150">Maldives</option>
+    <option value="151">Mali</option>
+    <option value="152">Malta</option>
+    <option value="153">Marshall Islands</option>
+    <option value="154">Martinique</option>
+    <option value="155">Mauritania</option>
+    <option value="156">Mauritius</option>
+    <option value="157">Mayotte</option>
+    <option value="158">Mexico</option>
+    <option value="159">Micronesia</option>
+    <option value="160">Midway Islands</option>
+    <option value="161">Moldova</option>
+    <option value="162">Monaco</option>
+    <option value="163">Mongolia</option>
+    <option value="164">Montenegro</option>
+    <option value="165">Montserrat</option>
+    <option value="166">Morocco</option>
+    <option value="167">Mozambique</option>
+    <option value="168">Myanmar</option>
+    <option value="169">Namibia</option>
+    <option value="170">Nauru</option>
+    <option value="171">Navassa Island</option>
+    <option value="269" selected="selected">Nepal</option>
+    <option value="172">Netherlands</option>
+    <option value="173">Netherlands Antilles</option>
+    <option value="174">New Caledonia</option>
+    <option value="175">New Zealand</option>
+    <option value="176">Nicaragua</option>
+    <option value="177">Niger</option>
+    <option value="178">Nigeria</option>
+    <option value="179">Niue</option>
+    <option value="180">Norfolk Island</option>
+    <option value="181">North Korea</option>
+    <option value="182">North Sea</option>
+    <option value="183">Northern Mariana Islands</option>
+    <option value="184">Norway</option>
+    <option value="185">Oman</option>
+    <option value="186">Pacific Ocean</option>
+    <option value="187">Pakistan</option>
+    <option value="188">Palau</option>
+    <option value="189">Palmyra Atoll</option>
+    <option value="190">Panama</option>
+    <option value="191">Papua New Guinea</option>
+    <option value="192">Paracel Islands</option>
+    <option value="193">Paraguay</option>
+    <option value="194">Peru</option>
+    <option value="195">Philippines</option>
+    <option value="196">Pitcairn Islands</option>
+    <option value="197">Poland</option>
+    <option value="198">Portugal</option>
+    <option value="199">Puerto Rico</option>
+    <option value="200">Qatar</option>
+    <option value="201">Republic of the Congo</option>
+    <option value="202">Romania</option>
+    <option value="203">Russia</option>
+    <option value="204">Rwanda</option>
+    <option value="205">Saint Helena</option>
+    <option value="206">Saint Kitts and Nevis</option>
+    <option value="207">Saint Lucia</option>
+    <option value="208">Saint Pierre and Miquelon</option>
+    <option value="209">Saint Vincent and the Grenadines</option>
+    <option value="210">Samoa</option>
+    <option value="211">San Marino</option>
+    <option value="212">Sao Tome and Principe</option>
+    <option value="213">Saudi Arabia</option>
+    <option value="214">Senegal</option>
+    <option value="215">Serbia</option>
+    <option value="216">Seychelles</option>
+    <option value="217">Sierra Leone</option>
+    <option value="218">Singapore</option>
+    <option value="219">Slovakia</option>
+    <option value="220">Slovenia</option>
+    <option value="221">Solomon Islands</option>
+    <option value="222">Somalia</option>
+    <option value="223">South Africa</option>
+    <option value="224">South Georgia and the South Sandwich Islands</option>
+    <option value="225">South Korea</option>
+    <option value="226">Spain</option>
+    <option value="227">Spratly Islands</option>
+    <option value="228">Sri Lanka</option>
+    <option value="229">Sudan</option>
+    <option value="230">Suriname</option>
+    <option value="231">Svalbard</option>
+    <option value="232">Swaziland</option>
+    <option value="233">Sweden</option>
+    <option value="234">Switzerland</option>
+    <option value="235">Syria</option>
+    <option value="236">Taiwan</option>
+    <option value="237">Tajikistan</option>
+    <option value="238">Tanzania</option>
+    <option value="239">Thailand</option>
+    <option value="240">Togo</option>
+    <option value="241">Tokelau</option>
+    <option value="242">Tonga</option>
+    <option value="243">Trinidad and Tobago</option>
+    <option value="244">Tromelin Island</option>
+    <option value="245">Tunisia</option>
+    <option value="246">Turkey</option>
+    <option value="247">Turkmenistan</option>
+    <option value="248">Turks and Caicos Islands</option>
+    <option value="249">Tuvalu</option>
+    <option value="254">USA</option>
+    <option value="250">Uganda</option>
+    <option value="251">Ukraine</option>
+    <option value="252">United Arab Emirates</option>
+    <option value="253">United Kingdom</option>
+    <option value="255">Uruguay</option>
+    <option value="256">Uzbekistan</option>
+    <option value="257">Vanuatu</option>
+    <option value="258">Venezuela</option>
+    <option value="259">Viet Nam</option>
+    <option value="260">Virgin Islands</option>
+    <option value="261">Wake Island</option>
+    <option value="262">Wallis and Futuna</option>
+    <option value="263">West Bank</option>
+    <option value="265">Yemen</option>
+    <option value="266">Yugoslavia</option>
+    <option value="267">Zambia</option>
+    <option value="268">Zimbabwe</option>
+
+
+</select>
+</div> </div>
+                    <input type="hidden" name="citizenshipID" value="269" id="appEntry_citizenshipID"/>
+                </td>
+            </tr>
+            <tr>
+                
+                    <td width="25%">
+                        <label id="appEntry_com_eagle_edlvrs_dl_action_NewDlApplicationEntryAction_citizenshipnumber">CITIZENSHIP NO.</label>
+                        <font style="color: red">*</font>
+                    </td>
+                    <td>
+                        
+                        <div id="wwgrp_appEntry_dlOnlineReg_citizenshipnumber" class="wwgrp">
+<div id="wwctrl_appEntry_dlOnlineReg_citizenshipnumber" class="wwctrl">
+<input type="text" name="dlOnlineReg.citizenshipnumber" value="" id="appEntry_dlOnlineReg_citizenshipnumber" class="textfield" onkeypress="return citizenshipNoValidation(event);" required="true"/></div> </div>
+                    </td>
+                
+                
+
+                
+                    <td width="25%">
+                        <label id="appEntry_com_eagle_edlvrs_dl_action_NewDlApplicationEntryAction_citizenshipissuedistrict">CITIZENSHIP ISSUE DISTRICT</label>
+                        <font style="color: red">*</font>
+                    </td>
+                    <td>
+                        <div id="wwgrp_appEntry_dlOnlineReg_districtByIssuedistrictid_id" class="wwgrp">
+<div id="wwctrl_appEntry_dlOnlineReg_districtByIssuedistrictid_id" class="wwctrl">
+<select name="dlOnlineReg.districtByIssuedistrictid.id" id="appEntry_dlOnlineReg_districtByIssuedistrictid_id" class="textfield" required="true">
+    <option value=""
+    >Select</option>
+    <option value="74">Achham</option>
+    <option value="57">Arghakhanchi</option>
+    <option value="54">Baglung</option>
+    <option value="77">Baitadi</option>
+    <option value="13">Bajhang</option>
+    <option value="80">Bajura</option>
+    <option value="71">Banke</option>
+    <option value="40">Bara</option>
+    <option value="70">Bardiya</option>
+    <option value="44">Bhaktapur</option>
+    <option value="22">Bhojpur</option>
+    <option value="38">Chitwan</option>
+    <option value="78">Dadeldhura</option>
+    <option value="67">Dailekh</option>
+    <option value="65">Dang</option>
+    <option value="76">Darchula</option>
+    <option value="7">Dhading</option>
+    <option value="24">Dhankuta</option>
+    <option value="37">Dhanusha</option>
+    <option value="32">Dolakha</option>
+    <option value="66">Dolpa</option>
+    <option value="73">Doti</option>
+    <option value="51">Gorkha</option>
+    <option value="56">Gulmi</option>
+    <option value="12">Humla</option>
+    <option value="3">Ilam</option>
+    <option value="68">Jajarkot</option>
+    <option value="4">Jhapa</option>
+    <option value="11">Jumla</option>
+    <option value="75">Kailali</option>
+    <option value="15">Kalikot</option>
+    <option value="79">Kanchanpur</option>
+    <option value="58">Kapilvastu</option>
+    <option value="10">Kaski</option>
+    <option value="5">Kathmandu</option>
+    <option value="46">Kavrepalanchok</option>
+    <option value="29">Khotang</option>
+    <option value="6">Lalitpur</option>
+    <option value="49">Lamjung</option>
+    <option value="36">Mahottari</option>
+    <option value="20">Makawanpur</option>
+    <option value="47">Manang</option>
+    <option value="26">Morang</option>
+    <option value="14">Mugu</option>
+    <option value="53">Mustang</option>
+    <option value="52">Myagdi</option>
+    <option value="60">Nawalparasi</option>
+    <option value="43">Nuwakot</option>
+    <option value="0">OTHERS</option>
+    <option value="28">Okhaldhunga</option>
+    <option value="9">Palpa</option>
+    <option value="2">Panchthar</option>
+    <option value="55">Parbat</option>
+    <option value="39">Parsa</option>
+    <option value="64">Pyuthan</option>
+    <option value="33">Ramechhap</option>
+    <option value="42">Rasuwa</option>
+    <option value="41">Rautahat</option>
+    <option value="63">Rolpa</option>
+    <option value="61">Rukum</option>
+    <option value="59">Rupandehi</option>
+    <option value="62">Salyan</option>
+    <option value="21">Sankhuwasabha</option>
+    <option value="31">Saptari</option>
+    <option value="35">Sarlahi</option>
+    <option value="34">Sindhuli</option>
+    <option value="45">Sindhupalchok</option>
+    <option value="17">Siraha</option>
+    <option value="27">Solukhumbu</option>
+    <option value="25">Sunsari</option>
+    <option value="69">Surkhet</option>
+    <option value="48">Syangja</option>
+    <option value="50">Tanahu</option>
+    <option value="1">Taplejung</option>
+    <option value="23">Terhathum</option>
+    <option value="30">Udayapur</option>
+
+
+</select>
+</div> </div>
+                    </td>
+                
+                
+            </tr>
+
+            
+                <tr>
+
+                    <td>
+                        <label id="appEntry_com_eagle_edlvrs_dl_action_NewDlApplicationEntryAction_applicant_passportnumber">PASSPORT NO.</label>
+                        <!--                    <font style="color: red">* </font>-->
+                    </td>
+                    <td>
+                        <div id="wwgrp_appEntry_dlOnlineReg_passportnumber" class="wwgrp">
+<div id="wwctrl_appEntry_dlOnlineReg_passportnumber" class="wwctrl">
+<input type="text" name="dlOnlineReg.passportnumber" maxlength="20" value="" id="appEntry_dlOnlineReg_passportnumber" class="textfield"/></div> </div>
+                    </td>
+                    <td>
+                        <label id="appEntry_com_eagle_edlvrs_dl_action_NewDlApplicationEntryAction_passportCitizenship">PASSPORT ISSUED COUNTRY</label>
+                        <!--                    <font style="color: red">* </font>-->
+                    </td>
+                    <td>
+                        <div id="wwgrp_appEntry_dlOnlineReg_countryByPassportcountryId_id" class="wwgrp">
+<div id="wwctrl_appEntry_dlOnlineReg_countryByPassportcountryId_id" class="wwctrl">
+<select name="dlOnlineReg.countryByPassportcountryId.id" id="appEntry_dlOnlineReg_countryByPassportcountryId_id" class="textfield" onblur="lostfocus(this.id,this.name,'100',true);">
+    <option value="-1"
+    >Select</option>
+    <option value="1">Afghanistan</option>
+    <option value="3">Albania</option>
+    <option value="4">Algeria</option>
+    <option value="5">American Samoa</option>
+    <option value="6">Andorra</option>
+    <option value="7">Angola</option>
+    <option value="8">Anguilla</option>
+    <option value="9">Antarctica</option>
+    <option value="10">Antigua and Barbuda</option>
+    <option value="13">Arctic Ocean</option>
+    <option value="11">Argentina</option>
+    <option value="12">Armenia</option>
+    <option value="14">Aruba</option>
+    <option value="15">Ashmore and Cartier Islands</option>
+    <option value="16">Atlantic Ocean</option>
+    <option value="17">Australia</option>
+    <option value="18">Austria</option>
+    <option value="19">Azerbaijan</option>
+    <option value="20">Bahamas</option>
+    <option value="21">Bahrain</option>
+    <option value="22">Baker Island</option>
+    <option value="23">Bangladesh</option>
+    <option value="24">Barbados</option>
+    <option value="25">Bassas da India</option>
+    <option value="26">Belarus</option>
+    <option value="27">Belgium</option>
+    <option value="28">Belize</option>
+    <option value="29">Benin</option>
+    <option value="30">Bermuda</option>
+    <option value="31">Bhutan</option>
+    <option value="32">Bolivia</option>
+    <option value="33">Bosnia and Herzegovina</option>
+    <option value="34">Botswana</option>
+    <option value="35">Bouvet Island</option>
+    <option value="36">Brazil</option>
+    <option value="37">British Virgin Islands</option>
+    <option value="38">Brunei</option>
+    <option value="39">Bulgaria</option>
+    <option value="40">Burkina Faso</option>
+    <option value="41">Burundi</option>
+    <option value="42">Cambodia</option>
+    <option value="43">Cameroon</option>
+    <option value="44">Canada</option>
+    <option value="45">Cape Verde</option>
+    <option value="46">Cayman Islands</option>
+    <option value="47">Central African Republic</option>
+    <option value="48">Chad</option>
+    <option value="49">Chile</option>
+    <option value="50">China</option>
+    <option value="51">Christmas Island</option>
+    <option value="52">Clipperton Island</option>
+    <option value="53">Cocos Islands</option>
+    <option value="54">Colombia</option>
+    <option value="55">Comoros</option>
+    <option value="56">Cook Islands</option>
+    <option value="57">Coral Sea Islands</option>
+    <option value="58">Costa Rica</option>
+    <option value="59">Cote d Ivoire</option>
+    <option value="60">Croatia</option>
+    <option value="61">Cuba</option>
+    <option value="62">Cyprus</option>
+    <option value="63">Czech Republic</option>
+    <option value="65">Democratic Republic of the Congo</option>
+    <option value="64">Denmark</option>
+    <option value="66">Djibouti</option>
+    <option value="67">Dominica</option>
+    <option value="68">Dominican Republic</option>
+    <option value="69">East Timor</option>
+    <option value="70">Ecuador</option>
+    <option value="71">Egypt</option>
+    <option value="72">El Salvador</option>
+    <option value="73">Equatorial Guinea</option>
+    <option value="74">Eritrea</option>
+    <option value="75">Estonia</option>
+    <option value="76">Ethiopia</option>
+    <option value="77">Europa Island</option>
+    <option value="78">Falkland Islands (Islas Malvinas)</option>
+    <option value="79">Faroe Islands</option>
+    <option value="80">Fiji</option>
+    <option value="81">Finland</option>
+    <option value="82">France</option>
+    <option value="83">French Guiana</option>
+    <option value="84">French Polynesia</option>
+    <option value="85">French Southern and Antarctic Lands</option>
+    <option value="86">Gabon</option>
+    <option value="87">Gambia</option>
+    <option value="88">Gaza Strip</option>
+    <option value="89">Georgia</option>
+    <option value="90">Germany</option>
+    <option value="91">Ghana</option>
+    <option value="92">Gibraltar</option>
+    <option value="93">Glorioso Islands</option>
+    <option value="94">Greece</option>
+    <option value="95">Greenland</option>
+    <option value="96">Grenada</option>
+    <option value="97">Guadeloupe</option>
+    <option value="98">Guam</option>
+    <option value="99">Guatemala</option>
+    <option value="100">Guernsey</option>
+    <option value="101">Guinea</option>
+    <option value="102">Guinea-Bissau</option>
+    <option value="103">Guyana</option>
+    <option value="104">Haiti</option>
+    <option value="105">Heard Island and McDonald Islands</option>
+    <option value="106">Honduras</option>
+    <option value="107">Hong Kong</option>
+    <option value="108">Howland Island</option>
+    <option value="109">Hungary</option>
+    <option value="110">Iceland</option>
+    <option value="111">India</option>
+    <option value="112">Indian Ocean</option>
+    <option value="113">Indonesia</option>
+    <option value="114">Iran</option>
+    <option value="115">Iraq</option>
+    <option value="116">Ireland</option>
+    <option value="117">Isle of Man</option>
+    <option value="118">Israel</option>
+    <option value="119">Italy</option>
+    <option value="120">Jamaica</option>
+    <option value="121">Jan Mayen</option>
+    <option value="122">Japan</option>
+    <option value="123">Jarvis Island</option>
+    <option value="124">Jersey</option>
+    <option value="125">Johnston Atoll</option>
+    <option value="126">Jordan</option>
+    <option value="127">Juan de Nova Island</option>
+    <option value="128">Kazakhstan</option>
+    <option value="129">Kenya</option>
+    <option value="132">Kerguelen Archipelago</option>
+    <option value="130">Kingman Reef</option>
+    <option value="131">Kiribati</option>
+    <option value="133">Kosovo</option>
+    <option value="134">Kuwait</option>
+    <option value="135">Kyrgyzstan</option>
+    <option value="136">Laos</option>
+    <option value="137">Latvia</option>
+    <option value="138">Lebanon</option>
+    <option value="139">Lesotho</option>
+    <option value="140">Liberia</option>
+    <option value="141">Libya</option>
+    <option value="142">Liechtenstein</option>
+    <option value="143">Lithuania</option>
+    <option value="144">Luxembourg</option>
+    <option value="145">Macau</option>
+    <option value="146">Macedonia</option>
+    <option value="147">Madagascar</option>
+    <option value="148">Malawi</option>
+    <option value="149">Malaysia</option>
+    <option value="150">Maldives</option>
+    <option value="151">Mali</option>
+    <option value="152">Malta</option>
+    <option value="153">Marshall Islands</option>
+    <option value="154">Martinique</option>
+    <option value="155">Mauritania</option>
+    <option value="156">Mauritius</option>
+    <option value="157">Mayotte</option>
+    <option value="158">Mexico</option>
+    <option value="159">Micronesia</option>
+    <option value="160">Midway Islands</option>
+    <option value="161">Moldova</option>
+    <option value="162">Monaco</option>
+    <option value="163">Mongolia</option>
+    <option value="164">Montenegro</option>
+    <option value="165">Montserrat</option>
+    <option value="166">Morocco</option>
+    <option value="167">Mozambique</option>
+    <option value="168">Myanmar</option>
+    <option value="169">Namibia</option>
+    <option value="170">Nauru</option>
+    <option value="171">Navassa Island</option>
+    <option value="269">Nepal</option>
+    <option value="172">Netherlands</option>
+    <option value="173">Netherlands Antilles</option>
+    <option value="174">New Caledonia</option>
+    <option value="175">New Zealand</option>
+    <option value="176">Nicaragua</option>
+    <option value="177">Niger</option>
+    <option value="178">Nigeria</option>
+    <option value="179">Niue</option>
+    <option value="180">Norfolk Island</option>
+    <option value="181">North Korea</option>
+    <option value="182">North Sea</option>
+    <option value="183">Northern Mariana Islands</option>
+    <option value="184">Norway</option>
+    <option value="185">Oman</option>
+    <option value="186">Pacific Ocean</option>
+    <option value="187">Pakistan</option>
+    <option value="188">Palau</option>
+    <option value="189">Palmyra Atoll</option>
+    <option value="190">Panama</option>
+    <option value="191">Papua New Guinea</option>
+    <option value="192">Paracel Islands</option>
+    <option value="193">Paraguay</option>
+    <option value="194">Peru</option>
+    <option value="195">Philippines</option>
+    <option value="196">Pitcairn Islands</option>
+    <option value="197">Poland</option>
+    <option value="198">Portugal</option>
+    <option value="199">Puerto Rico</option>
+    <option value="200">Qatar</option>
+    <option value="201">Republic of the Congo</option>
+    <option value="202">Romania</option>
+    <option value="203">Russia</option>
+    <option value="204">Rwanda</option>
+    <option value="205">Saint Helena</option>
+    <option value="206">Saint Kitts and Nevis</option>
+    <option value="207">Saint Lucia</option>
+    <option value="208">Saint Pierre and Miquelon</option>
+    <option value="209">Saint Vincent and the Grenadines</option>
+    <option value="210">Samoa</option>
+    <option value="211">San Marino</option>
+    <option value="212">Sao Tome and Principe</option>
+    <option value="213">Saudi Arabia</option>
+    <option value="214">Senegal</option>
+    <option value="215">Serbia</option>
+    <option value="216">Seychelles</option>
+    <option value="217">Sierra Leone</option>
+    <option value="218">Singapore</option>
+    <option value="219">Slovakia</option>
+    <option value="220">Slovenia</option>
+    <option value="221">Solomon Islands</option>
+    <option value="222">Somalia</option>
+    <option value="223">South Africa</option>
+    <option value="224">South Georgia and the South Sandwich Islands</option>
+    <option value="225">South Korea</option>
+    <option value="226">Spain</option>
+    <option value="227">Spratly Islands</option>
+    <option value="228">Sri Lanka</option>
+    <option value="229">Sudan</option>
+    <option value="230">Suriname</option>
+    <option value="231">Svalbard</option>
+    <option value="232">Swaziland</option>
+    <option value="233">Sweden</option>
+    <option value="234">Switzerland</option>
+    <option value="235">Syria</option>
+    <option value="236">Taiwan</option>
+    <option value="237">Tajikistan</option>
+    <option value="238">Tanzania</option>
+    <option value="239">Thailand</option>
+    <option value="240">Togo</option>
+    <option value="241">Tokelau</option>
+    <option value="242">Tonga</option>
+    <option value="243">Trinidad and Tobago</option>
+    <option value="244">Tromelin Island</option>
+    <option value="245">Tunisia</option>
+    <option value="246">Turkey</option>
+    <option value="247">Turkmenistan</option>
+    <option value="248">Turks and Caicos Islands</option>
+    <option value="249">Tuvalu</option>
+    <option value="254">USA</option>
+    <option value="250">Uganda</option>
+    <option value="251">Ukraine</option>
+    <option value="252">United Arab Emirates</option>
+    <option value="253">United Kingdom</option>
+    <option value="255">Uruguay</option>
+    <option value="256">Uzbekistan</option>
+    <option value="257">Vanuatu</option>
+    <option value="258">Venezuela</option>
+    <option value="259">Viet Nam</option>
+    <option value="260">Virgin Islands</option>
+    <option value="261">Wake Island</option>
+    <option value="262">Wallis and Futuna</option>
+    <option value="263">West Bank</option>
+    <option value="265">Yemen</option>
+    <option value="266">Yugoslavia</option>
+    <option value="267">Zambia</option>
+    <option value="268">Zimbabwe</option>
+
+
+</select>
+</div> </div>
+                    </td>
+                </tr>
+            
+            
+
+            <tr>
+                <td>
+                    <label id="appEntry_com_eagle_edlvrs_dl_action_NewDlApplicationEntryAction_applicant_identitymark">IDENTITY MARK</label>
+                </td>
+                <td>
+                    <div id="wwgrp_appEntry_dlOnlineReg_identitymark" class="wwgrp">
+<div id="wwctrl_appEntry_dlOnlineReg_identitymark" class="wwctrl">
+<input type="text" name="dlOnlineReg.identitymark" value="" id="appEntry_dlOnlineReg_identitymark" class="textfield" onkeyup="return autocaps(this);"/></div> </div>
+                </td>
+
+
+
+            </tr>
+            <tr>
+                <td>
+                    <label id="appEntry_com_eagle_edlvrs_dl_action_NewDlApplicationEntryAction_applicant_witnessfirstname">WITNESS FIRST NAME</label>
+                    <font style="color: red">* </font>
+                </td>
+                <td>
+                    <div id="wwgrp_fname" class="wwgrp">
+<div id="wwctrl_fname" class="wwctrl">
+<input type="text" name="dlOnlineReg.witnessFirstname" maxlength="50" value="" id="fname" class="textfield" onclick="this.placeholder=''" onblur="lostfocus(this.id,this.name,'100',true);" onkeypress="return onlyAlphabets(event,this.id)" onkeyup="return autocaps(this);" required="true" placeholder="First Name"/></div> </div>
+                </td>
+                <td>
+                    <label id="appEntry_com_eagle_edlvrs_dl_action_NewDlApplicationEntryAction_applicant_witnessmiddlename">WITNESS MIDDLE NAME</label>
+                </td>
+                <td>
+                    <div id="wwgrp_mname" class="wwgrp">
+<div id="wwctrl_mname" class="wwctrl">
+<input type="text" name="dlOnlineReg.witnessMiddlename" size="18" maxlength="50" value="" id="mname" class="textfield" onclick="this.placeholder=''" onkeypress="return onlyAlphabets(event,this.id)" onkeyup="return autocaps(this);" placeholder="Middle Name"/></div> </div>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <label id="appEntry_com_eagle_edlvrs_dl_action_NewDlApplicationEntryAction_applicant_witnesslastname">WITNESS LAST NAME</label>
+                    <font style="color: red">* </font>
+                </td>
+                <td>
+                    <div id="wwgrp_lname" class="wwgrp">
+<div id="wwctrl_lname" class="wwctrl">
+<input type="text" name="dlOnlineReg.witnessLastname" size="18" maxlength="50" value="" id="lname" class="textfield" onclick="this.placeholder=''" onblur="lostfocus(this.id,this.name,'100',true);" onkeypress="return applicantLastNameValidation(event,this.id)" onkeyup="return autocaps(this);" required="true" placeholder="Last Name"/></div> </div>
+                </td>
+
+                <td>
+                    <label id="appEntry_com_eagle_edlvrs_dl_action_NewDlApplicationEntryAction_relationship">WITNESS RELATIONSHIP</label>
+                    <font style="color: red">* </font>
+                </td>
+                <td>
+                    <div id="wwgrp_appEntry_dlOnlineReg_relationtype_id" class="wwgrp">
+<div id="wwctrl_appEntry_dlOnlineReg_relationtype_id" class="wwctrl">
+<select name="dlOnlineReg.relationtype.id" id="appEntry_dlOnlineReg_relationtype_id" class="textfield" required="true">
+    <option value=""
+    >Select</option>
+    <option value="50">Father</option>
+    <option value="51">Mother</option>
+    <option value="1050">Husband</option>
+
+
+</select>
+</div> </div>
+                </td>
+            </tr>
+            <tr>
+
+                <td>
+                    <label id="appEntry_com_eagle_edlvrs_dl_action_NewDlApplicationEntryAction_trainingdetailinfo_trainername">TRAINER NAME</label>
+                </td>
+                <td>
+                    <div id="wwgrp_teachername" class="wwgrp">
+<div id="wwctrl_teachername" class="wwctrl">
+<input type="text" name="dlOnlineReg.trainerName" maxlength="50" value="" id="teachername" class="textfield" onkeypress="return onlyAlphabets(event,this.id)"/></div> </div>
+                </td>
+                <td>
+                    <label id="appEntry_com_eagle_edlvrs_dl_action_NewDlApplicationEntryAction_trainingdetailinfo_trainerlicensenumber">TRAINER LICENSE NO.</label>
+                </td>
+                <td>
+                    <div id="wwgrp_Name" class="wwgrp">
+<div id="wwctrl_Name" class="wwctrl">
+<input type="text" name="dlOnlineReg.trainerLicenseno" maxlength="30" value="" id="Name" class="textfield" onkeypress="return numeralsOnly(event);"/></div> </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+
+    <div style="clear: both;"></div>
+    
+        <div class="application">
+
+            <table style="width: 100%" >
+                <thead>
+                    <tr>
+                        <th colspan="4" align="center">
+                            <label id="appEntry_com_eagle_edlvrs_dl_action_NewDlApplicationEntryAction_addressdetails">ADDRESS DETAILS</label>
+                        </th>
+                    </tr>
+
+                </thead>
+                <th  colspan="4" align="center">
+                    <label id="appEntry_com_eagle_edlvrs_dl_action_NewDlApplicationEntryAction_permanentaddress">PERMANENT ADDRESS</label>
+                </th>
+                <tr>
+                    <td>
+                        <label id="appEntry_com_eagle_edlvrs_dl_action_NewDlApplicationEntryAction_zone">ZONE</label>
+                        <font style="color: red">* </font>
+                    </td>
+                    <td>
+                        <div id="wwgrp_permZone" class="wwgrp">
+<div id="wwctrl_permZone" class="wwctrl">
+<select name="dlOnlineReg.zoneByPermZone.id" id="permZone" class="textfield" onchange="loadPermDistricts()" required="true">
+    <option value=""
+    >Select</option>
+    <option value="1">Mechi</option>
+    <option value="2">Koshi</option>
+    <option value="3">Sagarmatha</option>
+    <option value="4">Janakpur</option>
+    <option value="5">Narayani</option>
+    <option value="6">Bagmati</option>
+    <option value="7">Gandaki</option>
+    <option value="8">Lumbini</option>
+    <option value="9">Dhawalagiri</option>
+    <option value="11">Karnali</option>
+    <option value="12">Bheri</option>
+    <option value="13">Seti</option>
+    <option value="14">Mahakali</option>
+    <option value="10">Rapti</option>
+
+
+</select>
+</div> </div>
+                    </td>
+
+                    <td>
+                        <label id="appEntry_com_eagle_edlvrs_dl_action_NewDlApplicationEntryAction_district">DISTRICT</label>
+                        <font style="color: red">* </font>
+                    </td>
+                  
+                    <td>
+                        
+                        <div dojoType="struts:BindDiv"
+    preload="false"  	id="permDistrictDetails"  	formId="appEntry"  	href="/loadPermDistrictsForDl.action"    listenTopics="dojoPermDistricts"    showError="true"    parseContent="true">
+
+                            <div id="wwgrp_permDistrict" class="wwgrp">
+<div id="wwctrl_permDistrict" class="wwctrl">
+<select name="dlOnlineReg.districtByPermDistrict.id" id="permDistrict" class="textfield" required="true">
+    <option value=""
+    >Select</option>
+
+
+</select>
+</div> </div>
+                        </div>
+<script language="JavaScript" type="text/javascript">djConfig.searchIds.push("permDistrictDetails");</script>
+
+                    </td>
+                    
+
+                </tr>
+                <tr>
+                    <td>
+                        <label id="appEntry_com_eagle_edlvrs_dl_action_NewDlApplicationEntryAction_village">VILLAGE</label>
+                        <font style="color: red">* </font>
+                    </td>
+                    <td>
+                        
+                        <div dojoType="struts:BindDiv"
+    preload="false"  	id="permVillageDetails"  	formId="appEntry"  	href="/loadPermVillagesForDl.action"    listenTopics="dojoPermVillages"    showError="true"    parseContent="true">
+
+                            <div id="wwgrp_permVillagedlOnlineReg.lastname" class="wwgrp">
+<div id="wwctrl_permVillagedlOnlineReg.lastname" class="wwctrl">
+<select name="dlOnlineReg.villagemetrocityByPermVillagemetrocity.id" id="permVillagedlOnlineReg.lastname" class="textfield" required="true">
+    <option value=""
+    >Select</option>
+
+
+</select>
+</div> </div>
+                        </div>
+<script language="JavaScript" type="text/javascript">djConfig.searchIds.push("permVillageDetails");</script>
+
+                    </td>
+                    <td width="25%">
+                        <label id="appEntry_com_eagle_edlvrs_dl_action_NewDlApplicationEntryAction_wardnumber">WARD NO.</label>
+                        <font style="color: red">* </font>
+                    </td>
+                    <td>
+                        <div id="wwgrp_appEntry_dlOnlineReg_permWardnumber" class="wwgrp">
+<div id="wwctrl_appEntry_dlOnlineReg_permWardnumber" class="wwctrl">
+<input type="text" name="dlOnlineReg.permWardnumber" maxlength="30" value="" id="appEntry_dlOnlineReg_permWardnumber" class="textfield" onkeypress="return numeralsOnly(event);" required="true"/></div> </div>
+                    </td>
+
+
+                </tr>
+
+                <tr>
+                    <td width="25%">
+                        <label id="appEntry_com_eagle_edlvrs_dl_action_NewDlApplicationEntryAction_tole">TOLE</label>
+                        <font style="color: red">* </font>
+                    </td>
+                    <td>
+                        <div id="wwgrp_appEntry_dlOnlineReg_permTole" class="wwgrp">
+<div id="wwctrl_appEntry_dlOnlineReg_permTole" class="wwctrl">
+<input type="text" name="dlOnlineReg.permTole" maxlength="30" value="" id="appEntry_dlOnlineReg_permTole" class="textfield" onblur="lostfocus(this.id,this.name,'50',true);" required="true"/></div> </div>
+                    </td>
+                    <td>
+                        <label id="appEntry_com_eagle_edlvrs_dl_action_NewDlApplicationEntryAction_blocknumber">BLOCK NO.</label>
+                        <!--                    <font style="color: red">* </font>-->
+                    </td>
+                    <td>
+                        <div id="wwgrp_appEntry_dlOnlineReg_permBlocknumber" class="wwgrp">
+<div id="wwctrl_appEntry_dlOnlineReg_permBlocknumber" class="wwctrl">
+<input type="text" name="dlOnlineReg.permBlocknumber" maxlength="30" value="" id="appEntry_dlOnlineReg_permBlocknumber" class="textfield" onkeypress="return citizenshipNoValidation(event);"/></div> </div>
+                    </td>
+
+
+                </tr>
+
+                <tr> <td>
+                        <label id="appEntry_com_eagle_edlvrs_dl_action_NewDlApplicationEntryAction_mobilenumber">MOBILE NO.</label><font style="color: red">* </font>
+                    </td>
+                    <td>
+                        <div id="wwgrp_appEntry_dlOnlineReg_permMobilemumber" class="wwgrp">
+<div id="wwctrl_appEntry_dlOnlineReg_permMobilemumber" class="wwctrl">
+<input type="text" name="dlOnlineReg.permMobilemumber" maxlength="10" value="" id="appEntry_dlOnlineReg_permMobilemumber" class="textfield" onkeypress="return numeralsOnly(event);" placeholder="Mobile" required="true" minLength="10"/></div> </div>
+                    </td>
+
+                    <td>
+                        <label id="appEntry_com_eagle_edlvrs_dl_action_NewDlApplicationEntryAction_contactoffice">OFFICE CONTACT NO.</label>
+                    </td>
+                    <td>
+                        <div id="wwgrp_appEntry_dlOnlineReg_permOfficecontact" class="wwgrp">
+<div id="wwctrl_appEntry_dlOnlineReg_permOfficecontact" class="wwctrl">
+<input type="text" name="dlOnlineReg.permOfficecontact" maxlength="10" value="" id="appEntry_dlOnlineReg_permOfficecontact" class="textfield" onkeypress="return numeralsOnly(event);"/></div> </div>
+                    </td>
+
+                </tr>
+                <tr>
+
+                    <td>
+                        <label id="appEntry_com_eagle_edlvrs_dl_action_NewDlApplicationEntryAction_contactnumber">CONTACT NO.</label>
+                    </td>
+                    <td>
+                        <div id="wwgrp_appEntry_dlOnlineReg_permContactnumber" class="wwgrp">
+<div id="wwctrl_appEntry_dlOnlineReg_permContactnumber" class="wwctrl">
+<input type="text" name="dlOnlineReg.permContactnumber" maxlength="10" value="" id="appEntry_dlOnlineReg_permContactnumber" class="textfield" onkeypress="return numeralsOnly(event);" placeholder="Emergency"/></div> </div>
+                    </td>
+
+                    <td>
+                        <label id="appEntry_com_eagle_edlvrs_dl_action_NewDlApplicationEntryAction_email">EMAIL</label>
+                    </td>
+                    <td><div id="wwgrp_appEntry_dlOnlineReg_permEmail" class="wwgrp">
+<div id="wwctrl_appEntry_dlOnlineReg_permEmail" class="wwctrl">
+<input type="text" name="dlOnlineReg.permEmail" maxlength="50" value="" id="appEntry_dlOnlineReg_permEmail" class="textfield" placeholder="Email Address"/></div> </div>
+                    </td>
+
+                </tr>
+
+            </table>
+        </div>
+    
+    
+    <div class="application">
+
+        <table style="width: 100%">
+            <th colspan="4" align="center">
+                <label id="appEntry_com_eagle_edlvrs_dl_action_NewDlApplicationEntryAction_presentaddress">PRESENT ADDRESS</label>
+
+            </th>
+            <tr>
+                <td>
+                    <label id="appEntry_com_eagle_edlvrs_dl_action_NewDlApplicationEntryAction_zone">ZONE</label>
+                    <font style="color: red">* </font>
+                </td>
+                <td>
+                    <div id="wwgrp_presZone" class="wwgrp">
+<div id="wwctrl_presZone" class="wwctrl">
+<select name="dlOnlineReg.zoneByZoneId.id" id="presZone" class="textfield" onchange="loadPresDistricts()" required="true">
+    <option value=""
+    >Select</option>
+    <option value="1">Mechi</option>
+    <option value="2">Koshi</option>
+    <option value="3">Sagarmatha</option>
+    <option value="4">Janakpur</option>
+    <option value="5">Narayani</option>
+    <option value="6">Bagmati</option>
+    <option value="7">Gandaki</option>
+    <option value="8">Lumbini</option>
+    <option value="9">Dhawalagiri</option>
+    <option value="11">Karnali</option>
+    <option value="12">Bheri</option>
+    <option value="13">Seti</option>
+    <option value="14">Mahakali</option>
+    <option value="10">Rapti</option>
+
+
+</select>
+</div> </div>
+                </td>
+
+                <td>
+                    <label id="appEntry_com_eagle_edlvrs_dl_action_NewDlApplicationEntryAction_district">DISTRICT</label>
+                    <font style="color: red">* </font>
+                </td>
+                <td>
+                    
+                    <div dojoType="struts:BindDiv"
+    preload="false"  	id="presDistrictDetails"  	formId="appEntry"  	href="/loadPresDistrictsForDl.action"    listenTopics="dojoPresDistricts"    showError="true"    parseContent="true">
+
+                        <div id="wwgrp_presDistrict" class="wwgrp">
+<div id="wwctrl_presDistrict" class="wwctrl">
+<select name="dlOnlineReg.districtByDistrictId.id" id="presDistrict" class="textfield" required="true">
+    <option value=""
+    >Select</option>
+
+
+</select>
+</div> </div>
+                    </div>
+<script language="JavaScript" type="text/javascript">djConfig.searchIds.push("presDistrictDetails");</script>
+
+                </td>
+
+            </tr>
+            <tr>
+                <td>
+                    <label id="appEntry_com_eagle_edlvrs_dl_action_NewDlApplicationEntryAction_village">VILLAGE</label>
+                    <font style="color: red">* </font>
+                </td>
+                <td>
+                    
+                    <div dojoType="struts:BindDiv"
+    preload="false"  	id="presVillageDetails"  	formId="appEntry"  	href="/loadPresVillagesForDl.action"    listenTopics="dojoPresVillages"    showError="true"    parseContent="true">
+
+                        <div id="wwgrp_presVillage" class="wwgrp">
+<div id="wwctrl_presVillage" class="wwctrl">
+<select name="dlOnlineReg.villagemetrocityByVillagemetrocityId.id" id="presVillage" class="textfield" required="true">
+    <option value=""
+    >Select</option>
+
+
+</select>
+</div> </div>
+                    </div>
+<script language="JavaScript" type="text/javascript">djConfig.searchIds.push("presVillageDetails");</script>
+
+                </td>
+                <td width="25%">
+                    <label id="appEntry_com_eagle_edlvrs_dl_action_NewDlApplicationEntryAction_wardnumber">WARD NO.</label>
+                    <font style="color: red">* </font>
+                </td>
+                <td>
+                    <div id="wwgrp_appEntry_dlOnlineReg_wardnumber" class="wwgrp">
+<div id="wwctrl_appEntry_dlOnlineReg_wardnumber" class="wwctrl">
+<input type="text" name="dlOnlineReg.wardnumber" maxlength="30" value="" id="appEntry_dlOnlineReg_wardnumber" class="textfield" onkeypress="return numeralsOnly(event);" required="true"/></div> </div>
+                </td>
+
+
+            </tr>
+            <tr>
+                <td width="25%">
+                    <label id="appEntry_com_eagle_edlvrs_dl_action_NewDlApplicationEntryAction_tole">TOLE</label>
+                    <font style="color: red">* </font>
+                </td>
+                <td>
+                    <div id="wwgrp_appEntry_dlOnlineReg_tole" class="wwgrp">
+<div id="wwctrl_appEntry_dlOnlineReg_tole" class="wwctrl">
+<input type="text" name="dlOnlineReg.tole" value="" id="appEntry_dlOnlineReg_tole" class="textfield" onblur="lostfocus(this.id,this.name,'50',true);" required="true"/></div> </div>
+                </td>
+                <td>
+                    <label id="appEntry_com_eagle_edlvrs_dl_action_NewDlApplicationEntryAction_blocknumber">BLOCK NO.</label>
+                    <!--                    <font style="color: red">* </font>-->
+                </td>
+                <td>
+                    <div id="wwgrp_appEntry_dlOnlineReg_blocknumber" class="wwgrp">
+<div id="wwctrl_appEntry_dlOnlineReg_blocknumber" class="wwctrl">
+<input type="text" name="dlOnlineReg.blocknumber" maxlength="30" value="" id="appEntry_dlOnlineReg_blocknumber" class="textfield" onkeypress="return citizenshipNoValidation(event);"/></div> </div>
+                </td>
+
+
+            </tr>
+
+            <tr>
+                <td>
+                    <label id="appEntry_com_eagle_edlvrs_dl_action_NewDlApplicationEntryAction_mobilenumber">MOBILE NO.</label><font style="color: red">* </font>
+                </td>
+                <td>
+                    <div id="wwgrp_appEntry_dlOnlineReg_mobilenumber" class="wwgrp">
+<div id="wwctrl_appEntry_dlOnlineReg_mobilenumber" class="wwctrl">
+<input type="text" name="dlOnlineReg.mobilenumber" maxlength="10" value="" id="appEntry_dlOnlineReg_mobilenumber" class="textfield" onkeypress="return numeralsOnly(event);" placeholder="Mobile" required="true" minLength="10"/></div> </div>
+                </td>
+
+                <td>
+                    <label id="appEntry_com_eagle_edlvrs_dl_action_NewDlApplicationEntryAction_contactoffice">OFFICE CONTACT NO.</label>
+                </td>
+                <td><div id="wwgrp_appEntry_dlOnlineReg_contactoffice" class="wwgrp">
+<div id="wwctrl_appEntry_dlOnlineReg_contactoffice" class="wwctrl">
+<input type="text" name="dlOnlineReg.contactoffice" maxlength="10" value="" id="appEntry_dlOnlineReg_contactoffice" class="textfield" onkeypress="return numeralsOnly(event);"/></div> </div>
+                </td>
+            </tr>
+            <tr>
+
+                <td>
+                    <label id="appEntry_com_eagle_edlvrs_dl_action_NewDlApplicationEntryAction_contactnumber">CONTACT NO.</label>
+                </td>
+                <td>
+                    <div id="wwgrp_appEntry_dlOnlineReg_contactnumber" class="wwgrp">
+<div id="wwctrl_appEntry_dlOnlineReg_contactnumber" class="wwctrl">
+<input type="text" name="dlOnlineReg.contactnumber" maxlength="10" value="" id="appEntry_dlOnlineReg_contactnumber" class="textfield" onkeypress="return numeralsOnly(event);" placeholder="Emergency"/></div> </div>
+                </td>
+
+                <td>
+                    <label id="appEntry_com_eagle_edlvrs_dl_action_NewDlApplicationEntryAction_email">EMAIL</label>
+                </td>
+                <td><div id="wwgrp_appEntry_dlOnlineReg_email" class="wwgrp">
+<div id="wwctrl_appEntry_dlOnlineReg_email" class="wwctrl">
+<input type="text" name="dlOnlineReg.email" maxlength="50" value="" id="appEntry_dlOnlineReg_email" class="textfield" placeholder="Email Address"/></div> </div>
+                </td>
+
+            </tr>
+            
+                <tr>
+                    <td colspan="2" id="textfieldlabel"><div id="wwgrp_appEntry_chkAddress" class="wwgrp">
+<div id="wwctrl_appEntry_chkAddress" class="wwctrl">
+
+
+<input type="checkbox" name="chkAddress" value="true" id="appEntry_chkAddress" onclick="copyAddress()" type="checkbox"/><input type="hidden" id="__checkbox_appEntry_chkAddress" name="__checkbox_chkAddress" value="true" /></div> </div>
+<label id="appEntry_com_eagle_edlvrs_dl_action_NewDlApplicationEntryAction_sameaspermenant">SAME AS PERMANENT</label> </td>
+
+                </tr>
+            
+        </table>
+    </div>
+    <div class="application">
+        <table width="100%">
+            <thead>
+                <tr>
+                    <th colspan="4" align="center">
+                        <label id="appEntry_com_eagle_edlvrs_dl_action_NewDlApplicationEntryAction_examinformation">EXAM INFORMATION</label>
+                    </th>
+                </tr>
+            </thead>
+            <tr>
+                <td>
+                    <label id="appEntry_com_eagle_edlvrs_dl_action_NewDlApplicationEntryAction_exam_selectedcategories">SELECT CATEGORY</label><font style="color: red">* </font>
+                </td>
+                <td>
+                    <table id="tbl1">
+                        <tr>
+                            <td>
+                                
+                                
+                                
+                                <input type="radio" name="cate" id="cate1" value="1" style="font-size: bold" style="font-size: bold"/><label for="cate1" style="font-size: bold">A-Motorcycle, Scooter, Moped</label>
+<br>
+                                
+                                <input type="radio" name="cate" id="cate2" value="2" style="font-size: bold" style="font-size: bold"/><label for="cate2" style="font-size: bold">B-Car, Jeep, Delivery Van</label>
+<br>
+                                
+                                <input type="radio" name="cate" id="cate3" value="3" style="font-size: bold" style="font-size: bold"/><label for="cate3" style="font-size: bold">C-Tempo, Autorickshaw</label>
+<br>
+                                
+                                <input type="radio" name="cate" id="cate23" value="23" style="font-size: bold" style="font-size: bold"/><label for="cate23" style="font-size: bold">C1-ERickshaw</label>
+<br>
+                                
+                                <input type="radio" name="cate" id="cate4" value="4" style="font-size: bold" style="font-size: bold"/><label for="cate4" style="font-size: bold">D-Powertiller</label>
+<br>
+                                
+                                <input type="radio" name="cate" id="cate5" value="5" style="font-size: bold" style="font-size: bold"/><label for="cate5" style="font-size: bold">E-Tractor, Trailer Tractor (Low Bed)</label>
+<br>
+                                
+                                <input type="radio" name="cate" id="cate8" value="8" style="font-size: bold" style="font-size: bold"/><label for="cate8" style="font-size: bold">H-Road Toller, Dozer</label>
+<br>
+                                
+                                <input type="radio" name="cate" id="cate21" value="21" style="font-size: bold" style="font-size: bold"/><label for="cate21" style="font-size: bold">H1-DOZER</label>
+<br>
+                                
+                                <input type="radio" name="cate" id="cate22" value="22" style="font-size: bold" style="font-size: bold"/><label for="cate22" style="font-size: bold">H2-ROAD ROLLER</label>
+<br>
+                                
+                                <input type="radio" name="cate" id="cate9" value="9" style="font-size: bold" style="font-size: bold"/><label for="cate9" style="font-size: bold">I-Crane, Fire brigade, Loader</label>
+<br>
+                                
+                                <input type="radio" name="cate" id="cate14" value="14" style="font-size: bold" style="font-size: bold"/><label for="cate14" style="font-size: bold">I1-CRANE, MOBILE CRANE, CRANE MOUNTED TRUCK</label>
+<br>
+                                
+                                <input type="radio" name="cate" id="cate15" value="15" style="font-size: bold" style="font-size: bold"/><label for="cate15" style="font-size: bold">I2-FIRE BRIGADE</label>
+<br>
+                                
+                                <input type="radio" name="cate" id="cate16" value="16" style="font-size: bold" style="font-size: bold"/><label for="cate16" style="font-size: bold">I3-LOADER</label>
+<br>
+                                
+                                <input type="radio" name="cate" id="cate17" value="17" style="font-size: bold" style="font-size: bold"/><label for="cate17" style="font-size: bold">J1-EXCAVATOR</label>
+<br>
+                                
+                                <input type="radio" name="cate" id="cate18" value="18" style="font-size: bold" style="font-size: bold"/><label for="cate18" style="font-size: bold">J2-BACKHOE LOADER</label>
+<br>
+                                
+                                <input type="radio" name="cate" id="cate19" value="19" style="font-size: bold" style="font-size: bold"/><label for="cate19" style="font-size: bold">J3-GRADER</label>
+<br>
+                                
+                                <input type="radio" name="cate" id="cate20" value="20" style="font-size: bold" style="font-size: bold"/><label for="cate20" style="font-size: bold">J4-FORKLIFT</label>
+<br>
+                                
+                                <input type="radio" name="cate" id="cate10" value="10" style="font-size: bold" style="font-size: bold"/><label for="cate10" style="font-size: bold">J5-Other</label>
+<br>
+                                
+                                <input type="radio" name="cate" id="cate50" value="50" style="font-size: bold" style="font-size: bold"/><label for="cate50" style="font-size: bold">K-Scooter, Moped</label>
+<br>
+                                
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            <br/>
+        </table>
+        <div class="application">
+            <table width="100%">
+                
+                <tr>
+                    <td>
+                        <label id="appEntry_com_eagle_edlvrs_dl_action_NewDlApplicationEntryAction_selectzone">SELECT ZONE</label><font style="color: red">* </font>
+                    </td>
+                    <td>
+                        <div id="wwgrp_selectedZone" class="wwgrp">
+<div id="wwctrl_selectedZone" class="wwctrl">
+<select name="dlOnlineReg.zoneByAppliedZoneoffice.id" id="selectedZone" class="textfield" onchange="loadLicenseIssueOffice()" required="true">
+    <option value=""
+    >Select</option>
+    <option value="1">Mechi</option>
+    <option value="2">Koshi</option>
+    <option value="3">Sagarmatha</option>
+    <option value="4">Janakpur</option>
+    <option value="5">Narayani</option>
+    <option value="6">Bagmati</option>
+    <option value="7">Gandaki</option>
+    <option value="8">Lumbini</option>
+    <option value="9">Dhawalagiri</option>
+    <option value="12">Bheri</option>
+    <option value="13">Seti</option>
+    <option value="14">Mahakali</option>
+    <option value="10">Rapti</option>
+
+
+</select>
+</div> </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label id="appEntry_com_eagle_edlvrs_dl_action_NewDlApplicationEntryAction_license_issue_office">LICENSE ISSUE OFFICE</label>
+                        <font style="color: red">* </font>
+                    </td>                   
+                    <td>
+                        
+                        <div dojoType="struts:BindDiv"
+    preload="false"  	id="dojoLicenseIssueOffice"  	formId="appEntry"  	href="/loadLicenesIssueOfficeForDl.action"    listenTopics="dojoLicenseIssueOffice"    showError="true"    parseContent="true">
+                          
+
+                            <div id="wwgrp_LicenseIssueOffice" class="wwgrp">
+<div id="wwctrl_LicenseIssueOffice" class="wwctrl">
+<select name="dlOnlineReg.licenseissueoffice.id" id="LicenseIssueOffice" class="textfield" required="true">
+    <option value=""
+    >Select</option>
+
+
+</select>
+</div> </div>
+                        </div>
+<script language="JavaScript" type="text/javascript">djConfig.searchIds.push("dojoLicenseIssueOffice");</script>
+
+                    </td>
+                </tr>
+
+
+            </table>
+        </div>
+    </div>
+    <br>
+<div class="captcha-box">
+            <img src="/jcaptcha.jpg" id="captcha_image"/>
+            <img src="/Images/refresh-button.png" onclick="reloadCaptcha()" alt="reload"
+                 style="width: 35px;height: 35px;"/>
+
+            <div id="wwgrp_appEntry_jcaptcha" class="wwgrp">
+<div id="wwctrl_appEntry_jcaptcha" class="wwctrl">
+<input type="text" name="jcaptcha" value="" id="appEntry_jcaptcha" style="width: 240px;"/></div> </div>
+        </div>
+
+    <div>
+   <input type="hidden" name="statusType" value="NEWLICENSE" id="appEntry_statusType"/>
+        <div align="center"    id="wwctrl_confirmBox"><input type="submit" id="confirmBox" name="saveDetails" value="SUBMIT" class="button_example" style="padding:0px 0px 5px 0px;"/>
+</div> 
+    </div>
+
+</form>
+
+
+
+<script type="text/javascript">
+    function validateForm_appEntry() {
+        var getFieldValue = function(field) {
+            var type = field.type ? field.type : field[0].type;
+            if (type == 'select-one' || type == 'select-multiple') {
+                return (field.selectedIndex == -1 ? "" : field.options[field.selectedIndex].value);
+            } else if (type == 'checkbox' || type == 'radio') {
+                if (!field.length) {
+                    field = [field];
+                }
+                for (var i = 0; i < field.length; i++) {
+                    if (field[i].checked) {
+                        return field[i].value;
+                    }
+                }
+                return "";
+            }
+            return field.value;
+        }
+        form = document.getElementById("appEntry");
+        clearErrorMessages(form);
+        clearErrorLabels(form);
+
+        var errors = false;
+        var continueValidation = true;
+        // field name: dlOnlineReg.firstname
+        // validator name: requiredstring
+        if (form.elements['dlOnlineReg.firstname']) {
+            field = form.elements['dlOnlineReg.firstname'];
+
+            var error = "PLEASE ENTER APPLICANT FIRST NAME";
+            var fieldValue = getFieldValue(field);
+            
+            if (continueValidation && fieldValue != null && (fieldValue == "" || fieldValue.replace(/^\s+|\s+$/g,"").length == 0)) {
+                addError(field, error);
+                errors = true;
+                continueValidation = false;
+            }
+        }
+        // field name: dlOnlineReg.firstname
+        // validator name: regex
+        if (form.elements['dlOnlineReg.firstname']) {
+            field = form.elements['dlOnlineReg.firstname'];
+
+            var error = "APPLICANT FIRST NAME CONTAINS INVALID CHARACTERS";
+            var fieldValue = getFieldValue(field);
+            
+            if (continueValidation && fieldValue != null && !fieldValue.match("^[a-zA-Z\\\\s]+$")) {
+                addError(field, error);
+                errors = true;
+                
+            }
+        }
+        // field name: dlOnlineReg.lastname
+        // validator name: requiredstring
+        if (form.elements['dlOnlineReg.lastname']) {
+            field = form.elements['dlOnlineReg.lastname'];
+
+            var error = "PLEASE ENTER APPLICANT LAST NAME";
+            var fieldValue = getFieldValue(field);
+            
+            if (continueValidation && fieldValue != null && (fieldValue == "" || fieldValue.replace(/^\s+|\s+$/g,"").length == 0)) {
+                addError(field, error);
+                errors = true;
+                continueValidation = false;
+            }
+        }
+        // field name: dlOnlineReg.lastname
+        // validator name: regex
+        if (form.elements['dlOnlineReg.lastname']) {
+            field = form.elements['dlOnlineReg.lastname'];
+
+            var error = "APPLICANT LAST NAME CONTAINS INVALID CHARACTERS";
+            var fieldValue = getFieldValue(field);
+            
+            if (continueValidation && fieldValue != null && !fieldValue.match("^[a-zA-Z\\\\s\\s\\(\\s\\)]+$")) {
+                addError(field, error);
+                errors = true;
+                
+            }
+        }
+        // field name: dob
+        // validator name: date
+        if (form.elements['dob']) {
+            field = form.elements['dob'];
+
+            var error = "PLEASE SELECT THE DATE OF BIRTH";
+            var fieldValue = getFieldValue(field);
+            
+        }
+        // field name: age
+        // validator name: regex
+        if (form.elements['age']) {
+            field = form.elements['age'];
+
+            var error = "AGE CONTAINS INVALID CHARACTERS";
+            var fieldValue = getFieldValue(field);
+            
+            if (continueValidation && fieldValue != null && !fieldValue.match("^[0-9]+$")) {
+                addError(field, error);
+                errors = true;
+                continueValidation = false;
+            }
+        }
+        // field name: age
+        // validator name: regex
+        if (form.elements['age']) {
+            field = form.elements['age'];
+
+            var error = "AGE SHOULD CONTAINS 2 DIGITS";
+            var fieldValue = getFieldValue(field);
+            
+            if (continueValidation && fieldValue != null && !fieldValue.match("[0-9]{2}")) {
+                addError(field, error);
+                errors = true;
+                continueValidation = false;
+            }
+        }
+        // field name: age
+        // validator name: int
+        if (form.elements['age']) {
+            field = form.elements['age'];
+
+            var error = "AGE MUST BE BETWEEN 16 AND 99 .";
+            var fieldValue = getFieldValue(field);
+            
+            if (continueValidation && fieldValue != null) {
+                if (parseInt(fieldValue) <
+                     16 ||
+                        parseInt(fieldValue) >
+                           99) {
+                    addError(field, error);
+                    errors = true;
+                    
+                }
+            }
+        }
+        // field name: dlOnlineReg.gender.id
+        // validator name: required
+        if (form.elements['dlOnlineReg.gender.id']) {
+            field = form.elements['dlOnlineReg.gender.id'];
+
+            var error = "PLEASE SELECT A GENDER";
+            var fieldValue = getFieldValue(field);
+            
+            if (fieldValue == "") {
+                addError(field, error);
+                errors = true;
+                
+            }
+        }
+        // field name: dlOnlineReg.bloodgroup.id
+        // validator name: required
+        if (form.elements['dlOnlineReg.bloodgroup.id']) {
+            field = form.elements['dlOnlineReg.bloodgroup.id'];
+
+            var error = "PLEASE SELECT A BLOOD GROUP";
+            var fieldValue = getFieldValue(field);
+            
+            if (fieldValue == "") {
+                addError(field, error);
+                errors = true;
+                
+            }
+        }
+        // field name: dlOnlineReg.witnessFirstname
+        // validator name: requiredstring
+        if (form.elements['dlOnlineReg.witnessFirstname']) {
+            field = form.elements['dlOnlineReg.witnessFirstname'];
+
+            var error = "PLEASE ENTER WITNESS FIRST NAME";
+            var fieldValue = getFieldValue(field);
+            
+            if (continueValidation && fieldValue != null && (fieldValue == "" || fieldValue.replace(/^\s+|\s+$/g,"").length == 0)) {
+                addError(field, error);
+                errors = true;
+                continueValidation = false;
+            }
+        }
+        // field name: dlOnlineReg.witnessLastname
+        // validator name: requiredstring
+        if (form.elements['dlOnlineReg.witnessLastname']) {
+            field = form.elements['dlOnlineReg.witnessLastname'];
+
+            var error = "PLEASE ENTER WITNESS LAST NAME";
+            var fieldValue = getFieldValue(field);
+            
+            if (continueValidation && fieldValue != null && (fieldValue == "" || fieldValue.replace(/^\s+|\s+$/g,"").length == 0)) {
+                addError(field, error);
+                errors = true;
+                continueValidation = false;
+            }
+        }
+        // field name: dlOnlineReg.relationtype.id
+        // validator name: required
+        if (form.elements['dlOnlineReg.relationtype.id']) {
+            field = form.elements['dlOnlineReg.relationtype.id'];
+
+            var error = "PLEASE SELECT A RELATION TYPE";
+            var fieldValue = getFieldValue(field);
+            
+            if (fieldValue == "") {
+                addError(field, error);
+                errors = true;
+                
+            }
+        }
+        // field name: dlOnlineReg.permMobilemumber
+        // validator name: stringlength
+        if (form.elements['dlOnlineReg.permMobilemumber']) {
+            field = form.elements['dlOnlineReg.permMobilemumber'];
+
+            var error = "INVALID MOBILE NUMBER";
+            var fieldValue = getFieldValue(field);
+            
+            if (continueValidation && fieldValue != null) {
+                var value = fieldValue;
+                    //trim field value
+                    while (value.substring(0,1) == ' ')
+                        value = value.substring(1, value.length);
+                    while (value.substring(value.length-1, value.length) == ' ')
+                        value = value.substring(0, value.length-1);
+                if ((10 > -1 && value.length < 10) ||
+                    (10 > -1 && value.length > 10)) {
+                    addError(field, error);
+                    errors = true;
+                    
+                }
+            }
+        }
+        // field name: dlOnlineReg.permEmail
+        // validator name: email
+        if (form.elements['dlOnlineReg.permEmail']) {
+            field = form.elements['dlOnlineReg.permEmail'];
+
+            var error = "PLEASE ENTER A VALID EMAIL ADDRESS";
+            var fieldValue = getFieldValue(field);
+            
+            if (continueValidation && fieldValue != null && fieldValue.length > 0 && fieldValue.match("\\b^[\'_a-z0-9-\\+]+(\\.[\'_a-z0-9-\\+]+)*@[a-z0-9-]+(\\.[a-z0-9-]+)*\\.([a-z]{2}|aero|arpa|asia|biz|com|coop|edu|gov|info|int|jobs|mil|mobi|museum|name|nato|net|org|pro|tel|travel|xxx)$\\b")==null) {
+                addError(field, error);
+                errors = true;
+                
+            }
+        }
+        // field name: dlOnlineReg.zoneByZoneId.id
+        // validator name: required
+        if (form.elements['dlOnlineReg.zoneByZoneId.id']) {
+            field = form.elements['dlOnlineReg.zoneByZoneId.id'];
+
+            var error = "PLEASE SELECT THE PRESENT ADDRESS ZONE";
+            var fieldValue = getFieldValue(field);
+            
+            if (fieldValue == "") {
+                addError(field, error);
+                errors = true;
+                
+            }
+        }
+        // field name: dlOnlineReg.districtByDistrictId.id
+        // validator name: required
+        if (form.elements['dlOnlineReg.districtByDistrictId.id']) {
+            field = form.elements['dlOnlineReg.districtByDistrictId.id'];
+
+            var error = "PLEASE SELECT THE PRESENT ADDRESS DISTRICT";
+            var fieldValue = getFieldValue(field);
+            
+            if (fieldValue == "") {
+                addError(field, error);
+                errors = true;
+                
+            }
+        }
+        // field name: dlOnlineReg.villagemetrocityByVillagemetrocityId.id
+        // validator name: required
+        if (form.elements['dlOnlineReg.villagemetrocityByVillagemetrocityId.id']) {
+            field = form.elements['dlOnlineReg.villagemetrocityByVillagemetrocityId.id'];
+
+            var error = "PLEASE SELECT THE PRESENT ADDRESS VILLAGE";
+            var fieldValue = getFieldValue(field);
+            
+            if (fieldValue == "") {
+                addError(field, error);
+                errors = true;
+                
+            }
+        }
+        // field name: dlOnlineReg.wardnumber
+        // validator name: requiredstring
+        if (form.elements['dlOnlineReg.wardnumber']) {
+            field = form.elements['dlOnlineReg.wardnumber'];
+
+            var error = "PLEASE ENTER PRESENT ADDRESS WARD NUMBER";
+            var fieldValue = getFieldValue(field);
+            
+            if (continueValidation && fieldValue != null && (fieldValue == "" || fieldValue.replace(/^\s+|\s+$/g,"").length == 0)) {
+                addError(field, error);
+                errors = true;
+                continueValidation = false;
+            }
+        }
+        // field name: dlOnlineReg.wardnumber
+        // validator name: regex
+        if (form.elements['dlOnlineReg.wardnumber']) {
+            field = form.elements['dlOnlineReg.wardnumber'];
+
+            var error = "PRESENT ADDRESS WARD NUMBER CONTAINS INVALID CHARACTERS";
+            var fieldValue = getFieldValue(field);
+            
+            if (continueValidation && fieldValue != null && !fieldValue.match("^[0-9]+$")) {
+                addError(field, error);
+                errors = true;
+                
+            }
+        }
+        // field name: dlOnlineReg.tole
+        // validator name: requiredstring
+        if (form.elements['dlOnlineReg.tole']) {
+            field = form.elements['dlOnlineReg.tole'];
+
+            var error = "PLEASE ENTER PRESENT ADDRESS TOLE";
+            var fieldValue = getFieldValue(field);
+            
+            if (continueValidation && fieldValue != null && (fieldValue == "" || fieldValue.replace(/^\s+|\s+$/g,"").length == 0)) {
+                addError(field, error);
+                errors = true;
+                continueValidation = false;
+            }
+        }
+        // field name: dlOnlineReg.tole
+        // validator name: regex
+        if (form.elements['dlOnlineReg.tole']) {
+            field = form.elements['dlOnlineReg.tole'];
+
+            var error = "PRESENT ADDRESS TOLE CONTAINS INVALID CHARACTERS";
+            var fieldValue = getFieldValue(field);
+            
+            if (continueValidation && fieldValue != null && !fieldValue.match("^[a-zA-Z0-9\\\\s]+$")) {
+                addError(field, error);
+                errors = true;
+                
+            }
+        }
+        // field name: dlOnlineReg.mobilenumber
+        // validator name: stringlength
+        if (form.elements['dlOnlineReg.mobilenumber']) {
+            field = form.elements['dlOnlineReg.mobilenumber'];
+
+            var error = "INVALID MOBILE NUMBER";
+            var fieldValue = getFieldValue(field);
+            
+            if (continueValidation && fieldValue != null) {
+                var value = fieldValue;
+                    //trim field value
+                    while (value.substring(0,1) == ' ')
+                        value = value.substring(1, value.length);
+                    while (value.substring(value.length-1, value.length) == ' ')
+                        value = value.substring(0, value.length-1);
+                if ((10 > -1 && value.length < 10) ||
+                    (10 > -1 && value.length > 10)) {
+                    addError(field, error);
+                    errors = true;
+                    
+                }
+            }
+        }
+        // field name: dlOnlineReg.email
+        // validator name: email
+        if (form.elements['dlOnlineReg.email']) {
+            field = form.elements['dlOnlineReg.email'];
+
+            var error = "PLEASE ENTER A VALID EMAIL ADDRESS";
+            var fieldValue = getFieldValue(field);
+            
+            if (continueValidation && fieldValue != null && fieldValue.length > 0 && fieldValue.match("\\b^[\'_a-z0-9-\\+]+(\\.[\'_a-z0-9-\\+]+)*@[a-z0-9-]+(\\.[a-z0-9-]+)*\\.([a-z]{2}|aero|arpa|asia|biz|com|coop|edu|gov|info|int|jobs|mil|mobi|museum|name|nato|net|org|pro|tel|travel|xxx)$\\b")==null) {
+                addError(field, error);
+                errors = true;
+                
+            }
+        }
+
+        return !errors;
+    }
+</script>
+
+
+
+                <!--                </div>-->
+
+            </div>
+        </div>
+        <div style="clear: both" ></div>
+
+
+        <div align="center" >
+            <div style="width: 1000px;" >
+                
+<div id="footer">
+        </div>
+            </div>
+        </div>
+        
+
+    </body>
+</html>

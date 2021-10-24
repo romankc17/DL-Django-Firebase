@@ -12,4 +12,5 @@ ServiceAccountKey.json
 __pycache__
 firebaseConfig.py
 media/
-*.html
+
+/saticfiles/
