@@ -337,7 +337,7 @@ def edit_entryUsers(request):
 
 
 def get_clients(request):
-    LIMIT = 240
+    LIMIT = 40
     if request.is_ajax():
         staff = request.POST.get('staff')
         if staff == "":

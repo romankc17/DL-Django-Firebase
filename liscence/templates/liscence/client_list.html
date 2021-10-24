@@ -435,7 +435,7 @@
                         last_client_added_at:last_client_added_at,
                         csrfmiddlewaretoken:'{{csrf_token}}',
                     },
-                    success: function(data) {        
+                    success: function(data) {    
                         var clients = data.clients;
                         if (data.nomore)
                             $('#loadMoreBtn').hide();  
