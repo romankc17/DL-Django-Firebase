@@ -22,7 +22,6 @@ def get_api_key():
 
 
 
-
 def send_password_reset_email(email):
     try:
         pyrebase_auth.send_password_reset_email(email)

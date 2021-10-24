@@ -3,10 +3,15 @@ from bs4 import BeautifulSoup
 import datetime
 from _firebase import send_password_reset_email
 from django.http import Http404, JsonResponse
-from firebaseDb import clients, users
+
 from .models import Cookies
 from .request_sess import waitforResponse,waitForResourceAvailable
 from firebase_admin import auth
+from datetime import datetime as dt
+
+from firebase_db import clients, users
+client_obj=clients.Client()
+user_obj=users.User()
 
 import pytz
 local=pytz.timezone('Asia/Kathmandu')
@@ -31,8 +36,8 @@ def submit_form(client,cookies,captcha,current_user):
         'dlOnlineReg.lastname': client.lastname,
         'dob': client.dob,
         'dojo.dob': '',
-        'dobBs': client.dobBs,
-        'age': client.age,
+        'dobBs': '',
+        'age': '30',
         'dlOnlineReg.gender.id': client.gender,
         'dlOnlineReg.occupation': '',
         'dlOnlineReg.education': '',
@@ -170,7 +175,7 @@ def submit_captcha(request):
 def delete_client(request):
     if request.method=='POST' and request.is_ajax():
         id = request.POST.get('id')
-        clients.delete(str(id))
+        client_obj.delete(str(id))
         return JsonResponse({'a':'a'})
     else:
         raise Http404()
@@ -178,9 +183,7 @@ def delete_client(request):
 def reset_password(request):
     if request.is_ajax():
         email=request.GET.get('email')
-        print(email)
         sent=send_password_reset_email(email.strip())
-        print(sent)
         return JsonResponse({'sent':sent})
 
 def user_update(request):
@@ -231,7 +234,7 @@ def client_update(request):
         print(updates)
         data={}
         try:
-            clients.update(id,updates)
+            client_obj.update(id,**updates)
             data['updated']=True
         except Exception as ec:
             data['updated'] = False
@@ -262,7 +265,7 @@ def subUpdate(request):
                  }
         data={}
         try:
-            clients.update(client_id,updates)
+            client_obj.update(client_id,**updates)
             data['updated']=True
             data['message']="Successfully Updated"
         except Exception as ec:
@@ -279,7 +282,7 @@ def mobileUpdate(request):
         updates={'mobileNumber':mobileNumber}
         data={}
         try:
-            clients.update(client_id,updates)
+            client_obj.update(client_id,**updates)
             data['updated']=True
             data['message']="Successfully Updated"
         except Exception as ec:
@@ -292,7 +295,7 @@ def allowUpdate(request):
     if request.is_ajax() and request.method=='POST':
         client_id=request.POST.get('client_id')
         allow=request.POST.get('allow')
-        print(allow)
+        print(client_id,allow)
         if allow=='true':
             allow=True
         else:
@@ -300,7 +303,7 @@ def allowUpdate(request):
         data={}
         try:
             data['allow']=allow
-            clients.update(client_id, {'allow':allow})
+            client_obj.update(client_id, **{'allow':allow})
             data['updated']=True
             data['message']="Successfully Updated"
         except Exception as ec:
@@ -319,7 +322,7 @@ def edit_entryUsers(request):
         }
         data={}
         try:
-            clients.update(client_id,updates)
+            client_obj.update(client_id,**updates)
             data['updated']=True
             data['msg']='Successfully Updated!!'
         except Exception as ec:
@@ -329,3 +332,46 @@ def edit_entryUsers(request):
     return Http404('Invalid Request!!')
 
 
+
+def get_clients(request):
+    LIMIT = 240
+    if request.is_ajax():
+        staff = request.POST.get('staff')
+        if staff == "":
+            staff = None
+        last_client_added_date = request.POST.get('last_client_added_at')
+        
+        data={}
+        if last_client_added_date == 'None':
+            last_client_added_date = None
+        else:
+            try:
+                last_client_added_date = datetime.datetime.strptime(last_client_added_date,'%Y-%m-%d %H:%M:%S.%f',)
+            except:
+                last_client_added_date = datetime.datetime.strptime(last_client_added_date,'%Y-%m-%d %H:%M:%S')
+            
+        clients, last_client_added_date = client_obj.getNClients(
+                limit=LIMIT,
+                last_doc_clientAddedAt=last_client_added_date,
+                staff = staff
+            )
+        if len(clients) < LIMIT:
+            data['nomore'] = True
+        else:
+            data['nomore'] = False
+        data['clients']=[client.__dict__ for client in clients]
+        data['last_client_added_at']=str(last_client_added_date)[:-6]
+        
+        return JsonResponse(data)
+    else:
+        return Http404('Invalid Request!!')
+
+def search_clients(request):
+    if request.is_ajax():
+        if not request.user.is_superuser:
+            staff = request.user.username
+        else:
+            staff = None    
+        value = request.GET.get('value')
+        clients = client_obj.search(value,staff=staff)
+        return JsonResponse({'clients':[client.__dict__ for client in clients]})

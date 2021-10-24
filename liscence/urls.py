@@ -20,7 +20,8 @@ urlpatterns = [
     path('users/create',views.create_user,name='create_user'),
     path('users/',views.list_users,name='list_users'),
     path('clients/filter/',views.clients_filter,name='clients_filter'),
-    path('add_clients/',views.add_clients,name='add_clients'),
+    path('clients/add/newlicense',views.add_clients,name='add_clients'),
+    path('clients/add/addcategory/',views.add_category,name='add_category'),
 
     #ajax
     path('ajax_captcha_entry', ajax.captcha_entry, name='ajax_captcha_entry'),
@@ -34,6 +35,8 @@ urlpatterns = [
     path('mobileUpdate', ajax.mobileUpdate, name='mobileUpdate'),
     path('allowUpdate', ajax.allowUpdate, name='allowUpdate'),
     path('edit_entryUsers', ajax.edit_entryUsers, name='edit_entryUsers'),
+    path('get_clients/', ajax.get_clients, name='get_clients'),
+    path('search_clients/',ajax.search_clients,name='search_clients'),
 
 
 
