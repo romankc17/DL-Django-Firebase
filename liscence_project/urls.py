@@ -24,13 +24,13 @@ from django.views.static import serve
 urlpatterns = [
     path('admin/', admin.site.urls, ),
     path('', include('liscence.urls')),
-    path('favicon.ico',
-        RedirectView.as_view( # the redirecting function
-            url=staticfiles_storage.url('favicon.ico'), # converts the static directory + our favicon into a URL
-            # in my case, the result would be http://www.tumblingprogrammer.com/static/img/favicon.ico
-        ),
-        name="favicon" # name of our view
-    ),
+    # path('favicon.ico',
+    #     RedirectView.as_view( # the redirecting function
+    #         url=staticfiles_storage.url('favicon.ico'), # converts the static directory + our favicon into a URL
+            
+    #     ),
+    #     name="favicon" # name of our view
+    # ),
     url(r'^media/(?P<path>.*)$', serve,{'document_root': settings.MEDIA_ROOT}),
     url(r'^static/(?P<path>.*)$', serve,{'document_root': settings.STATIC_ROOT}),
 ]

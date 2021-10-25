@@ -1,0 +1,1257 @@
+{%extends 'liscence/base.html'%} {%block head%}
+<style>
+    .select-head {
+            text-align: center;
+            background-color: black;
+            color: white;
+            font-weight: bold;
+            font-size: 15px;
+        }
+        
+        input {
+            text-transform: capitalize;
+        }
+        
+        .top-cate {
+            text-align: center;
+        }
+        
+        .active {
+            background-color: aquamarine
+        }
+
+        form{
+          margin-top:15px;
+        }
+
+        #dobBS{
+          display:none;
+        }
+
+        .BS{
+          font-size: 17px;
+          font-weight: bold;
+          text-align: center;
+          margin-top:4px;
+          width:90px;
+          height:30px;
+
+        }
+
+       
+
+        .dob > span{
+          margin-left:45px;
+          border: bold;
+          cursor: pointer;
+
+        }
+
+        .dob > span:hover{
+          background-color: aquamarine;
+          border: solid;
+        }
+</style>
+{%endblock%} {%block title%} Add-Clients {%endblock%} {%block content%}
+
+<div class="top-cate">
+    <button type="button" class="btn btn-secondary btn-lg active">NewLicense</button>
+    <a type="button" href="{%url 'add_category' %}" class="btn btn-secondary btn-lg">AddCategory</a>
+</div>
+
+<form id="clients-form"  method="POST">
+    {%csrf_token%}
+    <div class="form-row">
+        <div class="form-group col-md-4">
+            <input type="text" name="firstname" class="form-control" placeholder="First Name" required/>
+        </div>
+        <div class="form-group col-md-4">
+            <input type="text" name="middlename" class="form-control" placeholder="Middle Name" />
+        </div>
+        <div class="form-group col-md-4">
+            <input type="text" name="lastname" class="form-control" placeholder="Last Name" required/>
+        </div>
+    </div>
+    <!-- Gender -->
+    <div class="form-row">
+        <div class="form-group col-md-4">
+            <label>Gender</label>
+            <select id="inputGender" name="gender" class="form-control" required>
+      <option selected value="2">Male</option>
+      <option value="1">Female</option>
+      <option value="3">Other</option>
+    </select>
+        </div>
+        <div class="form-group col-md-4">
+            <label>Blood Group</label>
+            <select name="bloodgroup" class="form-control" required >
+              <option value="">Select</option>
+              <option value="1">A+</option>
+              <option value="2">B+</option>
+              <option value="3">AB+</option>
+              <option value="4">O+</option>
+              <option value="5">A-</option>
+              <option value="6">B-</option>
+              <option value="7">AB-</option>
+              <option value="8">O-</option>
+            </select>
+        </div>
+        <div id='dobAD' class="form-group col-md-4 dob">
+            <label>English DOB</label>
+            <span id='np-date-change'>Nepali DOB</span>
+            <input type="date" name="dobAd" class="form-control" required >
+        </div>
+
+        <div id='dobBS' class="form-group col-md-4 dob">
+            <label>Nepali DOB</label>
+            <span id='eng-date-change'>English DOB</span>
+            <!-- <input name="age" value="30" type="text" class="form-control" > -->
+            <div>
+              <select class='BS' name='yBS'>
+                <option value=''>Year</option>
+                <option value="2062" >2062</option>
+                <option value="2061" >2061</option>
+                <option value="2060" >2060</option>
+                <option value="2059" >2059</option>
+                <option value="2058" >2058</option>
+                <option value="2057" >2057</option>
+                <option value="2056" >2056</option>
+                <option value="2055" >2055</option>
+                <option value="2054" >2054</option>
+                <option value="2053" >2053</option>
+                <option value="2052" >2052</option>
+                <option value="2051" >2051</option>
+                <option value="2050" >2050</option>
+                <option value="2049" >2049</option>
+                <option value="2048" >2048</option>
+                <option value="2047" >2047</option>
+                <option value="2046" >2046</option>
+                <option value="2045" >2045</option>
+                <option value="2044" >2044</option>
+                <option value="2043" >2043</option>
+                <option value="2042" >2042</option>
+                <option value="2041" >2041</option>
+                <option value="2040" >2040</option>
+                <option value="2039" >2039</option>
+                <option value="2038" >2038</option>
+                <option value="2037" >2037</option>
+                <option value="2036" >2036</option>
+                <option value="2035" >2035</option>
+                <option value="2034" >2034</option>
+                <option value="2033" >2033</option>
+                <option value="2032" >2032</option>
+                <option value="2031" >2031</option>
+                <option value="2030" >2030</option>
+                <option value="2029" >2029</option>
+                <option value="2028" >2028</option>
+                <option value="2027" >2027</option>
+                <option value="2026" >2026</option>
+                <option value="2025" >2025</option>
+                <option value="2024" >2024</option>
+                <option value="2023" >2023</option>
+                <option value="2022" >2022</option>
+                <option value="2021" >2021</option>
+                <option value="2020" >2020</option>
+                <option value="2019" >2019</option>
+                <option value="2018" >2018</option>
+              </select>
+
+              <select class='BS' name='mBS' >
+                <option value=''>Month</option>
+                <option value="01">01</option>
+                <option value="02">02</option>
+                <option value="03">03</option>
+                <option value="04">04</option>
+                <option value="05">05</option>
+                <option value="06">06</option>
+                <option value="07">07</option>
+                <option value="08">08</option>
+                <option value="09">09</option>
+                <option value="10">10</option>
+                <option value="11">11</option>
+                <option value="12">12</option>              
+              </select>
+
+              <select class='BS' name='dBS' >
+                <option value=''>Day</option>
+                <option value="01">01</option>
+                <option value="02">02</option>
+                <option value="03">03</option>
+                <option value="04">04</option>
+                <option value="05">05</option>
+                <option value="06">06</option>
+                <option value="07">07</option>
+                <option value="08">08</option>
+                <option value="09">09</option>
+                <option value="10">10</option>
+                <option value="11">11</option>
+                <option value="12">12</option> 
+                <option value="13">13</option>
+                <option value="14">14</option>
+                <option value="15">15</option>
+                <option value="16">16</option>
+                <option value="17">17</option>
+                <option value="18">18</option>
+                <option value="19">19</option>
+                <option value="20">20</option>
+                <option value="21">21</option>
+                <option value="22">22</option>
+                <option value="23">23</option>
+                <option value="24">24</option>
+                <option value="25">25</option>
+                <option value="26">26</option>
+                <option value="27">27</option>
+                <option value="28">28</option>
+                <option value="29">29</option>
+                <option value="30">30</option>
+                <option value="31">31</option>
+                <option value="32">32</option>
+              </select>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-row">
+        <div class="form-group col-md-4">
+            <label>CITIZENSHIP NO.</label>
+            <input type="text" name="citizenshipNumber" class="form-control"  required>
+        </div>
+        <div class="form-group col-md-4">
+            <label>CITIZENSHIP ISSUE DISTRICT</label>
+            <select name="citizenshipDistrict" class="form-control" required>
+      <option value="">Select</option>
+      <option value="74">Achham</option>
+      <option value="57">Arghakhanchi</option>
+      <option value="54">Baglung</option>
+      <option value="77">Baitadi</option>
+      <option value="13">Bajhang</option>
+      <option value="80">Bajura</option>
+      <option value="71">Banke</option>
+      <option value="40">Bara</option>
+      <option value="70">Bardiya</option>
+      <option value="44">Bhaktapur</option>
+      <option value="22">Bhojpur</option>
+      <option value="38">Chitwan</option>
+      <option value="78">Dadeldhura</option>
+      <option value="67">Dailekh</option>
+      <option value="65">Dang</option>
+      <option value="76">Darchula</option>
+      <option value="7">Dhading</option>
+      <option value="24">Dhankuta</option>
+      <option value="37">Dhanusha</option>
+      <option value="32">Dolakha</option>
+      <option value="66">Dolpa</option>
+      <option value="73">Doti</option>
+      <option value="51">Gorkha</option>
+      <option value="56">Gulmi</option>
+      <option value="12">Humla</option>
+      <option value="3">Ilam</option>
+      <option value="68">Jajarkot</option>
+      <option value="4">Jhapa</option>
+      <option value="11">Jumla</option>
+      <option value="75">Kailali</option>
+      <option value="15">Kalikot</option>
+      <option value="79">Kanchanpur</option>
+      <option value="58">Kapilvastu</option>
+      <option value="10">Kaski</option>
+      <option value="5">Kathmandu</option>
+      <option value="46">Kavrepalanchok</option>
+      <option value="29">Khotang</option>
+      <option value="6">Lalitpur</option>
+      <option value="49">Lamjung</option>
+      <option value="36">Mahottari</option>
+      <option value="20">Makawanpur</option>
+      <option value="47">Manang</option>
+      <option value="26">Morang</option>
+      <option value="14">Mugu</option>
+      <option value="53">Mustang</option>
+      <option value="52">Myagdi</option>
+      <option value="60">Nawalparasi</option>
+      <option value="43">Nuwakot</option>
+      <option value="0">OTHERS</option>
+      <option value="28">Okhaldhunga</option>
+      <option value="9">Palpa</option>
+      <option value="2">Panchthar</option>
+      <option value="55">Parbat</option>
+      <option value="39">Parsa</option>
+      <option value="64">Pyuthan</option>
+      <option value="33">Ramechhap</option>
+      <option value="42">Rasuwa</option>
+      <option value="41">Rautahat</option>
+      <option value="63">Rolpa</option>
+      <option value="61">Rukum</option>
+      <option value="59">Rupandehi</option>
+      <option value="62">Salyan</option>
+      <option value="21">Sankhuwasabha</option>
+      <option value="31">Saptari</option>
+      <option value="35">Sarlahi</option>
+      <option value="34">Sindhuli</option>
+      <option value="45">Sindhupalchok</option>
+      <option value="17">Siraha</option>
+      <option value="27">Solukhumbu</option>
+      <option value="25">Sunsari</option>
+      <option value="69">Surkhet</option>
+      <option value="48">Syangja</option>
+      <option value="50">Tanahu</option>
+      <option value="1">Taplejung</option>
+      <option value="23">Terhathum</option>
+      <option value="30">Udayapur</option>
+    </select>
+        </div>
+        <div class="form-group col-md-4">
+            <label>Witness Relationship</label>
+            <select name="relationtype" class="form-control" required>
+      <option value="">Select</option>
+      <option value="50">Father</option>
+      <option value="51">Mother</option>
+      <option value="1050">Husband</option>
+    </select>
+        </div>
+    </div>
+
+    <div class="form-row">
+        <div class="form-group col-md-4">
+            <label>Witness First Name</label>
+            <input name="witnessFirstname" type="text" class="form-control"  required>
+        </div>
+        <div class="form-group col-md-4">
+            <label>Witness Middle Name</label>
+            <input name="witnessMiddlename" type="text" class="form-control" />
+        </div>
+        <div class="form-group col-md-4">
+            <label>Witness Last Name</label>
+            <input name="witnessLastname" type="text" class="form-control" required>
+        </div>
+    </div>
+
+    <!-- Addresss -->
+    <div class="form-row">
+        <div class='form-group col-md-4'>
+            <label>Zone</label>
+            <select name="zone" id="permZone" class="form-control" required>
+              <option value="">Select</option>
+              <option value="8">Lumbini</option>
+              <option value="1">Mechi</option>
+              <option value="2">Koshi</option>
+              <option value="3">Sagarmatha</option>
+              <option value="4">Janakpur</option>
+              <option value="5">Narayani</option>
+              <option value="6">Bagmati</option>
+              <option value="7">Gandaki</option>
+              <option value="9">Dhawalagiri</option>
+              <option value="11">Karnali</option>
+              <option value="12">Bheri</option>
+              <option value="13">Seti</option>
+              <option value="14">Mahakali</option>
+              <option value="10">Rapti</option>
+          </select>
+        </div>
+        <div class='form-group col-md-4'>
+            <label>District</label>
+            <select name="district" class='form-control' required>
+              <option value="">Select</option>
+      <option value="74">Achham</option>
+      <option value="57">Arghakhanchi</option>
+      <option value="54">Baglung</option>
+      <option value="77">Baitadi</option>
+      <option value="13">Bajhang</option>
+      <option value="80">Bajura</option>
+      <option value="71">Banke</option>
+      <option value="40">Bara</option>
+      <option value="70">Bardiya</option>
+      <option value="44">Bhaktapur</option>
+      <option value="22">Bhojpur</option>
+      <option value="38">Chitwan</option>
+      <option value="78">Dadeldhura</option>
+      <option value="67">Dailekh</option>
+      <option value="65">Dang</option>
+      <option value="76">Darchula</option>
+      <option value="7">Dhading</option>
+      <option value="24">Dhankuta</option>
+      <option value="37">Dhanusha</option>
+      <option value="32">Dolakha</option>
+      <option value="66">Dolpa</option>
+      <option value="73">Doti</option>
+      <option value="51">Gorkha</option>
+      <option value="56">Gulmi</option>
+      <option value="12">Humla</option>
+      <option value="3">Ilam</option>
+      <option value="68">Jajarkot</option>
+      <option value="4">Jhapa</option>
+      <option value="11">Jumla</option>
+      <option value="75">Kailali</option>
+      <option value="15">Kalikot</option>
+      <option value="79">Kanchanpur</option>
+      <option value="58">Kapilvastu</option>
+      <option value="10">Kaski</option>
+      <option value="5">Kathmandu</option>
+      <option value="46">Kavrepalanchok</option>
+      <option value="29">Khotang</option>
+      <option value="6">Lalitpur</option>
+      <option value="49">Lamjung</option>
+      <option value="36">Mahottari</option>
+      <option value="20">Makawanpur</option>
+      <option value="47">Manang</option>
+      <option value="26">Morang</option>
+      <option value="14">Mugu</option>
+      <option value="53">Mustang</option>
+      <option value="52">Myagdi</option>
+      <option value="60">Nawalparasi</option>
+      <option value="43">Nuwakot</option>
+      <option value="0">OTHERS</option>
+      <option value="28">Okhaldhunga</option>
+      <option value="9">Palpa</option>
+      <option value="2">Panchthar</option>
+      <option value="55">Parbat</option>
+      <option value="39">Parsa</option>
+      <option value="64">Pyuthan</option>
+      <option value="33">Ramechhap</option>
+      <option value="42">Rasuwa</option>
+      <option value="41">Rautahat</option>
+      <option value="63">Rolpa</option>
+      <option value="61">Rukum</option>
+      <option value="59">Rupandehi</option>
+      <option value="62">Salyan</option>
+      <option value="21">Sankhuwasabha</option>
+      <option value="31">Saptari</option>
+      <option value="35">Sarlahi</option>
+      <option value="34">Sindhuli</option>
+      <option value="45">Sindhupalchok</option>
+      <option value="17">Siraha</option>
+      <option value="27">Solukhumbu</option>
+      <option value="25">Sunsari</option>
+      <option value="69">Surkhet</option>
+      <option value="48">Syangja</option>
+      <option value="50">Tanahu</option>
+      <option value="1">Taplejung</option>
+      <option value="23">Terhathum</option>
+      <option value="30">Udayapur</option>
+          </select>
+        </div>
+        <div class='form-group col-md-4'>
+            <label>Village</label>
+            <select name="village" class="form-control" required>
+              <option value="2278">Butwal Muncipality</option>
+              <option value="2278" class="select-head">---Rupandehi----</option>
+              <option value="2339">Tenahawa</option>
+              <option value="2341">Thumhawa Piprahawa</option>
+              <option value="2342">Tikuligadh</option>
+              <option value="2257">Aama</option>
+              <option value="2258">Anandaban</option>
+              <option value="2260">Amuwa (Paschim)</option>
+              <option value="2262">Asurena</option>
+              <option value="2264">Bagaha</option>
+              <option value="2265">Bagauli</option>
+              <option value="2266">Bairghat</option>
+              <option value="2268">Bangai (Khadawa)</option>
+              <option value="2272">Basantapur</option>
+              <option value="2273">Betakuiya</option>
+              <option value="2274">Bhagawanpur</option>
+              <option value="2275">Bishnupura</option>
+              <option value="2276">Bodabar</option>
+              <option value="2277">Bogadi</option>
+              <option value="2278">Butwal Municipality</option>
+              <option value="2279">Chhipagada</option>
+              <option value="2280">Chhotki Ramnagar</option>
+              <option value="2281">Chilhiya (Madhuwan)</option>
+              <option value="2282">Dayanagar</option>
+              <option value="2283">Devdaha</option>
+              <option value="2284">Dhakadhai</option>
+              <option value="2285">Dhamauli</option>
+              <option value="2286">Dudharakchhe</option>
+              <option value="2287">Ekala</option>
+              <option value="2288">Farena</option>
+              <option value="2289">Gajedi</option>
+              <option value="2290">Gangoliya</option>
+              <option value="2291">Gonaha</option>
+              <option value="2292">Harnaiya</option>
+              <option value="2293">Hati Bangai</option>
+              <option value="2294">Jogada</option>
+              <option value="2296">Karahiya</option>
+              <option value="2297">Karauta</option>
+              <option value="2300">Kerbani</option>
+              <option value="2301">Khudabagar</option>
+              <option value="2303">Madhawaliya</option>
+              <option value="2304">Madhubani</option>
+              <option value="2305">Mainahiya</option>
+              <option value="2307">Makrahar</option>
+              <option value="2308">Manpakadi</option>
+              <option value="2309">Manmateriya</option>
+              <option value="2311">Masina</option>
+              <option value="2312">Motipur</option>
+              <option value="2314">Padsari</option>
+              <option value="2316">Pakadi Sakron</option>
+              <option value="2317">Parroha</option>
+              <option value="2319">Patkhouli</option>
+              <option value="2320">Pharsa Tikar (Sauraha)</option>
+              <option value="2322">Pokharvindi</option>
+              <option value="2323">Rayapur</option>
+              <option value="2324">Roinihawa</option>
+              <option value="2325">Rudrapur (Haraiya)</option>
+              <option value="2326">Sadi</option>
+              <option value="2329">Semlar</option>
+              <option value="2330">Semari</option>
+              <option value="2331">Shankar Nagar</option>
+              <option value="2333">Sikatahan</option>
+              <option value="2334">Silautiya</option>
+              <option value="2335">Sipawa</option>
+              <option value="2336">Suryapura</option>
+              <option value="2295">Kamahariya</option>
+              <option value="2302">Lumbini</option>
+              <option value="2306">Majhagawa</option>
+              <option value="2310">Maryadpur</option>
+              <option value="2315">Pajarkatti</option>
+              <option value="2321">Hati Pharsatikar</option>
+              <option value="2327">Shaljhandi</option>
+              <option value="2332">Siddharthanagar</option>
+
+
+              <option class="select-head">---Arghakhanchi---</option>
+                              <option value="2525">Pokharathok</option>
+                              <option value="2526">Siddhara</option>
+                              <option value="2527">Simalpani</option>
+                              <option value="2528">Sitapur</option>
+                              <option value="2491">Adguri</option>
+                              <option value="2492">Argha</option>
+                              <option value="2493">Arghatosh</option>
+                              <option value="2494">Asurkot</option>
+                              <option value="2495">Bangi</option>
+                              <option value="2496">Wangla</option>
+                              <option value="2497">Balkot</option>
+                              <option value="2498">Bhagawati</option>
+                              <option value="2499">Chhatragani</option>
+                              <option value="2500">Chidika</option>
+                              <option value="2501">Dhakabang</option>
+                              <option value="2502">Dhanchaur</option>
+                              <option value="2503">Dharapani</option>
+                              <option value="2504">Dhatibang</option>
+                              <option value="2505">Dhikura</option>
+                              <option value="2506">Dibharna</option>
+                              <option value="2507">Gorkhunga</option>
+                              <option value="2508">Hansapur</option>
+                              <option value="2509">Jukena</option>
+                              <option value="2510">Jaluke</option>
+                              <option value="2511">Kimdanda</option>
+                              <option value="2512">Kerunga</option>
+                              <option value="2513">Khana</option>
+                              <option value="2514">Khanchikot</option>
+                              <option value="2515">Khanadaha</option>
+                              <option value="2516">Khidim</option>
+                              <option value="2517">Khilgi</option>
+                              <option value="2518">Maidan</option>
+                              <option value="2519">Mareng</option>
+                              <option value="2520">Narapani</option>
+                              <option value="2521">Nuwakot</option>
+                              <option value="2522">Pali</option>
+                              <option value="2523">Panena</option>
+                              <option value="2524">Pitauti</option>
+                              <option value="2529">Subarnakhal</option>
+                              <option value="2530">Thada</option>
+                              <option value="2531">Thulapokhara</option>
+                              <option value="4120">Sandhikhark</option>
+
+
+                              <option class="select-head">---Palpa---</option>
+                              <option value="2422">Archale</option>
+                              <option value="2423">Argali</option>
+                              <option value="2424">Bougha Gumba</option>
+                              <option value="2425">Bahadurpur</option>
+                              <option value="2426">Baldengadhi</option>
+                              <option value="2427">Bandipokhara</option>
+                              <option value="2428">Barandi</option>
+                              <option value="2429">Bhairabsthan</option>
+                              <option value="2430">Bhuwanpokhari</option>
+                              <option value="2431">Birkot</option>
+                              <option value="2432">Bodhapokharathok</option>
+                              <option value="2433">Chappani</option>
+                              <option value="2434">Chhahara</option>
+                              <option value="2435">Chidipani</option>
+                              <option value="2436">Chirtungdhara</option>
+                              <option value="2437">Darchha</option>
+                              <option value="2438">Darlamdada</option>
+                              <option value="2439">Deurali</option>
+                              <option value="2442">Devinagar</option>
+                              <option value="2443">Dobhan</option>
+                              <option value="2444">Fek</option>
+                              <option value="2445">Foksingkot</option>
+                              <option value="2446">Gadakot</option>
+                              <option value="2447">Galchha</option>
+                              <option value="2448">Gejha</option>
+                              <option value="2449">Gothadi</option>
+                              <option value="2450">Haklang</option>
+                              <option value="2451">Humin</option>
+                              <option value="2452">Hungi</option>
+                              <option value="2453">Jalpa</option>
+                              <option value="2454">Jhadewa</option>
+                              <option value="2455">Jhirubas</option>
+                              <option value="2456">Juthapauwa</option>
+                              <option value="2457">Jyamire</option>
+                              <option value="2458">Koldada</option>
+                              <option value="2459">Kaseni</option>
+                              <option value="2460">Khaliban</option>
+                              <option value="2461">Khanichhap</option>
+                              <option value="2462">Khanigaun</option>
+                              <option value="2463">Khasyoli</option>
+                              <option value="2464">Khyaha</option>
+                              <option value="2465">Kusumkhola</option>
+                              <option value="2466">Madanpokhara</option>
+                              <option value="2467">Kachal</option>
+                              <option value="2468">Masyam</option>
+                              <option value="2469">Mityal</option>
+                              <option value="2470">Mujhung</option>
+                              <option value="2471">Nayarnamatales</option>
+                              <option value="2472">Palung (Mainadi)</option>
+                              <option value="2473">Pipaldada</option>
+                              <option value="2474">Pokharathok</option>
+                              <option value="2475">Rahabas</option>
+                              <option value="2476">Rampur</option>
+                              <option value="2477">Rigneraha</option>
+                              <option value="2478">Rupse</option>
+                              <option value="2479">Salahakot</option>
+                              <option value="2480">Siddheswor</option>
+                              <option value="2481">Siluwa</option>
+                              <option value="2482">Somadi</option>
+                              <option value="2485">Tansen Municipality</option>
+                              <option value="2486">Telga</option>
+                              <option value="2487">Tahu</option>
+                              <option value="2488">Timure (Kha)</option>
+                              <option value="2489">Wakamalang</option>
+                              <option value="2490">Yamgha</option>
+                              <option value="4129">Satyabati</option>
+
+              <option class="select-head">---Kapilvastu---</option>
+  <option value="2343">Abhirwa</option>
+  <option value="2345">Bahadurgunj</option>
+  <option value="2346">Balarampur</option>
+  <option value="2347">Baluhawa</option>
+  <option value="2349">Banganga</option>
+  <option value="2350">Barakulpur</option>
+  <option value="2351">Basantapur</option>
+  <option value="2353">Bedauli</option>
+  <option value="2354">Bhagawanpur</option>
+  <option value="2355">Bhalabar</option>
+  <option value="2357">Birpur</option>
+  <option value="2358">Bishnupur</option>
+  <option value="2359">Bithuwa</option>
+  <option value="2361">Chanai</option>
+  <option value="2362">Dhankauli</option>
+  <option value="2364">Dohani</option>
+  <option value="2365">Dubiya</option>
+  <option value="2366">Dumara</option>
+  <option value="2367">Fulika</option>
+  <option value="2369">Gajehada</option>
+  <option value="2370">Ganeshpur</option>
+  <option value="2371">Gauri</option>
+  <option value="2373">Haranampur</option>
+  <option value="2374">Harduona</option>
+  <option value="2375">Hariharpur</option>
+  <option value="2377">Hathihawa</option>
+  <option value="2378">Jahadi</option>
+  <option value="2379">Jawabhari</option>
+  <option value="2381">Khurhuriya</option>
+  <option value="2382">Kopawa</option>
+  <option value="2383">Krishna Nagar</option>
+  <option value="2385">Labani</option>
+  <option value="2386">Lalpur</option>
+  <option value="2387">Maharajgunj</option>
+  <option value="2389">Mahuwa</option>
+  <option value="2390">Bhaluwari</option>
+  <option value="2391">Milmi</option>
+  <option value="2392">Motipur</option>
+  <option value="2393">Nanda Nagar</option>
+  <option value="2394">Nigalihawa</option>
+  <option value="2395">Pakadi</option>
+  <option value="2396">Parsohiya</option>
+  <option value="2397">Patariya</option>
+  <option value="2398">Patna</option>
+  <option value="2399">Pathardajhiya</option>
+  <option value="2400">Pipara</option>
+  <option value="2402">Purusottampur</option>
+  <option value="2403">Rajapur</option>
+  <option value="2404">Barhipur</option>
+  <option value="2405">Ramnagar</option>
+  <option value="2406">Rangapur</option>
+  <option value="2407">Sauraha</option>
+  <option value="2408">Shivagadhi</option>
+  <option value="2409">Shivanagar</option>
+  <option value="2410">Shivapur</option>
+  <option value="2411">Manpur</option>
+  <option value="2412">Shingkhor</option>
+  <option value="2413">Sirsihawa</option>
+  <option value="2414">Sisawa</option>
+  <option value="2415">Somdiha</option>
+  <option value="2416">Kapilvastu Municipality</option>
+  <option value="2417">Thunhiya</option>
+  <option value="2418">Tilaurakot</option>
+  <option value="2419">Titirkhi</option>
+  <option value="2420">Udhaypur</option>
+  <option value="2421">Vidhya Nagar</option>
+  <option value="2380">Kajarhawa</option>
+  <option value="2384">Kushhawa</option>
+  <option value="2388">Mahendrakot</option>
+  <option value="2344">Ajingara</option>
+  <option value="2348">Jayanagar</option>
+  <option value="2352">Baskhaur</option>
+  <option value="2356">Bijuwa</option>
+  <option value="2360">Budhi</option>
+  <option value="2363">Dharmapaniya</option>
+  <option value="2368">Gagauli</option>
+  <option value="2372">Gothihawa</option>
+  <option value="2376">Hathausa</option>
+
+  <option class="select-head">---Nawalparasi</option>
+  <option value="4161">Ramgram Municipality</option>
+  <option value="2179">Argauli</option>
+  <option value="2180">Amarapuri</option>
+  <option value="2181">Amraud</option>
+  <option value="2182">Badahara Dubauliya</option>
+  <option value="2183">Baidauli</option>
+  <option value="2184">Banjariya</option>
+  <option value="2185">Benimanipur</option>
+  <option value="2186">Bharatipur</option>
+  <option value="2187">Bhujhawa</option>
+  <option value="2188">Bulingtar</option>
+  <option value="2189">Dadajheri Tadi</option>
+  <option value="2190">Dawanne Devi</option>
+  <option value="2191">Dedgaun</option>
+  <option value="2192">Deurali</option>
+  <option value="2193">Devchuli</option>
+  <option value="2194">Devgaya</option>
+  <option value="2195">Dhobadi</option>
+  <option value="2196">Dhurkot</option>
+  <option value="2197">Dibyapuri</option>
+  <option value="2198">Dumkibas</option>
+  <option value="2199">Gaidakot</option>
+  <option value="2200">Gairmi</option>
+  <option value="2201">Guthi Parsauni</option>
+  <option value="2202">Guthi Suryapura</option>
+  <option value="2203">Hakui</option>
+  <option value="2204">Harpur</option>
+  <option value="2205">Humsekot</option>
+  <option value="2206">Jahad</option>
+  <option value="2207">Jamuniya</option>
+  <option value="2208">Jamuwad</option>
+  <option value="2209">Jaubari</option>
+  <option value="2210">Kawasoti</option>
+  <option value="2211">Kolhuwa</option>
+  <option value="2212">Kotathar</option>
+  <option value="2213">Kudiya</option>
+  <option value="2214">Kumarwarti</option>
+  <option value="2215">Kusma</option>
+  <option value="2216">Mainagshat</option>
+  <option value="2217">Makar</option>
+  <option value="2218">Manari</option>
+  <option value="2219">Manjhariya</option>
+  <option value="2220">Mithukaram</option>
+  <option value="2221">Mukundapur</option>
+  <option value="2222">Nandan</option>
+  <option value="2223">Narayani</option>
+  <option value="2224">Narsahi</option>
+  <option value="2225">Naya Belhani</option>
+  <option value="2226">Paklihawa</option>
+  <option value="2227">Palhi</option>
+  <option value="2228">Panchanagar</option>
+  <option value="2229">Parasi</option>
+  <option value="2230">Parsauni</option>
+  <option value="2231">Pithauli</option>
+  <option value="2232">Pragatinagar</option>
+  <option value="2233">Pratappur</option>
+  <option value="2234">Rajahar</option>
+  <option value="2235">Rakachauli</option>
+  <option value="2236">Rakuwa</option>
+  <option value="2237">Ramnagar</option>
+  <option value="2238">Rampur Khadauna</option>
+  <option value="2239">Rampurwa</option>
+  <option value="2240">Ratnapur</option>
+  <option value="2241">Ruchang</option>
+  <option value="2242">Rupauliya</option>
+  <option value="2243">Sakrauli</option>
+  <option value="2244">Sanai</option>
+  <option value="2245">Sarawal</option>
+  <option value="2246">Shiva Mandir</option>
+  <option value="2247">Somani</option>
+  <option value="2248">Sunwal</option>
+  <option value="2249">Swathi</option>
+  <option value="2250">Tamasariya</option>
+  <option value="2251">Thulo Khairetawa</option>
+  <option value="2252">Tilakpur</option>
+  <option value="2253">Tribenisusta</option>
+  <option value="2254">Unwach</option>
+  <option value="2255">Upallo Arkhale</option>
+
+              <option class="select-head">---Gulmi---</option>
+  <option value="2532">Aaglung</option>
+  <option value="2533">Amar Abathok</option>
+  <option value="2534">Amarpur</option>
+  <option value="2535">Apchaur</option>
+  <option value="2536">Arbani</option>
+  <option value="2537">Arje</option>
+  <option value="2538">Arkhale</option>
+  <option value="2539">Arkhawang</option>
+  <option value="2540">Arlangkot</option>
+  <option value="2541">Aslewa</option>
+  <option value="2542">Badagaun</option>
+  <option value="2543">Bajhkoteri</option>
+  <option value="2544">Baletaksar</option>
+  <option value="2545">Balithum</option>
+  <option value="2546">Bamgha</option>
+  <option value="2547">Wami Taxar</option>
+  <option value="2548">Dhurkot Bastu</option>
+  <option value="2549">Bhanbhane</option>
+  <option value="2550">Bharse</option>
+  <option value="2551">Marbhuung</option>
+  <option value="2552">Birbas</option>
+  <option value="2553">Bisukharka</option>
+  <option value="2554">Chhapahile</option>
+  <option value="2555">Darlamchaur</option>
+  <option value="2556">Darbar Devisthan</option>
+  <option value="2557">Darling</option>
+  <option value="2558">Daungha</option>
+  <option value="2559">Ghamir</option>
+  <option value="2560">Digam</option>
+  <option value="2561">Dibrung</option>
+  <option value="2562">Dohali</option>
+  <option value="2563">Dubichaur</option>
+  <option value="2564">Isma Rajasthal</option>
+  <option value="2565">Foksing</option>
+  <option value="2566">Gaudakot</option>
+  <option value="2567">Nayagaun</option>
+  <option value="2568">Dhurkot Rajasthal</option>
+  <option value="2569">Gwagha</option>
+  <option value="2570">Gwadi</option>
+  <option value="2571">Hadahade</option>
+  <option value="2572">Hardineta</option>
+  <option value="2573">Harewa</option>
+  <option value="2574">Harmi Chaur</option>
+  <option value="2575">Harrachaur</option>
+  <option value="2576">Hasara</option>
+  <option value="2577">Hastichaur</option>
+  <option value="2578">Hawangdi</option>
+  <option value="2579">Hunga</option>
+  <option value="2580">Jaikhani</option>
+  <option value="2581">Jaisithok</option>
+  <option value="2582">Johang</option>
+  <option value="2583">Juniya</option>
+  <option value="2584">Jubhung</option>
+  <option value="2585">Khadangkot</option>
+  <option value="2586">Kharijyang</option>
+  <option value="2587">Kurgha</option>
+  <option value="2588">Limgha</option>
+  <option value="2589">Malagiri</option>
+  <option value="2590">Bhurtung</option>
+  <option value="2591">Musikot</option>
+  <option value="2592">Myalpokhari</option>
+  <option value="2593">Neta</option>
+  <option value="2594">Pallikot</option>
+  <option value="2595">Paralmi</option>
+  <option value="2596">Paudi Amarahi</option>
+  <option value="2597">Pipaldhara</option>
+  <option value="2598">Purkot Daha</option>
+  <option value="2599">Purtighat</option>
+  <option value="2600">Rimuwa</option>
+  <option value="2601">Rupakot</option>
+  <option value="2602">Ruru</option>
+  <option value="2603">Shantipur</option>
+  <option value="2604">Simichaur</option>
+  <option value="2605">Siseni</option>
+  <option value="2606">Tamghas</option>
+  <option value="2607">Thanpati</option>
+  <option value="2608">Thulolumpek</option>
+  <option value="2609">Turang</option>
+  <option value="2610">Wagla</option>
+
+
+</select>
+
+
+            </select>
+            </select>
+
+            </select>
+        </div>
+    </div>
+
+    <div class="form-row">
+        <div class="form-group col-md-4">
+            <label>Ward No.</label>
+            <input type="text" name="wardNumber" class="form-control"  required>
+        </div>
+        <div class="form-group col-md-4">
+            <label>Tole</label>
+            <input type="text" name="tole" class="form-control"  required>
+        </div>
+        <div class="form-group col-md-4">
+            <label>Mobile No.</label>
+            <input id="mob-no" type="number" name="mobileNumber" class="form-control" max="9999999999" onkeyup="checkmob()" required >
+            <span id="mob-msg" style="color: red;"></span>
+        </div>
+    </div>
+
+    <!-- Category -->
+    <table width="100%">
+        <thead>
+            <tr>
+                <th colspan="4" align="center">
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    <label id="appEntry_com_eagle_edlvrs_dl_action_NewDlApplicationEntryAction_exam_selectedcategories">SELECT CATEGORY</label
+        >
+        <font style="color: red">* </font>
+      </td>
+      <td>
+        <table id="tbl1">
+          <tbody>
+            <tr>
+              <td>
+                <input
+                  type="radio"
+                  name="cate"
+                  id="cate1"
+                  value="1"
+                  style="font-size: bold"
+                  required
+                /><label for="cate1" style="font-size: bold"
+                  >A-Motorcycle, Scooter, Moped</label
+                >
+                <br />
+
+                <input
+                  type="radio"
+                  name="cate"
+                  id="cate2"
+                  value="2"
+                  style="font-size: bold"
+                /><label for="cate2" style="font-size: bold"
+                  >B-Car, Jeep, Delivery Van</label
+                >
+                <br />
+
+                <input
+                  type="radio"
+                  name="cate"
+                  id="cate3"
+                  value="3"
+                  style="font-size: bold"
+                /><label for="cate3" style="font-size: bold"
+                  >C-Tempo, Autorickshaw</label
+                >
+                <br />
+
+                <input
+                  type="radio"
+                  name="cate"
+                  id="cate23"
+                  value="23"
+                  style="font-size: bold"
+                /><label for="cate23" style="font-size: bold"
+                  >C1-ERickshaw</label
+                >
+                <br />
+
+                <input
+                  type="radio"
+                  name="cate"
+                  id="cate4"
+                  value="4"
+                  style="font-size: bold"
+                /><label for="cate4" style="font-size: bold"
+                  >D-Powertiller</label
+                >
+                <br />
+
+                <input
+                  type="radio"
+                  name="cate"
+                  id="cate5"
+                  value="5"
+                  style="font-size: bold"
+                /><label for="cate5" style="font-size: bold"
+                  >E-Tractor, Trailer Tractor (Low Bed)</label
+                >
+                <br />
+
+                <input
+                  type="radio"
+                  name="cate"
+                  id="cate6"
+                  value="6"
+                  style="font-size: bold"
+                /><label for="cate6" style="font-size: bold"
+                  >F-Minibus, Minitruck</label
+                >
+                <br />
+
+                <input
+                  type="radio"
+                  name="cate"
+                  id="cate7"
+                  value="7"
+                  style="font-size: bold"
+                /><label for="cate7" style="font-size: bold"
+                  >G-Truck, Bus, Lorry</label
+                >
+                <br />
+
+                <input
+                  type="radio"
+                  name="cate"
+                  id="cate8"
+                  value="8"
+                  style="font-size: bold"
+                /><label for="cate8" style="font-size: bold"
+                  >H-Road Toller, Dozer</label
+                >
+                <br />
+
+                <input
+                  type="radio"
+                  name="cate"
+                  id="cate21"
+                  value="21"
+                  style="font-size: bold"
+                /><label for="cate21" style="font-size: bold">H1-DOZER</label>
+                    <br />
+
+                    <input type="radio" name="cate" id="cate22" value="22" style="font-size: bold" /><label for="cate22" style="font-size: bold">H2-ROAD ROLLER</label
+                >
+                <br />
+
+                <input
+                  type="radio"
+                  name="cate"
+                  id="cate9"
+                  value="9"
+                  style="font-size: bold"
+                /><label for="cate9" style="font-size: bold"
+                  >I-Crane, Fire brigade, Loader</label
+                >
+                <br />
+
+                <input
+                  type="radio"
+                  name="cate"
+                  id="cate14"
+                  value="14"
+                  style="font-size: bold"
+                /><label for="cate14" style="font-size: bold"
+                  >I1-CRANE, MOBILE CRANE, CRANE MOUNTED TRUCK</label
+                >
+                <br />
+
+                <input
+                  type="radio"
+                  name="cate"
+                  id="cate15"
+                  value="15"
+                  style="font-size: bold"
+                /><label for="cate15" style="font-size: bold"
+                  >I2-FIRE BRIGADE</label
+                >
+                <br />
+
+                <input
+                  type="radio"
+                  name="cate"
+                  id="cate16"
+                  value="16"
+                  style="font-size: bold"
+                /><label for="cate16" style="font-size: bold"
+                  >I3-LOADER</label
+                >
+                <br />
+
+                <input
+                  type="radio"
+                  name="cate"
+                  id="cate17"
+                  value="17"
+                  style="font-size: bold"
+                /><label for="cate17" style="font-size: bold"
+                  >J1-EXCAVATOR</label
+                >
+                <br />
+
+                <input
+                  type="radio"
+                  name="cate"
+                  id="cate18"
+                  value="18"
+                  style="font-size: bold"
+                /><label for="cate18" style="font-size: bold"
+                  >J2-BACKHOE LOADER</label
+                >
+                <br />
+
+                <input
+                  type="radio"
+                  name="cate"
+                  id="cate19"
+                  value="19"
+                  style="font-size: bold"
+                /><label for="cate19" style="font-size: bold"
+                  >J3-GRADER</label
+                >
+                <br />
+
+                <input
+                  type="radio"
+                  name="cate"
+                  id="cate20"
+                  value="20"
+                  style="font-size: bold"
+                /><label for="cate20" style="font-size: bold"
+                  >J4-FORKLIFT</label
+                >
+                <br />
+
+                <input
+                  type="radio"
+                  name="cate"
+                  id="cate10"
+                  value="10"
+                  style="font-size: bold"
+                /><label for="cate10" style="font-size: bold">J5-Other</label>
+                    <br />
+
+                    <input type="radio" name="cate" id="cate50" value="50" style="font-size: bold" /><label for="cate50" style="font-size: bold">K-Scooter, Moped</label
+                >
+                <br />
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="application">
+  <table width="100%">
+      <tbody><tr>
+          <td>
+              <label id="appEntry_com_eagle_edlvrs_dl_action_NewDlApplicationEntryAction_selectzone">SELECT ZONE</label>
+                    <font style="color: red">* </font>
+                </td>
+                <td>
+                    <div id="wwgrp_selectedZone" class="wwgrp">
+                        <div id="wwctrl_selectedZone" class="wwctrl">
+                            <select name="appliedZoneOffice" id="selectedZone" class="textfield" onchange="loadLicenseIssueOffice()"  required>
+                              <option value="">Select</option>
+                              <option value="1">Mechi</option>
+                              <option value="2">Koshi</option>
+                              <option value="3">Sagarmatha</option>
+                              <option value="4">Janakpur</option>
+                              <option value="5">Narayani</option>
+                              <option value="6">Bagmati</option>
+                              <option value="7">Gandaki</option>
+                              <option value="8">Lumbini</option>
+                              <option value="9">Dhawalagiri</option>
+                              <option value="12">Bheri</option>
+                              <option value="13">Seti</option>
+                              <option value="14">Mahakali</option>
+                              <option value="10">Rapti</option>
+
+
+</select>
+
+
+                            </select>
+
+
+
+
+
+                            </select>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label id="appEntry_com_eagle_edlvrs_dl_action_NewDlApplicationEntryAction_license_issue_office">LICENSE ISSUE OFFICE</label>
+                    <font style="color: red">* </font>
+                </td>
+                <td>
+
+                    <div dojotype="struts:BindDiv" preload="false" id="dojoLicenseIssueOffice" formid="appEntry" href="/loadLicenesIssueOfficeForDl.action" listentopics="dojoLicenseIssueOffice" showerror="true" parsecontent="true">
+
+
+
+
+
+                        <div id="wwgrp_LicenseIssueOffice" class="wwgrp">
+                            <div id="wwctrl_LicenseIssueOffice" class="wwctrl">
+                                <select name="licenseIssueOffice" id="LicenseIssueOffice" class="textfield" required>
+<option value="">Select</option>
+<option value="8">Lumbini,Nepal</option>
+<option value="3063">Transport Management Office, Nawalparasi (Bardaghat Susta Purba)</option>
+<option value="26">JAGATI-BHAKTAPUR</option>
+    <option value="27">THULOBHARYANG-KATHMANDU</option>
+    <option value="28">CHABAHIL-KATHMANDU</option>
+    <option value="1">Bagmati,Lalitpur,Nepal</option>
+    <option value="7">Gandaki,Kaski,Nepal</option>
+    <option value="5">Birgunj,Narayani,Nepal(NARAYANI)</option>
+    <option value="3058">Hetauda(NARAYANI)</option>
+    <option value="6">Mechi,Birtamode</option>
+    <option value="2">Koshi</option>
+    <option value="3">Lahan,Sagarmatha,Nepal</option>
+    <option value="3060">Transport Management Service Office, Gaighat(Sagarmatha)</option>
+    <option value="4">Janakpur,Nepal</option>      
+    <option value="16">BARDIBAS-MAHOTTARI(JANAKPUR)</option>        
+    <option value="9">Dhaulagiri,Nepal</option>       
+    <option value="12">Veri,Nepal</option>   
+    <option value="3055">Transport Management Office Surkhet (BHERI)</option>   
+    <option value="13">Seti,Nepal</option>    
+    <option value="14">Mahakali,Nepal</option>
+    <option value="10">Rapti,Nepal</option>
+
+
+</select>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    </div>
+
+
+    <input id="submitData" style="margin:50px 5px" type="submit" class="btn btn-primary btn-lg btn-block">
+</form>
+{%endblock%}
+
+{%block script%}
+<script>
+  function checkmob(){
+    var mob=document.getElementById('mob-no').value;
+    if(mob.length!=10){
+      document.getElementById('mob-msg').innerHTML="Invalid Mobile Number";
+    }
+    else{
+      document.getElementById('mob-msg').innerHTML="";
+    }
+  }
+
+  $('#np-date-change').click(function(){
+    $('#dobBS').css("display","block");
+    $('#dobAD').css("display","none");
+    $("#dobAD>input").val("");
+    $("#dobAD>input").prop("required",false);
+    $('.BS').prop('required',true);
+  })
+
+  $('#eng-date-change').click(function(){
+    $('#dobBS').css("display","none");
+    $('#dobAD').css("display","block");
+    $(".BS").val("");
+    $("#dobAD>input").prop("required",true);
+    $('.BS').prop('required',false);
+  })
+
+</script>
+{%endblock%}

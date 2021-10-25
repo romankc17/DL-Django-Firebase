@@ -1,0 +1,28 @@
+.myNavbar{
+  background: #417690;
+  position: sticky;
+  z-index: 1;
+  top:0;
+  padding:30px;
+
+}
+
+
+/* Centered section inside the top navigation */
+.topnav-centered a {
+float: none;
+position: absolute;
+top: 50%;
+left: 50%;
+transform: translate(-50%, -50%);
+}
+
+
+
+body.loading .modal {
+  overflow: hidden;
+}
+
+body.loading .modal {
+  display: block;
+}

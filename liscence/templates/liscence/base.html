@@ -18,7 +18,6 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
     />
-    <link rel="icon" href="{% static 'favicon/favicon.ico' %}" />
     <link rel="stylesheet" href="{%static 'css/base.css'%}" />
     <link
       href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css"
@@ -33,9 +32,12 @@
 
 
     <title>DL-{%block title%} Driving Liscence Form Entry {%endblock%}</title>
+    
     {%block head%} {%endblock%}
   </head>
   <body>
+    
+
     <div
       style="padding: 30px; position: sticky; top: 0"
       class="navbar myNavbar"
@@ -111,10 +113,8 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
-    <script>
+
 
       {% block script %} {%endblock%}
-    </script>
-    <script src="{% static "js/firebase.js" %}"></script>
   </body>
 </html>

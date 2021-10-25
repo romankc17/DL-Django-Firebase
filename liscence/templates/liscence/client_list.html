@@ -1,16 +1,11 @@
-{%extends 'liscence/base.html'%} {%block head%}
+{%extends 'liscence/base.html'%} 
+
+{%block head%}
 <style>
     .modal-backdrop {
         display: none;
     }
-</style>
-<!-- The core Firebase JS SDK is always required and must be listed first -->
-<script src="https://www.gstatic.com/firebasejs/8.1.2/firebase-app.js"></script>
 
-<!-- TODO: Add SDKs for Firebase products that you want to use
-     https://firebase.google.com/docs/web/setup#available-libraries -->
-<script src="https://www.gstatic.com/firebasejs/8.1.2/firebase-analytics.js"></script>
-<style>
     .flex-container {
         display: flex;
     }
@@ -30,14 +25,19 @@
         padding: 10px 0;
     }
 </style>
-{%endblock%} {%block content%}
+{%endblock%}
+
+{%block content%}
 
 <div class="flex-container">
+
     <div class="flex-item-left">
         <div class="alert alert-success">
-            <strong>Total Clients: </strong> {{counts}}
+            <strong>Total Clients: </strong> <span id='client_count'>{{counts}}</span>  
         </div>
-        <table class="table table-striped" style="text-align: center;">
+
+        <table id='ctable' class="table table-striped" style="text-align: center;">
+
             <thead style="font-weight:900;color:red;">
                 <tr>
                     <th scope="col">Name</th>
@@ -50,61 +50,64 @@
                     {%endif%}
                 </tr>
             </thead>
+
             <tbody style="font-size:15px;font-weight:600;">
-            {%for client in clients%}
-            {%if client.submitted %}
+                {%for client in clients%}
+                
+                {%if client.submitted %}
                 <tr class="ctr" style="background: #66ff66" cid="{{client.id}}">
-            {%elif not client.allow %}
+                {%elif not client.allow %}
                 <tr class="ctr" style="background: #8D3C2B" cid="{{client.id}}">
-            {%else%}
+                {%else%}
                 <tr class="ctr" cid="{{client.id}}">
-            {%endif%}
+                {%endif%}
+
                     <td class="fullName">{{client.full_name}}</td>
-                    <td style="text-align:center;
-                        {% if client.statusType == 'addcategory' %}
-                        color:red;
-                        {%endif%}
-                    ">
+
+                    <td style="text-align:center;">
                         {{client.category}}<br>
                         [{{client.statusType.upper}}]
                     </td>
+
                     <td>
                         <button class="mobno">
                             {{client.mobileNumber}}
                         </button>
                     </td>
+
                     <td>{{client.clientAddedAt.date}}</td>
+
                     <td style="white-space: normal !important;">
-                    {%if not client.submitted%}
-                        <button
-                            {%if user.is_superuser%}
-                            class="notSub"
-                            {%endif%}
-                        >
-                            &#10060;
-                        </button>
-                    {%else%}
-                        <a style="color:red;" href="{%url 'success_link' client_id=client.id %}">
-                            {{client.clientSubmittedAt.date}}
-                        </a>
-                    {%endif%}
+                        {%if not client.submitted%}
+                            <button
+                                {%if user.is_superuser%}
+                                class="notSub"
+                                {%endif%}
+                            >
+                                &#10060;
+                            </button>
+                        {%else%}
+                            <a style="color:red;" href="{%url 'success_link' client_id=client.id %}">
+                                {{client.clientSubmittedAt.date}}
+                            </a>
+                        {%endif%}
                     </td>
 
                     {%if user.is_superuser%}
                     <td class="entU" allow="{{client.allow}}">
-                    {%if client.submitted and client.success_url%}
-                        {{client.submitted_by}}
-                    {%elif client.submitted and not client.success_url%}
-                        {%for u in client.entry_users%}
-                        {{u}},
-                        {%endfor%}
-                    {%else%}
-                        <button class="editEntries">
+                        {%if client.submitted and client.success_url%}
+                            {{client.submitted_by}}
+                        {%elif client.submitted and not client.success_url%}
                             {%for u in client.entry_users%}
                             {{u}},
                             {%endfor%}
-                        </button>
-                    {%endif%}
+                        {%else%}
+                            <button class="editEntries">
+                                {%for u in client.entry_users%}
+                                {{u}},
+                                {%endfor%}
+                            </button>
+                        {%endif%}
                     </td>
                     {%endif%}
 
@@ -128,26 +131,33 @@
                 {%endfor%}
             </tbody>
         </table>
+        {%if not nomore %}
+        <button type="button" id="loadMoreBtn" class="btn btn-primary btn-lg btn-block">Load More</button>
+        {%endif%}
     </div>
 
-    <div class="flex-item-right" id="filterForm">
+    <div style="width:200px;" class="flex-item-right" id="filterForm">
+        <div style='margin-bottom:25px;text-align:center;'  class='search'>
+            <input id='search_text' type="text" placeholder="Name or Phone Number">
+            <button id='srcbtn' style='margin-top:5px;' type="button" class="btn btn-primary">Search</button>
+        </div>
         <form method="POST" action="{%url 'clients_filter'%}">
             {%csrf_token%}
             <div style="background:#447e9b;color:white;text-align:center;font-weight:600">Filter</div>
-
 
             {%if user.is_superuser%}
             <div class="cate" id='institute'>
                 <div style="font-weight:900">By Staff</div>
                 <div>
                     <select style="font-size:16px;" class="browser-default custom-select" name="staffs" id="institutes">
-              <option value="all">All</option>
-              {%for user in staffs%}
-              <option value="{{user.uid}}">{{user.displayName}}</option>
-              {%endfor%}
-            </select>
+                        <option value="all">All</option>
+                        {%for staff in staffs%}
+                        <option value="{{staff.uid}}">{{staff.display_name}}</option>
+                        {%endfor%}
+                    </select>
                 </div>
             </div>
+            
 
             <div class="cate" id='submitted_by'>
                 <div style="font-weight:900">By Submitted_by</div>
@@ -184,8 +194,7 @@
                 </div>
             </div>
             {%endif%}
-
-
+            
             <div class="cate" id="submitted">
                 <div style="font-weight:900">By Submitted</div>
                 <div>
@@ -275,8 +284,12 @@
 
             <p style="padding:10px 0"><input style="width:100%" class="btn btn-primary" id="filterGet" type="submit" value="Get Value" /></p>
         </form>
+        <input type="hidden" id="last_client_added_at" value="{{last_client_added_at}}"/>
     </div>
+    {%endblock%}
 
+
+    {%block script%}
     <script>
         $(document).ready(function() {
             $(document).on("click", ".deleteBtn", function() {
@@ -295,9 +308,6 @@
                             id: `${id}`,
                             csrfmiddlewaretoken: "{{csrf_token}}"
                         },
-                        success: function(data) {
-                            alert(`${name} deleted!!`);
-                        },
                     });
                 }
             });
@@ -308,7 +318,7 @@
             $('select#eu').val('{{entry_users}}');
             $('select#ac').val('{{allow_clients}}');
 
-            $('.notSub').click(function(){
+            $('#ctable').on("click", '.notSub', function(){
                 var refNo=prompt("If this client is registered, enter the refrence number:");
                 if (refNo!=null && refNo.trim()!='') {
                     refNo=refNo.trim();
@@ -328,14 +338,11 @@
                             client_id: client_id,
                             refNo:refNo,
                         },
-                        success: function(data) {
-                            alert(data.message);
-                        },
                     });
                 }
             });
 
-            $('.mobno').click(function(){
+            $('#ctable').on("click",".mobno",function(){
                 var mNumber=prompt("Change Mobile Number:");
                 if (mNumber!=null && mNumber.trim()!='') {
                     mNumber=mNumber.trim();
@@ -356,12 +363,15 @@
                 }
             });
 
-            $('.allow-btn').click(function(){
+            $('#ctable').on("click",'.allow-btn',function(){
                 var client_id = $(this).parents("tr").attr("cid");
+                console.log(client_id)
                 if ($(this).val()=="True")
                     var allow = false
                 else
                     var allow = true
+
+                console.log(allow)
                 $.ajax({
                         type: "POST",
                         url: '{%url "allowUpdate"%}',
@@ -384,7 +394,7 @@
                     });
             })
 
-            $('.editEntries').click(function(){
+            $('#ctable').on("click",'.editEntries', function(){
                 var entry_users=$(this).html().replace(/\s/g,'');
                 if (entry_users.slice(0,-1)==',')
                     entry_users=entry_users.slice(0,-1);
@@ -394,6 +404,8 @@
                     $(this).html(entryUsers);
                     $.ajax({
                         type: "POST",
+                        async: false,
+                        cache: false,
                         url:"{%url 'edit_entryUsers'%}",
                         dataType:'json',
                         data:{
@@ -401,14 +413,179 @@
                             client_id:client_id,
                             entryUsers:entryUsers,
                         },
-                        success: function(data){
-                            alert(data.msg);
-                        },
                     })
                 }
             });
 
+            $('#loadMoreBtn').click(function(){
+                var last_client_added_at = $("#last_client_added_at").val();
+                {%if not request.user.is_superuser%}
+                var staff = {{request.user.username}};
+                {%else%}
+                var staff = ""
+                {%endif%}
+
+                // ajax call get data from server and append to the div
+                $.ajax({
+                    type: "POST",
+                    url: "{% url 'get_clients' %}",
+                    dataType: "json",
+                    data:{
+                        staff:staff,
+                        last_client_added_at:last_client_added_at,
+                        csrfmiddlewaretoken:'{{csrf_token}}',
+                    },
+                    success: function(data) {    
+                        var clients = data.clients;
+                        if (data.nomore)
+                            $('#loadMoreBtn').hide();  
+
+                        $('#last_client_added_at').val(data.last_client_added_at);
+
+                        
+
+                        clients.forEach(add_row);
+
+                    },
+                });
+            });
+
+            var fullname = (client) => {return `<td class="fullName">${client.full_name}</td>`};
+            var category = (client) => {return  `<td>${client.category}<br>[${client.statusType.toUpperCase()}]</td>`};
+            
+
+            var contact = (client) => {
+                var mobno = client.mobileNumber;
+                if (mobno==null)
+                    mobno="";
+                return `<td><button class='mobno'>${mobno} </button></td>`
+            };
+
+            var added = (client) => {
+                var added_readable_date = new Date(client.clientAddedAt).toDateString();
+
+                return  `<td>${added_readable_date.substring(3)}</td>`
+            };
+
+            var submitted = (client) => {
+                var sub =  `<td style="white-space: normal !important;">`;
+                if (client.submitted==false){
+                    sub += (
+                        `<button
+                                {%if user.is_superuser%}
+                                class="notSub"
+                                {%endif%}
+                            >
+                                &#10060;
+                            </button>`
+                    );
+                }
+                else{
+                    var submitted_readable_date = new Date(client.clientSubmittedAt).toDateString();
+                    sub += (
+                        `<a style="color:red;" href="{%url 'success_link' client_id=1 %}">
+                            ${submitted_readable_date}
+                        </a>`
+                    );
+                }
+                return sub.concat(`</td>`);
+            };
+            
+            var entU = (client) => {
+                if (client.allow)
+                    var allow = 'True'
+                else
+                    var allow = 'False'
+                var edata = `<td class="entU" allow=${allow}>`;
+                var entry_users = client.entry_users;
+                if (entry_users==null)
+                    entry_users="";
+                if (client.submitted==true && 'success_url' in client)
+                    edata += client.submitted_by;
+                else if(client.submitted == true && !('success_url' in client))
+                    for (var i=0;i<entry_users.length;i++)
+                        edata += entry_users[i]+",";
+                else
+                    edata += '<button class="editEntries">'+entry_users+'</button>';
+                    
+                return edata.concat('</td>');
+            };
+
+            var action = (client) => {
+                if (client.allow)
+                    var allow='True'
+                else
+                    var allow='False'
+                return (
+                    `<td id="${client.id}" style="width: 10%" cid="${client.id}">
+                        <span style="width: 100%" data-placement="top" data-toggle="tooltip" title="Delete">
+                            <button
+                                class="btn btn-danger btn-xs deleteBtn"
+                                data-title="Delete"
+                                data-toggle="modal"
+                            >
+                                <span class="glyphicon glyphicon-trash"></span>
+                            </button>
+                        </span>
+                        <span style="width: 100%;margin-top:2px;">
+                            <button class="btn btn-primary allow-btn" role="button" value="${allow}">
+                                Allow?
+                            </button>
+                        </span>
+                    </td>`
+                );
+                
+            }
+                
+
+            var add_row = (client) =>{
+                if(client.submitted==true)
+                    var tr = `<tr class="ctr" style="background: #66ff66" cid="${client.id}">`;
+                else if(client.allow==false)
+                    var tr = `<tr class="ctr" style="background: #ffcccc" cid="${client.id}">`;
+                else
+                    var tr = `<tr class="ctr" cid="${client.id}">`;
+
+                var markup = tr
+                    +fullname(client)
+                    +category(client)
+                    +contact(client)
+                    +added(client)
+                    +submitted(client)
+
+                    {%if user.is_superuser%}
+                    +entU(client)
+                    {%endif%}
+                    
+                    +action(client)
+
+                    +"</tr>";
+                $('table tbody').append(markup);
+                return markup;
+            }
+
+            $("#srcbtn").click(function(){
+                var search_text = $("#search_text").val();
+                
+                $.ajax({
+                    type: "GET",
+                    url: "{% url 'search_clients' %}",
+                    dataType: "json",
+                    data:{
+                        value:search_text
+                    },
+                    success: function(data) {        
+                        var clients = data.clients;
+                        $('tbody').empty();
+                        $('#loadMoreBtn').hide();
+                        clients.forEach(add_row);
+
+                    },
+                });
+                
+            })
         });
+        
     </script>
 
     {%endblock%}

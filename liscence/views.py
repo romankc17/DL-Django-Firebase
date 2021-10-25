@@ -2,10 +2,11 @@ import datetime
 import pytz
 local=pytz.timezone('Asia/Kathmandu')
 
-from firebaseDb import clients,institutes,users
-from firebase_admin import auth,firestore
-db = firestore.client()
+# from firebaseDb import clients,institutes,users
 
+from firebase_db import clients,users
+user_obj = users.User()
+client_obj = clients.Client()
 
 from django.http import Http404
 from django.shortcuts import render,redirect
@@ -14,6 +15,10 @@ from django.contrib import messages
 
 from .models import Cookies, Client
 from .request_sess import *
+
+from .convert_date import bs_to_ad
+
+LIMIT = 40
 
 def is_staff(user):
     return  user.is_staff
@@ -28,6 +33,7 @@ def sortClients(_clients,reverse=False):
 
 @login_required
 def index(request):
+    return redirect('clients')
     # deleting cookies if exist before creating session
     for cookie in Cookies.objects.all():
         cookie.captcha.delete(save=True)
@@ -46,25 +52,41 @@ def index(request):
              'clients': _clients}
     return render(request, 'liscence/index.html',context )
         
-
+        
 @user_passes_test(is_staff)
 def list_clients(request):
     payload={}
     if request.user.is_superuser:
-        _clients=sortClients(clients.all(),reverse=True)
-        _users = users.all()
-        payload.update({'institutes':institutes.all(),
-                        'users':users.all(),
-                        'staffs':[user for user in _users if user.staff],
-                        'submitted_by':'all',
-                        'entry_users':'all',
-                        'allow_clients':'all',
-                        'staff': 'all'
-                        })
+        _clients, last_client_added_at=client_obj.getNClients(limit=LIMIT)
+        _users = user_obj.all()
+        payload.update({
+            # 'institutes':institutes.all(),
+            'users':_users,
+            'staffs':user_obj.get_staffs(users_list=_users),
+            'submitted_by':'all',
+            'entry_users':'all',
+            'allow_clients':'all',
+            'staff': 'all',
+        })
+        print(last_client_added_at.timestamp())
     else:
-        _clients = sortClients(clients.filter(staff=request.user.username),reverse=True)
-    payload.update({'submitted_all': True, 'cate_all': True, 'added_at_all': True, 'submitted_at_all': True,})
-    payload.update({'clients':_clients,'counts':len(_clients)})
+        _clients,last_client_added_at = client_obj.getNClients(limit=LIMIT,staff=request.user.username)
+    if len(_clients)<LIMIT:
+        payload.update({
+            'nomore':True
+        })
+    
+    payload.update({
+        'submitted_all': True, 
+        'cate_all': True, 
+        'added_at_all': True, 
+        'submitted_at_all': True,
+    
+        'clients':_clients,
+        'counts':len(_clients),
+        'last_client_added_at':str(last_client_added_at)[:-6],        
+    })
+    
     return render(request,'liscence/client_list.html',payload)
 
 
@@ -78,6 +100,7 @@ def clients_filter(request):
     payload = {}
 
     if request.method == 'POST':
+        _users = user_obj.all()
         if request.user.is_superuser:
             staff = request.POST['staffs']
             submitted_by=request.POST['submitted_by']
@@ -86,23 +109,25 @@ def clients_filter(request):
             payload['staff']=staff
             payload['submitted_by']=submitted_by
             payload['entry_users']=entry_users
-            payload['staffs']=users.filter_by_staff()
+            payload.update({'staffs':user_obj.get_staffs(users_list = _users)}),
+            
             if not staff=='all':
                 to_filter['staff']=staff
-            print(allow_clients)
+                
             if not allow_clients=='all':
                 if allow_clients=='yes':
                     allow=True
-                    payload['allow_clients']='yes'
                 else:
                     allow=False
-                    payload['allow_clients']='no'
                 to_filter['allow']=allow
+            payload['allow_clients']=allow_clients
+            
             if not submitted_by=='all':
                 to_filter['submitted_by']=submitted_by
+                
             if not entry_users=='all':
                 to_filter['entry_users']=entry_users
-            _users = users.all()
+            
             payload['users']=_users
 
             if staff==submitted_by==submitted == category == clientAddedAt == clientSubmittedAt==entry_users==allow_clients=='all':
@@ -153,11 +178,11 @@ def clients_filter(request):
         payload['submitted_at_'+clientSubmittedAt]=True
         if not request.user.is_superuser:
             to_filter['staff']=request.user.username
-        print(to_filter)
-        _clients=clients.page_filter(to_filter)
+        _clients=client_obj.page_filter(to_filter)
 
         payload['clients']=sortClients(_clients,reverse=True)
         payload['counts']=len(_clients)
+        payload['nomore']=True
         return render(request,'liscence/client_list.html',payload)
     else:
         raise Http404()
@@ -258,13 +283,8 @@ def create_user(request):
         if staffCheck:
             staff=True
 
-        try:
-            ph=int(phoneNumber)
-            if len(phoneNumber)!=10 and len(phoneNumber)!=0:
-                messages.error(request,'Invalid PhoneNumber')
-                return redirect('create_user')
-        except :
-            messages.error(request, 'Invalid PhoneNumber')
+        if len(phoneNumber)!=10 and len(phoneNumber)!=0:
+            messages.error(request,'Invalid PhoneNumber')
             return redirect('create_user')
 
         if phoneNumber:
@@ -273,16 +293,17 @@ def create_user(request):
             phoneNumber = None
 
         try:
-            user = auth.create_user(
-                uid=uid,
-                email=email,
-                email_verified=True,
-                password=password,
-                display_name=display_name,
-                phone_number=phoneNumber,
-                disabled=False)
-            auth.set_custom_user_claims(user.uid, {'staff': staff,'admin':False})
-            messages.success(request, 'Sucessfully created new user: {0}'.format(user.uid))
+            u = user_obj.create(
+                    uid=uid,
+                    email=email,
+                    email_verified=True,
+                    password=password,
+                    display_name=display_name,
+                    phone_number=phoneNumber,
+                    disabled=False
+                )
+            user_obj.set_staff(uid)
+            messages.success(request, 'Sucessfully created new user: {0}'.format(u.uid))
             return redirect('list_users')
         except Exception as ec:
             messages.error(request, ec)
@@ -293,22 +314,60 @@ def create_user(request):
 @user_passes_test(is_superuser)
 def list_users(request):
     params={
-        'us':users.all()
+        'us':user_obj.all()
     }
     return render(request,'liscence/list_users.html',params)
 
+def add_category(request):
+    if request.method == 'POST':
+        data = {
+            'firstname': request.POST['firstname'].upper().strip(),
+            'lastname': request.POST['lastname'].upper().strip(),
+            'licenseNo': request.POST['licenseNumber'].strip(),
+            'mobileNumber':request.POST['mobileNumber'].strip(),
+            'dob': request.POST['dob']+'T00:00:00+05:45',
+            'cate':request.POST.get('cate'),
+            'appliedZoneOffice':request.POST.get('appliedZoneOffice'),
+            'licenseIssueOffice':request.POST.get('licenseIssueOffice')
+        }
+        entry_users = ['romanchhetri02']
+        staff = request.user.username
+        if staff!='romanchhetri02':
+            entry_users.append(staff)
+            
+        data.update({
+            'allow':True,
+            'staff':staff,
+            'clientAddedAt':datetime.datetime.now(local),
+            'entry_users':entry_users,
+            # 'institute_id':'L2NNi7gACKofVU456A2t',
+            'statusType':'addcategory',
+            'submitted':False,
+            
+        })
+        doc_id=(data['firstname']+data['lastname']+'-'+data['licenseNo']).replace(' ','')
+        client_obj.add(doc_id,**data)
+        messages.success(request, 'Sucessfully created new client')
+    return render(request,'liscence/add_category.html')
+        
 
 def add_clients(request):
-    if request.method=='POST':
+    if request.method=='POST':        
+        dob = request.POST.get('dobAd')
+        if not dob:
+            yBS = request.POST.get('yBS')
+            mBS = request.POST.get('mBS')
+            dBS = request.POST.get('dBS')
+            y,m,d = bs_to_ad(yBS,mBS,dBS)
+            dob = y+'-'+m+'-'+d
+        
         data={
             'firstname':request.POST.get('firstname').upper().strip(),
             'middlename':request.POST.get('middlename').upper().strip(),
             'lastname':request.POST.get('lastname').upper().strip(),
             'gender':request.POST.get('gender'),
             'bloodgroup':request.POST.get('bloodgroup'),
-            'dob':str(request.POST.get('dobAd'))+'T00:00:00+05:45',
-            'dobBs':request.POST.get('dobBs'),
-            'age':request.POST.get('age'),
+            'dob':dob+'T00:00:00+05:45',
             'citizenshipNumber':request.POST.get('citizenshipNumber'),
             'citizenshipDistrict':request.POST.get('citizenshipDistrict'),
             'relationtype':request.POST.get('relationtype'),
@@ -326,23 +385,22 @@ def add_clients(request):
             'licenseIssueOffice':request.POST.get('licenseIssueOffice'),
             'citizenshipID':'269',
         }
-        try:
-            staff=request.POST.get('staff').strip()
-        except :
-            staff=request.user
+        entry_users = ['romanchhetri02']
+        staff = request.user.username
+        if staff!='romanchhetri02':
+            entry_users.append(staff)
         data.update({
             'allow':True,
             'staff':staff,
             'clientAddedAt':datetime.datetime.now(local),
-            'entry_users':[staff,'romanchhetri02'],
-            'institute_id':'L2NNi7gACKofVU456A2t',
+            'entry_users':entry_users,
+            # 'institute_id':'L2NNi7gACKofVU456A2t',
             'statusType':'newlicense',
-            'zoneName':request.POST.get('zoneName').strip().title(),
-            'districtName':request.POST.get('districtName').strip().title(),
             'submitted':False,
         })
-        doc_id=data['firstname']+data['lastname']+'-'+data['mobileNumber']
-        clients.add(doc_id.replace(" ",""),data)
+        doc_id=(data['firstname']+data['lastname']+'-'+data['mobileNumber']).replace(' ','')
+        client_obj.add(doc_id,**data)
+        messages.success(request, 'Sucessfully created new client')
 
     return render(request, 'liscence/add_clients.html')
 
