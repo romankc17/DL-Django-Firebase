@@ -4,7 +4,7 @@ import datetime
 from django.http import Http404, JsonResponse
 
 from .models import Cookies
-from .request_sess import waitforResponse,waitForResourceAvailable
+from .request_sess import waitforResponse
 from firebase_admin import auth
 from datetime import datetime as dt
 
@@ -41,7 +41,7 @@ def submit_form(client,cookies,captcha,current_user):
         'dlOnlineReg.occupation': '',
         'dlOnlineReg.education': '',
         'dlOnlineReg.bloodgroup.id': client.bloodgroup,
-        'citizenshipID': client.citizenshipID,
+        'citizenshipID': '269',
         'dlOnlineReg.citizenshipnumber': client.citizenshipNumber,
         'dlOnlineReg.districtByIssuedistrictid.id': client.citizenshipDistrict,
         'dlOnlineReg.passportnumber': '',
@@ -90,62 +90,98 @@ def submit_form(client,cookies,captcha,current_user):
 
     # First Url
     res=waitforResponse(cookies, 'post',
-                                   'https://onlineedlreg.dotm.gov.np/applicationSummaryInfo.action',
+                                   'https://onlineedlreg.dotm.gov.np/Nepal_DLReg/applicationSummaryInfo.action',
                                    params=person_detail)
-    with open(client.firstname+'.html', 'wb') as f:
-        f.write(res.content)
-    statusInfo('first',res)
-
+    
+    if 'dlNewRegHome' in res.url:
+        notice = (f"Incorrect Captcha!!!")
+        data = {'info': notice,
+                'submitted': False}
+        return data
+    
     # Second Url
-    res = waitforResponse(cookies,
+    response = waitforResponse(cookies,
                         'post',
-                        "https://onlineedlreg.dotm.gov.np/applicationSummaryInfo.action",
+                        "https://onlineedlreg.dotm.gov.np/Nepal_DLReg/applicationSummaryInfo.action",
                         params=payload)
-    with open(client.firstname+'final.html', 'wb') as f:
-        f.write(res.content)
-    statusInfo('second',res)
+    
+    
+    
+    if not 'newDlApplicationEntryResult' in res.url:
+        data = {'info': 'Not Registered','submitted':False}
+        return data
+    
+    url = str(response.url)
+    
 
     finish = time.perf_counter()
-    soup = BeautifulSoup(res.content, 'html.parser')
-    for _ in range(3):
-        try:
-            ref_no = soup.find('input', attrs={'name': 'referenceNo'})
-            ref_no = ref_no['value']
-            payload = {'successMessage': 'APPLICATION SAVED SUCCESSFULLY REFERENCE NO: ' + ref_no,
-                    'referenceNo': ref_no,
-                    'applicantfullname': (soup.find('input', attrs={'name': 'applicantfullname'}))['value'],
-                    'regdate': (soup.find('input', attrs={'name': 'regdate'}))['value'],
-                    'status': (soup.find('input', attrs={'name': 'status'}))['value'],
-                    'citizenshipnumber': (soup.find('input', attrs={'name': 'citizenshipnumber'}))['value'],
-                    'expiryDate': (soup.find('input', attrs={'name': 'expiryDate'}))['value'],
-                    'bloodgroup': (soup.find('input', attrs={'name': 'bloodgroup'}))['value'],
-                    'dobStr': (soup.find('input', attrs={'name': 'dobStr'}))['value'],
-                    'mobilenumber': (soup.find('input', attrs={'name': 'mobilenumber'}))['value'],
-                    'selectedcategories': (soup.find('input', attrs={'name': 'selectedcategories'}))['value'],
-                    'fathername': (soup.find('input', attrs={'name': 'fathername'}))['value'],
-                    'Address': (soup.find('input', attrs={'name': 'Address'}))['value'],
-                    'appointmentDate': (soup.find('input', attrs={'name': 'appointmentDate'}))['value'],
-                    'applyZone': (soup.find('input', attrs={'name': 'applyZone'}))['value'],
-                    'applyOffice': (soup.find('input', attrs={'name': 'applyOffice'}))['value']}
+    # soup = BeautifulSoup(res.content, 'html.parser')
+    # for _ in range(3):
+    #     try:
+    #         ref_no = soup.find('input', attrs={'name': 'referenceNo'})
+    #         ref_no = ref_no['value']
+    #         payload = {'successMessage': 'APPLICATION SAVED SUCCESSFULLY REFERENCE NO: ' + ref_no,
+    #                 'referenceNo': ref_no,
+    #                 'applicantfullname': (soup.find('input', attrs={'name': 'applicantfullname'}))['value'],
+    #                 'regdate': (soup.find('input', attrs={'name': 'regdate'}))['value'],
+    #                 'status': (soup.find('input', attrs={'name': 'status'}))['value'],
+    #                 'citizenshipnumber': (soup.find('input', attrs={'name': 'citizenshipnumber'}))['value'],
+    #                 'expiryDate': (soup.find('input', attrs={'name': 'expiryDate'}))['value'],
+    #                 'bloodgroup': (soup.find('input', attrs={'name': 'bloodgroup'}))['value'],
+    #                 'dobStr': (soup.find('input', attrs={'name': 'dobStr'}))['value'],
+    #                 'mobilenumber': (soup.find('input', attrs={'name': 'mobilenumber'}))['value'],
+    #                 'selectedcategories': (soup.find('input', attrs={'name': 'selectedcategories'}))['value'],
+    #                 'fathername': (soup.find('input', attrs={'name': 'fathername'}))['value'],
+    #                 'Address': (soup.find('input', attrs={'name': 'Address'}))['value'],
+    #                 'appointmentDate': (soup.find('input', attrs={'name': 'appointmentDate'}))['value'],
+    #                 'applyZone': (soup.find('input', attrs={'name': 'applyZone'}))['value'],
+    #                 'applyOffice': (soup.find('input', attrs={'name': 'applyOffice'}))['value']}
 
             # updating  db with submit and payload
-            client.update({'payload': payload,
-                           'submitted_by': current_user,
-                           'submitted': True,
-                           'clientSubmittedAt': datetime.now(local)})
-            data = {'info': notice + f'\t({(finish - start)} seconds)',
-                    'submitted': False}
-            return data
-        except:
-            notice = (f"Not Registered!!!")
-            data = {'info': notice+f'\t({(finish-start)} seconds)',
-                    'submitted': False}
+    client_obj.update(**{'success_url': url,
+                    'submitted_by': current_user,
+                    'submitted': True,
+                    'clientSubmittedAt': datetime.now(local)})
+    data = {'info': "Registered Successfully" + f'\t({(finish - start)} seconds)',
+            'submitted': True}        
 
     return data
 
 
+def add_category(client,cookie,captcha,current_user):
+    cookies = {'JSESSIONID':cookie}
+    detail = {
+        'applicationNo':'',
+        'dob': client.dob,
+        'dojo.dob': '',
+        'dobBs': '',
+        'licenseNo': client.licenseNo,
+        'cate': client.cate,
+        'dlOnlineReg.zoneByAppliedZoneoffice.id': client.appliedZoneOffice,
+        'dlOnlineReg.licenseissueoffice.id': client.licenseIssueOffice,
+        'jcaptcha': captcha.strip(),
+        'statusType': 'ADDCATEGORY',
+        'saveDetails': 'SUBMIT'
+    }
+    url = 'https://onlineedlreg.dotm.gov.np/Nepal_DLReg/saveAddcategoryEntry.action'
+    response = waitforResponse(cookies,'post',url,params=detail)
+    
+    if 'newDlApplicationEntryResult' in str(response.url):
+        client.update({'success_url': response.url,
+                       'submitted_by': current_user,
+                       'submitted': True,
+                       'clientSubmittedAt': datetime.now(local)})
+        notice = (f"Successfully Category Added!!!")
+        data = {'info': notice,
+                'submitted': True}
+    else:
+        notice = (f"Not Registerd")
+        data = {'info': notice,'submitted':False}
+        
+    return data
+
 def captcha_entry(request):
-    time.sleep(2)
+    
     if request.method=="POST" and request.is_ajax():
         obj = Cookies()
         # calling method to save captcha
@@ -163,12 +199,24 @@ def captcha_entry(request):
 
 def submit_captcha(request):
     if request.method=="POST" and request.is_ajax():
-        sess = request.POST.get('session')
-        captcha_text = request.POST.get('captcha')
+        cookie = request.POST.get('session')
+        captcha = request.POST.get('captcha').strip()
         client_id=request.POST.get('client_id')
-        client = clients.get_by_id(client_id)
-        data=submit_form(client,sess,captcha_text.strip(),request.user)
+        client = client_obj.get_by_id(client_id)
+        
+        if client.statusType == 'addcategory':
+            data = add_category(client,cookie,captcha,request.user)
+        else:
+            data=submit_form(client,cookie,captcha,request.user)
+            
         return JsonResponse(data)
+        
+        # dummy_data = {
+        #     'sumbitted':False,
+        #     'info':'Suceessfully Sumbitted'
+        # }
+        
+        # return JsonResponse(dummy_data)
     else:
         raise Http404()
 

@@ -15,28 +15,21 @@ retries = Retry(total=20,
                 status_forcelist=[500, 502, 503, 504])
 
 
-def waitForResourceAvailable(session, request_method, url, **kwargs):
+def requestCaptcha(session, url, **kwargs):
     # session.headers.update(headers)
-
     while True:
         try:
-            session.mount(url, HTTPAdapter(max_retries=100),)
-            if request_method == 'get':
-                response = session.get(url, verify=False,headers=headers,timeout=(1000,1000))
-
-            elif request_method == 'post':
-                response = session.post(url, data=kwargs['params'], verify=False,headers=headers)
+            session.mount(url, HTTPAdapter(max_retries=100),)            
+            response = session.get(url, verify=False,headers=headers,timeout=(1000,1000))            
             return response
         except Exception as ec:
             print(ec)
-            time.sleep(2)
+            time.sleep(1)
 
 
 def waitforResponse(cookies, request_method, url, **kwargs):
     with requests.session() as c:
-        c.cookies.update(cookies)
         c.headers.update(headers)
-
         while True:
             try:
                 c.mount(url, HTTPAdapter(max_retries=100))
@@ -46,10 +39,8 @@ def waitforResponse(cookies, request_method, url, **kwargs):
                 elif request_method == 'post':
                     response = c.post(url, data=kwargs['params'], cookies=cookies, verify=False,headers=headers)
                 return response
-
-
-
-            except:
-                print('Sleeping')
-                time.sleep(2)
+            
+            except Exception as e:
+                print(e)
+                time.sleep(0.2)
 

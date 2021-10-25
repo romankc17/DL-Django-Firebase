@@ -87,7 +87,7 @@
                                 &#10060;
                             </button>
                         {%else%}
-                            <a style="color:red;" href="{%url 'success_link' client_id=client.id %}">
+                            <a style="color:red;" href="{{client.success_url}}">
                                 {{client.clientSubmittedAt.date}}
                             </a>
                         {%endif%}

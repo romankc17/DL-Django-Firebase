@@ -57,15 +57,15 @@
     Get All <span style="color:yellow;font-size:20px;">({{counts}})</span>
 </button>
 <hr style="background-color:black;margin-bottom:0;">
+{% csrf_token %}
 <ul id="menu">
     {%for client in clients%}
         <div style="padding:0;margin:0;font-weight:bold;">{{client.full_name}}</div>
         <li style="list-style-type:none;margin-bottom:4px;height:70px;" class="menu-li">
-            {% csrf_token %}
-            <button class="get-cap" style="display:inline;">
+            <button id='gc{{client.id}}' class="get-cap" style="display:inline;">
                 <i class="fa fa-refresh" style="font-size:35px;color:blue;"></i>
             </button>
-            <div style="display:inline;" class="afterLoaded"></div>
+            <div style="display:inline;" id='al{{client.id}}' class="afterLoaded"></div>
             <input type="hidden" name="client_id" value="{{client.id}}">
         </li>
         <hr style="background-color:black;;margin:0;">
@@ -78,9 +78,24 @@
 {%endblock%}
 {%block script%}
 <script type="text/javascript">
+    var getAllCap = () =>{
+        
+    }
+
+    function wait(ms) {
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {
+            resolve(ms)
+            }, ms )
+        })
+    } 
+
+
     $(document).ready(function(){
-        $(document).on('click', '.get-cap', function(event){
-            event.preventDefault();
+        
+
+        $(document).on('click', '.get-cap', async function(event){
+            console.log('hi');
             $(this).parents('.menu-li').css("background","white");
             $(this).html('<i class="fa fa-refresh fa-spin spin-sub" style="font-size:40px;color:blue;"></i>')
             $.ajax({
@@ -107,6 +122,7 @@
                 $(this).html('<i class="fa fa-refresh" style="font-size:35px;color:blue;"></i>');
               },
             });
+            
         });
 
         $(document).on('click','.sub-cap',function(event){
@@ -137,9 +153,9 @@
             })
         });
     });
-    $('#triggerAll').on('click',function(){
-        var buttons = document.getElementsByClassName("get-cap")
-        for (var i=0; i<buttons.length; i++)
+    $(document).on('click','#triggerAll',function(){
+        const buttons = document.getElementsByClassName('get-cap');
+        for(var i = 0; i <= buttons.length; i++)  
             buttons[i].click();
     });
     $('#submitAll').on('click',function(){

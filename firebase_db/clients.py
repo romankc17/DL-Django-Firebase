@@ -148,6 +148,14 @@ class Client:
         docs = query.stream()
         
         return [Data(doc.id,doc.to_dict()) for doc in docs]
+    
+    def filter_for_index(self,**kwargs):
+        query = self.clients_ref
+        for key in kwargs:            
+                query = query.where(key,u'==',kwargs[key])
+        query = query.order_by(u'clientAddedAt',direction=firestore.Query.ASCENDING)    
+        docs = query.stream()
+        return [Data(doc.id,doc.to_dict()) for doc in docs]
         
 if __name__ == '__main__':
     from datetime import datetime

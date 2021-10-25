@@ -33,17 +33,17 @@ def sortClients(_clients,reverse=False):
 
 @login_required
 def index(request):
-    return redirect('clients')
+    # return redirect('clients')
     # deleting cookies if exist before creating session
     for cookie in Cookies.objects.all():
         cookie.captcha.delete(save=True)
         cookie.delete()
     # to_be_enterd = request.user.client_set.filter(submitted=False)
-    from firebaseDb import clients
+    
     if request.user.is_superuser:
-        _clients=clients.filter(submitted=False,allow=True)
+        _clients=client_obj.filter_for_index(submitted=False,allow=True)
     else:
-        _clients = clients.for_staff_sub(request.user)
+        _clients = client_obj.filter_for_index(submitted=False,allow=True,staff=request.user.username)
     _clients = sorted(_clients, key=lambda x: x.clientAddedAt, reverse=False)
     counts = len(_clients)
     # clients=sorted(to_be_entered, key=lambda x: random.random())
@@ -190,7 +190,7 @@ def clients_filter(request):
 
 @user_passes_test(is_staff)
 def success_link(request, client_id):
-    client=clients.get_by_id(client_id)
+    client=client_obj.get_by_id(client_id)
     if hasattr(client,'success_url') and client.submitted:
         return redirect(client.success_url)
     elif hasattr(client,'refNo') and client.submitted:
@@ -229,7 +229,7 @@ def success_link(request, client_id):
 
 @user_passes_test(is_staff)
 def success_link2(request, mobile,ref):
-    client=clients.filter(mobileNumber=mobile)[0]
+    client=client_obj.filter(mobileNumber=mobile)[0]
     if not client:
         return Http404('No client with this mobilenumber')
     try :

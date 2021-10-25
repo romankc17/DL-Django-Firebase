@@ -72,22 +72,26 @@ class Client(models.Model):
     def get_absolute_url(self):
         return reverse('client_detail', kwargs={'pk': self.pk})
 
+from PIL import Image
+import random
 class Cookies(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True,blank=True)
     captcha = models.ImageField(blank=True, upload_to='images')
     session = models.CharField(max_length=100)
 
     def get_remote(self):
-        # cookies = {'JSESSIONID': cookie}
-        start=time.perf_counter()
-        with requests.session() as c:
-            response = waitForResourceAvailable(c, 'get', 'https://onlineedlreg.dotm.gov.np/jcaptcha.jpg')
-            cookie=c.cookies.get_dict()['JSESSIONID']
+        url='https://onlineedlreg.dotm.gov.np/Nepal_DLReg/jcaptcha.jpg'
+        
+        # url = f'https://picsum.photos/200/50'
+        
+        with requests.session() as sess:
+            response = requestCaptcha(sess, url)
+            cookie=sess.cookies.get_dict()['JSESSIONID']
+            # cookie=random.randint(1,10000)
             Cookies.objects.create(session=cookie)
-        finish=time.perf_counter()
-        # print(f'GetCaptcha***{cookie[:5]}***: {finish-start}')
-        #response = requests.get('https://onlineedlreg.dotm.gov.np/jcaptcha.jpg', cookies=cookies)
-        file_name='jcaptcha.jpg'
+            
+        
+        file_name='jcaptcha'+str(cookie)+'.jpg'
         lf = NamedTemporaryFile()
         # Read the streamed image in sections
         for block in response.iter_content(1024 * 8):
@@ -96,16 +100,20 @@ class Cookies(models.Model):
                 break
             # Write image block to temporary file
             lf.write(block)
+        
         while True:
             try:
                 object = Cookies.objects.get(session=cookie)
                 object.captcha.save(file_name, File(lf))
+                # print(self.captcha.url)
                 break
-            except:
+            except Exception as e:
+                print(e)
                 pass
-        ffinish=time.perf_counter()
-        print(f'SaveCaptchaImg***{cookie[:5]}***: {ffinish - finish}')
-        return cookie
+        return cookie   
+        
+    
+    
 
 
 
