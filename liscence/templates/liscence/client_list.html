@@ -420,7 +420,7 @@
             $('#loadMoreBtn').click(function(){
                 var last_client_added_at = $("#last_client_added_at").val();
                 {%if not request.user.is_superuser%}
-                var staff = {{request.user.username}};
+                var staff = '{{request.user.username}}';
                 {%else%}
                 var staff = ""
                 {%endif%}

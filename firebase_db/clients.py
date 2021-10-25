@@ -27,7 +27,7 @@ class Data:
         except :
             return self.bloodgroup
 
-    def update(self,kwargs:dict):
+    def update(self,**kwargs):
         clients = Client()
         clients.clients_ref.document(self.id).update(kwargs)
 
@@ -156,26 +156,23 @@ class Client:
         query = query.order_by(u'clientAddedAt',direction=firestore.Query.ASCENDING)    
         docs = query.stream()
         return [Data(doc.id,doc.to_dict()) for doc in docs]
+    
+    def filter(self,**kwargs):
+        query = self.clients_ref
+        for key in kwargs:            
+            query = query.where(key,u'==',kwargs[key])
+        docs = query.stream()
+        return [Data(doc.id,doc.to_dict()) for doc in docs]
         
 if __name__ == '__main__':
     from datetime import datetime
     from initialize import initialize_firebase
     initialize_firebase()
     client = Client()
-    # c,l = client.getNClients(limit=20,last_doc_clientAddedAt=datetime.fromtimestamp(1626433685.904),staff='romanchhetri02')
-    # [print(cs.staff) for cs in c]
-    # # f = client.filter_for_staff('romanchhetri02')
-    # # # [print(i.id) for i in f]
-    
-    # c = client.get_by_id('NabinGhimire-9825437232')
-    # print(c.clientAddedAt.timestamp())
-    
-    # c2 = client.get_by_id('SumanThapa-9806948870')
-    # print(c2.clientAddedAt.timestamp())
-    
-    clients = client.search('ROMAN KC')
+    clients = client.filter(staff='Sudip_panthi')
     for c in clients:
-        print(c.firstname)
+        c.update(staff='sudip_panthi')
+        print('updated')
     
     
     
