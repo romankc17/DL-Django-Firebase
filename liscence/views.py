@@ -321,8 +321,8 @@ def list_users(request):
 def add_category(request):
     if request.method == 'POST':
         data = {
-            'firstname': request.POST['firstname'].title().strip(),
-            'lastname': request.POST['lastname'].title().strip(),
+            'firstname': request.POST['firstname'].upper().strip(),
+            'lastname': request.POST['lastname'].upper().strip(),
             'licenseNo': request.POST['licenseNumber'].strip(),
             'mobileNumber':request.POST['mobileNumber'].strip(),
             'dob': request.POST['dob']+'T00:00:00+05:45',
@@ -362,18 +362,18 @@ def add_clients(request):
             dob = y+'-'+m+'-'+d
         
         data={
-            'firstname':request.POST.get('firstname').title().strip(),
-            'middlename':request.POST.get('middlename').title().strip(),
-            'lastname':request.POST.get('lastname').title().strip(),
+            'firstname':request.POST.get('firstname').upper().strip(),
+            'middlename':request.POST.get('middlename').upper().strip(),
+            'lastname':request.POST.get('lastname').upper().strip(),
             'gender':request.POST.get('gender'),
             'bloodgroup':request.POST.get('bloodgroup'),
             'dob':dob+'T00:00:00+05:45',
             'citizenshipNumber':request.POST.get('citizenshipNumber'),
             'citizenshipDistrict':request.POST.get('citizenshipDistrict'),
             'relationtype':request.POST.get('relationtype'),
-            'witnessFirstname':request.POST.get('witnessFirstname').title().strip(),
-            'witnessMiddlename':request.POST.get('witnessMiddlename').title().strip(),
-            'witnessLastname':request.POST.get('witnessLastname').title().strip(),
+            'witnessFirstname':request.POST.get('witnessFirstname').upper().strip(),
+            'witnessMiddlename':request.POST.get('witnessMiddlename').upper().strip(),
+            'witnessLastname':request.POST.get('witnessLastname').upper().strip(),
             'zone':request.POST.get('zone'),
             'district':request.POST.get('district'),
             'village':request.POST.get('village'),
