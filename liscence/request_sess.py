@@ -2,6 +2,7 @@ from requests.adapters import HTTPAdapter
 from urllib3 import Retry
 import time
 import requests
+import re
 
 # to disable insecure request warning
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
@@ -32,7 +33,7 @@ def waitforResponse(cookies, request_method, url, **kwargs):
         c.headers.update(headers)
         while True:
             try:
-                c.mount(url, HTTPAdapter(max_retries=100))
+                # c.mount(url, HTTPAdapter(max_retries=100))
                 if request_method == 'get':
                     response = c.get(url, cookies=cookies, verify=False,headers=headers)
 
@@ -40,7 +41,11 @@ def waitforResponse(cookies, request_method, url, **kwargs):
                     response = c.post(url, data=kwargs['params'], cookies=cookies, verify=False,headers=headers)
                 return response
             
-            except Exception as e:
-                print(e)
-                time.sleep(0.2)
+            except Exception as ec:
+                ec = str(ec)                
+                # if 'successMessage' in ec:
+                #     pattern = re.compile(r'url:\s(.+)\s\(Caused')
+                #     match = pattern.findall(ec)
+                #     print(match)
+                #     return match[0]
 

@@ -60,7 +60,15 @@
 {% csrf_token %}
 <ul id="menu">
     {%for client in clients%}
-        <div style="padding:0;margin:0;font-weight:bold;">{{client.full_name}}</div>
+        <div style="padding:0;margin:0;font-weight:bold;">
+            {{client.full_name}}
+            {%if client.statusType == "newlicense" %}
+                <span style="color:red">(NEW - {{client.category}})</span>
+            {%else%}
+                <span style="color:green;">(ADD - {{client.category}})</span>
+            {%endif%}
+
+        </div>
         <li style="list-style-type:none;margin-bottom:4px;height:70px;" class="menu-li">
             <button id='gc{{client.id}}' class="get-cap" style="display:inline;">
                 <i class="fa fa-refresh" style="font-size:35px;color:blue;"></i>

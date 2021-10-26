@@ -92,6 +92,7 @@ def submit_form(client,cookies,captcha,current_user):
     res=waitforResponse(cookies, 'post',
                                    'https://onlineedlreg.dotm.gov.np/Nepal_DLReg/applicationSummaryInfo.action',
                                    params=person_detail)
+    print('done posting')
     
     if 'dlNewRegHome' in res.url:
         notice = (f"Incorrect Captcha!!!")
@@ -105,9 +106,10 @@ def submit_form(client,cookies,captcha,current_user):
                         "https://onlineedlreg.dotm.gov.np/Nepal_DLReg/applicationSummaryInfo.action",
                         params=payload)
     
+    print('done saving')
     
     
-    if not 'newDlApplicationEntryResult' in res.url:
+    if not 'newDlApplicationEntryResult' in response.url:
         data = {'info': 'Not Registered','submitted':False}
         return data
     
@@ -115,33 +117,15 @@ def submit_form(client,cookies,captcha,current_user):
     
 
     finish = time.perf_counter()
-    # soup = BeautifulSoup(res.content, 'html.parser')
-    # for _ in range(3):
-    #     try:
-    #         ref_no = soup.find('input', attrs={'name': 'referenceNo'})
-    #         ref_no = ref_no['value']
-    #         payload = {'successMessage': 'APPLICATION SAVED SUCCESSFULLY REFERENCE NO: ' + ref_no,
-    #                 'referenceNo': ref_no,
-    #                 'applicantfullname': (soup.find('input', attrs={'name': 'applicantfullname'}))['value'],
-    #                 'regdate': (soup.find('input', attrs={'name': 'regdate'}))['value'],
-    #                 'status': (soup.find('input', attrs={'name': 'status'}))['value'],
-    #                 'citizenshipnumber': (soup.find('input', attrs={'name': 'citizenshipnumber'}))['value'],
-    #                 'expiryDate': (soup.find('input', attrs={'name': 'expiryDate'}))['value'],
-    #                 'bloodgroup': (soup.find('input', attrs={'name': 'bloodgroup'}))['value'],
-    #                 'dobStr': (soup.find('input', attrs={'name': 'dobStr'}))['value'],
-    #                 'mobilenumber': (soup.find('input', attrs={'name': 'mobilenumber'}))['value'],
-    #                 'selectedcategories': (soup.find('input', attrs={'name': 'selectedcategories'}))['value'],
-    #                 'fathername': (soup.find('input', attrs={'name': 'fathername'}))['value'],
-    #                 'Address': (soup.find('input', attrs={'name': 'Address'}))['value'],
-    #                 'appointmentDate': (soup.find('input', attrs={'name': 'appointmentDate'}))['value'],
-    #                 'applyZone': (soup.find('input', attrs={'name': 'applyZone'}))['value'],
-    #                 'applyOffice': (soup.find('input', attrs={'name': 'applyOffice'}))['value']}
-
-            # updating  db with submit and payload
-    client_obj.update(**{'success_url': url,
-                    'submitted_by': current_user,
-                    'submitted': True,
-                    'clientSubmittedAt': datetime.now(local)})
+    
+    updates = {
+        'success_url': url,
+        'submitted_by': current_user,
+        'submitted': True,
+        'clientSubmittedAt': dt.now(local)
+    }
+    client_obj.update(client.id,**updates)
+    
     data = {'info': "Registered Successfully" + f'\t({(finish - start)} seconds)',
             'submitted': True}        
 
@@ -170,7 +154,7 @@ def add_category(client,cookie,captcha,current_user):
         client.update({'success_url': response.url,
                        'submitted_by': current_user,
                        'submitted': True,
-                       'clientSubmittedAt': datetime.now(local)})
+                       'clientSubmittedAt': dt.now(local)})
         notice = (f"Successfully Category Added!!!")
         data = {'info': notice,
                 'submitted': True}
@@ -205,18 +189,12 @@ def submit_captcha(request):
         client = client_obj.get_by_id(client_id)
         
         if client.statusType == 'addcategory':
-            data = add_category(client,cookie,captcha,request.user)
+            data = add_category(client,cookie,captcha,request.user.username)
         else:
-            data=submit_form(client,cookie,captcha,request.user)
+            print('new license')
+            data=submit_form(client,cookie,captcha,request.user.username)
             
         return JsonResponse(data)
-        
-        # dummy_data = {
-        #     'sumbitted':False,
-        #     'info':'Suceessfully Sumbitted'
-        # }
-        
-        # return JsonResponse(dummy_data)
     else:
         raise Http404()
 
@@ -313,7 +291,7 @@ def subUpdate(request):
 
         updates={'refNo':refNo,
                  'submitted':True,
-                 'clientSubmittedAt':datetime.datetime.now(local)
+                 'clientSubmittedAt':dt.now(local)
                  }
         data={}
         try:
