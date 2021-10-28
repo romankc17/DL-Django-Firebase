@@ -38,7 +38,7 @@ def waitforResponse(cookies, request_method, url, **kwargs):
                     response = c.get(url, cookies=cookies, verify=False,headers=headers)
 
                 elif request_method == 'post':
-                    response = c.post(url, data=kwargs['params'], cookies=cookies, verify=False,headers=headers)
+                    response = c.post(url, data=kwargs['params'], cookies=cookies, verify=False,)
                 return response
             
             except Exception as ec:

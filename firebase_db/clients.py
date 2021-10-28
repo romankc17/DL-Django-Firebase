@@ -169,11 +169,10 @@ if __name__ == '__main__':
     from initialize import initialize_firebase
     initialize_firebase()
     client = Client()
-    clients = client.filter(staff='Sudip_panthi')
+    clients = client.filter(statusType='addcategory')
     for c in clients:
-        c.update(staff='sudip_panthi')
-        print('updated')
+        print(c.id)
     
     
-    
+   
     
