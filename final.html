@@ -1,0 +1,388 @@
+
+
+
+
+
+<!--<meta http-equiv="Pragma" content="no-cache"/>
+<meta http-equiv="Expires" content="-1"/>-->
+
+<html>
+    <head>
+        <title> .:: ONLINE DRIVING LICENSE ::. </title>
+        <link rel="stylesheet" type="text/css" href="/Nepal_DLReg/css/style.css" />
+        <link rel="Shortcut icon" href="/Nepal_DLReg/Images/favicon.ico" />
+        
+        
+        
+        
+    </head>
+    
+    
+    
+<script>
+    // disable right click
+    document.addEventListener('contextmenu', event => event.preventDefault());
+ 
+    document.onkeydown = function (e) {
+ 
+        // disable F12 key
+        if(e.keyCode == 123) {
+            return false;
+        }
+ 
+        // disable I key
+        if(e.ctrlKey && e.shiftKey && e.keyCode == 73){
+            return false;
+        }
+ 
+        // disable J key
+        if(e.ctrlKey && e.shiftKey && e.keyCode == 74) {
+            return false;
+        }
+ 
+        // disable U key
+        if(e.ctrlKey && e.keyCode == 85) {
+            return false;
+        }
+    }
+ 
+</script>
+<!--oncontextmenu="return false;"-->
+    <body class="body" >
+        
+        <div align="center">
+            <div style="width: 1000px;" >
+                
+
+
+<div id="header">
+</div>
+<div align="left">
+
+    <div>
+        <!--
+                <span style="display: inline-block;">
+                    <a href="home"  style="color: #ffcc00;">HOME</a>
+                </span>
+                <span style="display: inline-block;">
+                    <a href="newDlApplicationEntry_"  style="color: #ffcc00;">ONLINE DL REGISTRATION</a>
+                </span>
+                <span style="display: inline-block;">
+                    <a href="registerVRS_"  style="color: #ffcc00;">ONLINE VRS REGISTRATION</a>
+                </span>
+                <span style="display: inline-block;">
+                    <a href="nepalikaran_"  style="color: #ffcc00;">NEPALIKARAN</a>
+                </span>
+                <span style="display: inline-block;">
+                    <a href="rcRenewal_"  style="color: #ffcc00;">RC RENEWAL</a>
+                </span>
+                <span style="display: inline-block;">
+                    <a href="checkStatus"  style="color: #ffcc00;">CHECK STATUS</a>
+                </span>-->
+
+
+
+        <ul id="menu-bar">
+            
+        <li><a href="dlNewRegHome">ONLINE REGISTRATION</a></li> 
+            <li><a href="checkStatus">CHECK STATUS</a></li>
+<!--            <li><a href="dateWiseReport">REPORT</a></li>
+                
+            <!--            <li><a href="#">Vehicle Registration</a>
+                            <ul>
+                                <li><a href="showVrsHome">NEW REGISTRATION</a></li>
+                                <li><a href="rcRenewal_">RC RENEWAL</a></li>
+                                <li><a href="checkStatusvrs">CHECK STATUS</a></li>
+                            </ul>
+                        </li>-->
+
+        </ul>
+
+    </div>
+</div>
+
+            </div>
+
+        </div>
+        <div align="center">
+            
+
+<!--<div id="welcomeUser">
+
+    <span style="display: inline-block;">
+        <a href="logout"  style="color: #ffcc00;">[Log Out]</a>
+    </span>
+
+    <span style="display: inline-block;padding-right: 10px;text-decoration: blink">
+        <td>Welcome</td>
+    </span>
+
+</div>-->
+        </div> 
+
+
+
+        <div style="clear: both;"></div>
+
+        <div align="center">
+            <div style="height: 650px;width: 996px;overflow: auto;border: 2px solid #1f5a95;" >
+
+  <br>
+                <!--                <div style="float: right;width: 1000px;height: 500px;overflow: auto;border-right: 5px solid #1f5a95;">-->
+                
+                    <!--                        <div style="background-color:#3498db;height: 25px;color: white;font-size: 16px;text-align: center;font-weight: bold">-->
+                    <div style="height: 25px;color:#1f5a95;font-size: 16px;text-align: center;font-weight: bold;">
+                        ONLINE DRIVING LICENSE REGISTRATION FORM
+                    </div>
+                
+
+                
+
+
+
+<script language="JavaScript" type="text/javascript">
+    // Dojo configuration
+    djConfig = {
+        isDebug: false,
+        bindEncoding: "UTF-8"
+          ,baseRelativePath: "/Nepal_DLReg/struts/dojo/"
+          ,baseScriptUri: "/Nepal_DLReg/struts/dojo/"
+         ,parseWidgets : false
+        
+    };
+</script>
+
+
+
+  <script language="JavaScript" type="text/javascript"
+        src="/Nepal_DLReg/struts/dojo/struts_dojo.js"></script>
+
+<script language="JavaScript" type="text/javascript"
+        src="/Nepal_DLReg/struts/ajax/dojoRequire.js"></script>
+<link rel="stylesheet" href="/Nepal_DLReg/struts/xhtml/styles.css" type="text/css"/>
+
+<script language="JavaScript" src="/Nepal_DLReg/struts/utils.js" type="text/javascript"></script>
+<script language="JavaScript" src="/Nepal_DLReg/struts/xhtml/validation.js" type="text/javascript"></script>
+<script language="JavaScript" src="/Nepal_DLReg/struts/css_xhtml/validation.js" type="text/javascript"></script>
+
+<script type="text/javascript" src="/Nepal_DLReg/js/jquery.min.js"></script>
+
+<script type="text/javascript" src="/Nepal_DLReg/js/custom.js"></script>
+<script type="text/javascript" src="/Nepal_DLReg/js/conformDialog.js"></script>
+
+<script type="text/javascript" src="/Nepal_DLReg/script/calendar/calendar.js"></script>
+<script type="text/javascript" src="/Nepal_DLReg/script/calendar/calendar-en.js"></script>
+<script type="text/javascript" src="/Nepal_DLReg/script/calendar/calendarHelper.js"></script>
+
+<script type="text/javascript" src="/Nepal_DLReg/js/alertMessage.js"></script>
+
+
+
+<link media="all" type="text/css" rel="stylesheet" href="/Nepal_DLReg/script/calendar/calendar-win2k-cold-2.css" title="win2k-cold-2" />
+
+
+<style type="text/css">
+    .errorTextfield{
+        border: #cc0033 1px solid;
+    }
+</style>
+
+
+
+
+    <div>
+        <script type="text/javascript">
+            var txt = 'APPLICATION SAVED SUCCESSFULLY REFERENCE NO: 2110293372296';
+            createCustomAlert(txt);
+        </script>
+    </div>
+
+
+<br>
+
+<script type="text/javascript" src="/Nepal_DLReg/struts/css_xhtml/validation.js"></script>
+        
+<form id="printApplication_" name="printApplication_" onsubmit="return validateForm_printApplication_();" action="/Nepal_DLReg/printApplication_.action" method="post"  onreset="clearErrorMessages(this);clearErrorLabels(this);"
+>
+
+    <div class="textfieldlabel2">
+        <label id="printApplication__com_eagle_edlvrs_dl_action_NewDlApplicationEntryAction_Your_Application_is_Successfully_Registered" style="textfieldlabel2">Your Application is Successfully Registered!.</label>
+    </div>
+    <br>
+    <div class="datagrid">
+        <table>
+
+            <thead>
+                <tr>
+                    <th colspan="2" align="center"><label id="printApplication__com_eagle_edlvrs_dl_action_NewDlApplicationEntryAction_Registration_Details">Registration Details</label></th>
+                </tr>
+            </thead>
+
+            <tr>
+                <td><label id="printApplication__com_eagle_edlvrs_dl_action_NewDlApplicationEntryAction_Your_Reference_No">Your Reference No</label></td>
+                <td>2110293372296</td>
+                <input type="hidden" name="referenceNo" value="2110293372296" id="printApplication__referenceNo"/>
+            </tr>
+
+            <tr>
+                <td><label id="printApplication__com_eagle_edlvrs_dl_action_NewDlApplicationEntryAction_Name_of_the_Applicant">NAME OF THE APPLICANT</label></td>
+                <td>INDRAMANI YADAV</td>
+                <input type="hidden" name="applicantfullname" value="INDRAMANI YADAV" id="printApplication__applicantfullname"/>
+            </tr>
+
+            <tr>
+                <td><label id="printApplication__com_eagle_edlvrs_dl_action_NewDlApplicationEntryAction_Date_of_Registration">DATE OF REGISTRATION</label></td>
+                <td>29-10-2021</td>
+                <input type="hidden" name="regdate" value="10/29/21" id="printApplication__regdate"/>
+            </tr>
+
+            <tr>
+                <td><label id="printApplication__com_eagle_edlvrs_dl_action_NewDlApplicationEntryAction_Application_Status">APPLICATION STATUS</label></td>
+                <td>Registered</td>
+                <input type="hidden" name="status" value="Registered" id="printApplication__status"/>
+            </tr>
+            <tr>
+                <td>Address</td>
+                <td>Lumbini 7 Rupandehi Lumbini Nepal
+                </td>
+                <input type="hidden" name="Address" value="Lumbini 7 Rupandehi Lumbini Nepal" id="printApplication__Address"/>
+            </tr>
+            <tr>
+                <td>Father Name/Spouse Name</td>
+                <td>DINA NATH YADAV
+                </td>
+                <input type="hidden" name="fathername" value="DINA NATH YADAV" id="printApplication__fathername"/>
+            </tr>
+            <tr>
+                <td>CitizenShip Number</td>
+                <td>37-01-78-00566</td>
+                <input type="hidden" name="citizenshipnumber" value="37-01-78-00566" id="printApplication__citizenshipnumber"/>
+            </tr>
+            <tr>
+                <td>Date of Birth</td>
+                <td>30-Nov-2002</td>
+                <input type="hidden" name="dobStr" value="30-Nov-2002" id="printApplication__dobStr"/>
+            </tr>
+            <tr>
+                <td>Blood Group</td>
+                <td>A+</td>
+                <input type="hidden" name="bloodgroup" value="A+" id="printApplication__bloodgroup"/>
+            </tr>
+            <tr>
+                <td>Mobile Number</td>
+                <td>9807483612</td>
+                <input type="hidden" name="mobilenumber" value="9807483612" id="printApplication__mobilenumber"/>
+            </tr>
+            <tr>
+                <td>Applied Category</td>
+                <td>A</td>
+                <input type="hidden" name="selectedcategories" value="A" id="printApplication__selectedcategories"/>
+            </tr>
+            <tr>
+                <td>License Expiry Date</td>
+                <td>N/A</td>
+                <input type="hidden" name="expiryDate" value="N/A" id="printApplication__expiryDate"/>
+            </tr>
+            <tr>
+                <td>Date of visit to Zonal Office</td>
+                <td>25-Apr-2023</td>
+                <input type="hidden" name="appointmentDate" value="4/25/23" id="printApplication__appointmentDate"/>
+            </tr>
+            <tr>
+                <td>Zone</td>
+                <td>Lumbini</td>
+                <input type="hidden" name="applyZone" value="Lumbini" id="printApplication__applyZone"/>
+            </tr>
+            <tr>
+                <td>Office to Visit</td>
+                <td>Lumbini,Nepal</td>
+                <input type="hidden" name="applyOffice" value="Lumbini,Nepal" id="printApplication__applyOffice"/>
+            </tr>
+
+        </table>
+    </div>
+    <br>
+    <div>
+
+        <div align="center"    id="wwctrl_printApplication__print"><input type="submit" id="printApplication__print" name="print" value="Download PDF" class="button_example" style="padding:0px 0px 5px 0px;"/>
+</div> 
+    </div>
+    <br>
+
+    <label id="printApplication__com_eagle_edlvrs_dl_action_NewDlApplicationEntryAction_If_you_want_to_know_the_further_status_of_the_Application_please_select_the_link">If you want to know the further status of the Application please select the link</label>
+    <td> <span style="display: inline-block;">
+            <a href="checkStatus"  style="color: blue;">check status</a>
+        </span>
+    </td>
+    <br>
+    <br>
+    <br>
+    <br>
+
+    <td>
+        <span style="display: inline-block;">Note : Applicant must attend zonal office along with the below mentioned documents for
+            biometric on Date of Visit mentioned above.If in case applicant failed to attend for
+            biometric on the date of visit,those applicant must register online again.
+            <div align="left" style="margin-left:240px;">
+            <ul>
+                <li style="list-style-type:lower-alpha">Original and Photo copy of Citizenship Proof </li>
+                <li style="list-style-type:lower-alpha">Medical Report</li>
+                <li style="list-style-type:lower-alpha">Training Certificate</li>
+            </ul>
+             </div>
+        </span>
+    </td>
+
+
+</form>
+
+
+
+<script type="text/javascript">
+    function validateForm_printApplication_() {
+        var getFieldValue = function(field) {
+            var type = field.type ? field.type : field[0].type;
+            if (type == 'select-one' || type == 'select-multiple') {
+                return (field.selectedIndex == -1 ? "" : field.options[field.selectedIndex].value);
+            } else if (type == 'checkbox' || type == 'radio') {
+                if (!field.length) {
+                    field = [field];
+                }
+                for (var i = 0; i < field.length; i++) {
+                    if (field[i].checked) {
+                        return field[i].value;
+                    }
+                }
+                return "";
+            }
+            return field.value;
+        }
+        form = document.getElementById("printApplication_");
+        clearErrorMessages(form);
+        clearErrorLabels(form);
+
+        var errors = false;
+        var continueValidation = true;
+
+        return !errors;
+    }
+</script>
+
+                <!--                </div>-->
+
+            </div>
+        </div>
+        <div style="clear: both" ></div>
+
+
+        <div align="center" >
+            <div style="width: 1000px;" >
+                
+<div id="footer">
+        </div>
+            </div>
+        </div>
+        
+
+    </body>
+</html>

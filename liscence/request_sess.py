@@ -35,7 +35,7 @@ def waitforResponse(cookies, request_method, url, **kwargs):
             try:
                 # c.mount(url, HTTPAdapter(max_retries=100))
                 if request_method == 'get':
-                    response = c.get(url, cookies=cookies, verify=False,headers=headers)
+                    response = c.get('https://onlineedlreg.dotm.gov.np/Nepal_DLReg/jcaptcha.jpg?', cookies=cookies, verify=False)
 
                 elif request_method == 'post':
                     response = c.post(url, data=kwargs['params'], cookies=cookies, verify=False,)

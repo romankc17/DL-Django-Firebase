@@ -502,9 +502,6 @@
                     entry_users="";
                 if (client.submitted==true && 'success_url' in client)
                     edata += client.submitted_by;
-                else if(client.submitted == true && !('success_url' in client))
-                    for (var i=0;i<entry_users.length;i++)
-                        edata += entry_users[i]+",";
                 else
                     edata += '<button class="editEntries">'+entry_users+'</button>';
                     
