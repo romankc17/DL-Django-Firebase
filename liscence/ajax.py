@@ -27,109 +27,115 @@ def statusInfo(pos,res):
         print(i, response.url)
 
 
-def submit_form(client,cookies,captcha,current_user):
-    cookies = {'JSESSIONID':cookies}
-    person_detail = {
-        'dlOnlineReg.firstname': client.firstname,
-        'dlOnlineReg.middlename': client.middlename,
-        'dlOnlineReg.lastname': client.lastname,
-        'dob': client.dob,
-        'dojo.dob': '',
-        'dobBs': '',
-        'age': '30',
-        'dlOnlineReg.gender.id': client.gender,
-        'dlOnlineReg.occupation': '',
-        'dlOnlineReg.education': '',
-        'dlOnlineReg.bloodgroup.id': client.bloodgroup,
-        'citizenshipID': '269',
-        'dlOnlineReg.citizenshipnumber': client.citizenshipNumber,
-        'dlOnlineReg.districtByIssuedistrictid.id': client.citizenshipDistrict,
-        'dlOnlineReg.passportnumber': '',
-        'dlOnlineReg.countryByPassportcountryId.id': '-1',
-        'dlOnlineReg.identitymark': '',
-        'dlOnlineReg.witnessFirstname': client.witnessFirstname,
-        'dlOnlineReg.witnessMiddlename': client.witnessMiddlename,
-        'dlOnlineReg.witnessLastname': client.witnessLastname,
-        'dlOnlineReg.relationtype.id': client.relationtype,
-        'dlOnlineReg.trainerName': '',
-        'dlOnlineReg.trainerLicenseno': '',
-        'dlOnlineReg.zoneByPermZone.id': client.zone,
-        'dlOnlineReg.districtByPermDistrict.id': client.district,
-        'dlOnlineReg.villagemetrocityByPermVillagemetrocity.id': client.village,
-        'dlOnlineReg.permWardnumber': client.wardNumber,
-        'dlOnlineReg.permTole': client.tole,
-        'dlOnlineReg.permBlocknumber': '',
-        'dlOnlineReg.permMobilemumber': client.mobileNumber,
-        'dlOnlineReg.permOfficecontact': '',
-        'dlOnlineReg.permContactnumber': '',
-        'dlOnlineReg.permEmail': '',
-        'dlOnlineReg.zoneByZoneId.id': client.zone,
-        'dlOnlineReg.districtByDistrictId.id': client.district,
-        'dlOnlineReg.villagemetrocityByVillagemetrocityId.id': client.village,
-        'dlOnlineReg.wardnumber': client.wardNumber,
-        'dlOnlineReg.tole': client.tole,
-        'dlOnlineReg.blocknumber': '',
-        'dlOnlineReg.mobilenumber': client.mobileNumber,
-        'dlOnlineReg.contactoffice': '',
-        'dlOnlineReg.contactnumber': '',
-        'dlOnlineReg.email': '',
-        'chkAddress': 'true',
-        '__checkbox_chkAddress':'true',
-        'cate': client.cate,
-        'dlOnlineReg.zoneByAppliedZoneoffice.id': client.appliedZoneOffice,
-        'dlOnlineReg.licenseissueoffice.id': client.licenseIssueOffice,
-        'jcaptcha': captcha,
-        'statusType': 'NEWLICENSE',
-        'saveDetails': 'SUBMIT'
-    }
-    payload = {'citizenshipID': '269',
-                'statusType': 'NEWLICENSE',
-                'action:saveApplicationEntry': 'SAVE DETAILS',
-                'statusType': 'NEWLICENSE'}
-    start = time.perf_counter()
+# def submit_form(client,cookies,captcha,captcha2,current_user):
+#     print(captcha,captcha2)
+#     cookies = {'JSESSIONID':cookies}
+#     print(cookies)
+#     person_detail = {
+#         'dlOnlineReg.firstname': client.firstname,
+#         'dlOnlineReg.middlename': client.middlename,
+#         'dlOnlineReg.lastname': client.lastname,
+#         'dob': client.dob,
+#         'dojo.dob': '',
+#         'dobBs': '',
+#         'age': '30',
+#         'dlOnlineReg.gender.id': client.gender,
+#         'dlOnlineReg.occupation': '',
+#         'dlOnlineReg.education': '',
+#         'dlOnlineReg.bloodgroup.id': client.bloodgroup,
+#         'citizenshipID': '269',
+#         'dlOnlineReg.citizenshipnumber': client.citizenshipNumber,
+#         'dlOnlineReg.districtByIssuedistrictid.id': client.citizenshipDistrict,
+#         'dlOnlineReg.passportnumber': '',
+#         'dlOnlineReg.countryByPassportcountryId.id': '-1',
+#         'dlOnlineReg.identitymark': '',
+#         'dlOnlineReg.witnessFirstname': client.witnessFirstname,
+#         'dlOnlineReg.witnessMiddlename': client.witnessMiddlename,
+#         'dlOnlineReg.witnessLastname': client.witnessLastname,
+#         'dlOnlineReg.relationtype.id': client.relationtype,
+#         'dlOnlineReg.trainerName': '',
+#         'dlOnlineReg.trainerLicenseno': '',
+#         'dlOnlineReg.zoneByPermZone.id': client.zone,
+#         'dlOnlineReg.districtByPermDistrict.id': client.district,
+#         'dlOnlineReg.villagemetrocityByPermVillagemetrocity.id': client.village,
+#         'dlOnlineReg.permWardnumber': client.wardNumber,
+#         'dlOnlineReg.permTole': client.tole,
+#         'dlOnlineReg.permBlocknumber': '',
+#         'dlOnlineReg.permMobilemumber': client.mobileNumber,
+#         'dlOnlineReg.permOfficecontact': '',
+#         'dlOnlineReg.permContactnumber': '',
+#         'dlOnlineReg.permEmail': '',
+#         'dlOnlineReg.zoneByZoneId.id': client.zone,
+#         'dlOnlineReg.districtByDistrictId.id': client.district,
+#         'dlOnlineReg.villagemetrocityByVillagemetrocityId.id': client.village,
+#         'dlOnlineReg.wardnumber': client.wardNumber,
+#         'dlOnlineReg.tole': client.tole,
+#         'dlOnlineReg.blocknumber': '',
+#         'dlOnlineReg.mobilenumber': client.mobileNumber,
+#         'dlOnlineReg.contactoffice': '',
+#         'dlOnlineReg.contactnumber': '',
+#         'dlOnlineReg.email': '',
+#         'chkAddress': 'true',
+#         '__checkbox_chkAddress':'true',
+#         'cate': client.cate,
+#         'dlOnlineReg.zoneByAppliedZoneoffice.id': client.appliedZoneOffice,
+#         'dlOnlineReg.licenseissueoffice.id': client.licenseIssueOffice,
+#         'jcaptcha': captcha,
+#         'statusType': 'NEWLICENSE',
+#         'saveDetails': 'SUBMIT'
+#     }
+#     payload = {'citizenshipID': '269',
+#                 'statusType': 'NEWLICENSE',
+#                 'action:saveApplicationEntry': 'SAVE DETAILS',
+#                 'statusType': 'NEWLICENSE',
+#                 'jcaptcha':captcha2}
+#     start = time.perf_counter()
 
-    # First Url
-    res=waitforResponse(cookies, 'post',
-                                   'https://onlineedlreg.dotm.gov.np/Nepal_DLReg/applicationSummaryInfo.action',
-                                   params=person_detail)
-    print('done posting')
+#     # First Url
+#     res=waitforResponse(cookies, 'post',
+#                                    'https://onlineedlreg.dotm.gov.np/Nepal_DLReg/applicationSummaryInfo.action',
+#                                    params=person_detail)
+#     with open('initial.html', 'w') as f:
+#         f.write(res.text)
+#     print('done posting')
     
-    if 'dlNewRegHome' in res.url:
-        notice = (f"Incorrect Captcha!!!")
-        data = {'info': notice,
-                'submitted': False}
-        return data
+#     if 'dlNewRegHome' in res.url:
+#         notice = (f"Incorrect Captcha!!!")
+#         data = {'info': notice,
+#                 'submitted': False}
+#         return data
     
-    # Second Url
-    response = waitforResponse(cookies,
-                        'post',
-                        "https://onlineedlreg.dotm.gov.np/Nepal_DLReg/applicationSummaryInfo.action",
-                        params=payload)
+#     # Second Url
+#     response = waitforResponse(cookies,
+#                         'post',
+#                         "https://onlineedlreg.dotm.gov.np/Nepal_DLReg/applicationSummaryInfo.action",
+#                         params=payload)
+#     with open('final.html', 'w') as f:
+#         f.write(response.text)
+#     print('done saving')
+#     print(response.url)
     
-    print('done saving')
+#     if not 'newDlApplicationEntryResult' in response.url:
+#         data = {'info': 'Not Registered','submitted':False}
+#         return data
     
-    
-    if not 'newDlApplicationEntryResult' in response.url:
-        data = {'info': 'Not Registered','submitted':False}
-        return data
-    
-    url = str(response.url)
+#     url = str(response.url)
     
 
-    finish = time.perf_counter()
+#     finish = time.perf_counter()
     
-    updates = {
-        'success_url': url,
-        'submitted_by': current_user,
-        'submitted': True,
-        'clientSubmittedAt': dt.now(local)
-    }
-    client_obj.update(client.id,**updates)
+#     updates = {
+#         'success_url': url,
+#         'submitted_by': current_user,
+#         'submitted': True,
+#         'clientSubmittedAt': dt.now(local)
+#     }
+#     client_obj.update(client.id,**updates)
     
-    data = {'info': "Registered Successfully" + f'\t({(finish - start)} seconds)',
-            'submitted': True}        
+#     data = {'info': "Registered Successfully" + f'\t({(finish - start)} seconds)',
+#             'submitted': True}        
 
-    return data
+#     return data
 
 
 def add_category(client,cookie,captcha,current_user):
@@ -161,7 +167,7 @@ def add_category(client,cookie,captcha,current_user):
     else:
         notice = (f"Not Registerd")
         data = {'info': notice,'submitted':False}
-        
+    data.update({'statusType':'addcategory'})
     return data
 
 def captcha_entry(request):
@@ -174,14 +180,17 @@ def captcha_entry(request):
         obj = Cookies.objects.get(session=cookies)
         # captcha image url
         img_url = str(obj.captcha.url)
+        
         #cookie
         sess = str(obj.session)
+        print('this',sess)
         id = obj.id
         return JsonResponse({'img_url': img_url, 'sess':sess, 'id':id})
     else:
         raise Http404()
 
-def submit_captcha(request):
+
+def submit_client(request):
     if request.method=="POST" and request.is_ajax():
         cookie = request.POST.get('session')
         captcha = request.POST.get('captcha').strip()
@@ -190,13 +199,125 @@ def submit_captcha(request):
         
         if client.statusType == 'addcategory':
             data = add_category(client,cookie,captcha,request.user.username)
+            return JsonResponse(data)
         else:
-            print('new license')
-            data=submit_form(client,cookie,captcha,request.user.username)
-            
-        return JsonResponse(data)
+            cookies = {'JSESSIONID':cookie}
+            person_detail = {
+                'dlOnlineReg.firstname': client.firstname,
+                'dlOnlineReg.middlename': client.middlename,
+                'dlOnlineReg.lastname': client.lastname,
+                'dob': client.dob,
+                'dojo.dob': '',
+                'dobBs': '',
+                'age': '30',
+                'dlOnlineReg.gender.id': client.gender,
+                'dlOnlineReg.occupation': '',
+                'dlOnlineReg.education': '',
+                'dlOnlineReg.bloodgroup.id': client.bloodgroup,
+                'citizenshipID': '269',
+                'dlOnlineReg.citizenshipnumber': client.citizenshipNumber,
+                'dlOnlineReg.districtByIssuedistrictid.id': client.citizenshipDistrict,
+                'dlOnlineReg.passportnumber': '',
+                'dlOnlineReg.countryByPassportcountryId.id': '-1',
+                'dlOnlineReg.identitymark': '',
+                'dlOnlineReg.witnessFirstname': client.witnessFirstname,
+                'dlOnlineReg.witnessMiddlename': client.witnessMiddlename,
+                'dlOnlineReg.witnessLastname': client.witnessLastname,
+                'dlOnlineReg.relationtype.id': client.relationtype,
+                'dlOnlineReg.trainerName': '',
+                'dlOnlineReg.trainerLicenseno': '',
+                'dlOnlineReg.zoneByPermZone.id': client.zone,
+                'dlOnlineReg.districtByPermDistrict.id': client.district,
+                'dlOnlineReg.villagemetrocityByPermVillagemetrocity.id': client.village,
+                'dlOnlineReg.permWardnumber': client.wardNumber,
+                'dlOnlineReg.permTole': client.tole,
+                'dlOnlineReg.permBlocknumber': '',
+                'dlOnlineReg.permMobilemumber': client.mobileNumber,
+                'dlOnlineReg.permOfficecontact': '',
+                'dlOnlineReg.permContactnumber': '',
+                'dlOnlineReg.permEmail': '',
+                'dlOnlineReg.zoneByZoneId.id': client.zone,
+                'dlOnlineReg.districtByDistrictId.id': client.district,
+                'dlOnlineReg.villagemetrocityByVillagemetrocityId.id': client.village,
+                'dlOnlineReg.wardnumber': client.wardNumber,
+                'dlOnlineReg.tole': client.tole,
+                'dlOnlineReg.blocknumber': '',
+                'dlOnlineReg.mobilenumber': client.mobileNumber,
+                'dlOnlineReg.contactoffice': '',
+                'dlOnlineReg.contactnumber': '',
+                'dlOnlineReg.email': '',
+                'chkAddress': 'true',
+                '__checkbox_chkAddress':'true',
+                'cate': client.cate,
+                'dlOnlineReg.zoneByAppliedZoneoffice.id': client.appliedZoneOffice,
+                'dlOnlineReg.licenseissueoffice.id': client.licenseIssueOffice,
+                'jcaptcha': captcha,
+                'statusType': 'NEWLICENSE',
+                'saveDetails': 'SUBMIT'
+            }
+            res=waitforResponse(
+                cookies, 
+                'post',
+                'https://onlineedlreg.dotm.gov.np/Nepal_DLReg/applicationSummaryInfo.action',
+                params=person_detail
+            )
+            with open('initial.html', 'w') as f:
+                f.write(res.text)
+            print('done posting')
+            obj = Cookies.objects.get(session=cookie)
+            obj = obj.save_second_captcha()
+            img_url = str(obj.captcha2.url)
+            return JsonResponse({'img_url': img_url})
     else:
         raise Http404()
+    
+    
+def save_client(request):
+    cookie = request.POST.get('session')
+    captcha = request.POST.get('captcha').strip()
+    client_id=request.POST.get('client_id')
+    client = client_obj.get_by_id(client_id)
+    
+    print(client_id,captcha,cookie)
+    
+    cookies = {'JSESSIONID':cookie}
+    payload = {
+        'citizenshipID': '269',
+        'statusType': 'NEWLICENSE',
+        'action:saveApplicationEntry': 'SAVE DETAILS',
+        'statusType': 'NEWLICENSE',
+        'jcaptcha':captcha,
+    }
+    response = waitforResponse(
+        cookies,
+        'post',
+        "https://onlineedlreg.dotm.gov.np/Nepal_DLReg/applicationSummaryInfo.action",
+        params=payload
+    )
+    with open('final.html', 'w') as f:
+        f.write(response.text)
+    print('done saving')
+    print(response.url)
+    
+    if not 'newDlApplicationEntryResult' in response.url:
+        data = {'info': 'Not Registered','submitted':False}
+        return JsonResponse(data)
+    
+    url = str(response.url)    
+    
+    updates = {
+        'success_url': url,
+        'submitted_by': request.user.username,
+        'submitted': True,
+        'clientSubmittedAt': dt.now(local)
+    }
+    client_obj.update(client.id,**updates)
+    
+    data = {'info': "Registered Successfully",
+            'submitted': True}        
+
+    return JsonResponse(data)
+    
 
 def delete_client(request):
     if request.method=='POST' and request.is_ajax():

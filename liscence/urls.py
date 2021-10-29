@@ -25,7 +25,8 @@ urlpatterns = [
 
     #ajax
     path('ajax_captcha_entry', ajax.captcha_entry, name='ajax_captcha_entry'),
-    path('ajax_submit_captcha', ajax.submit_captcha, name='ajax_submit_captcha'),
+    path('ajax_submit_client', ajax.submit_client, name='ajax_submit_client'),
+    path('ajax_save_client', ajax.save_client, name='ajax_save_client'),
     path('delete_client', ajax.delete_client, name='delete_client'),
     path('reset_password', ajax.reset_password, name='reset_password'),
     path('user_update', ajax.user_update, name='user_update'),

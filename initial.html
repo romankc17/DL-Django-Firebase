@@ -1,0 +1,856 @@
+
+
+
+
+
+<!--<meta http-equiv="Pragma" content="no-cache"/>
+<meta http-equiv="Expires" content="-1"/>-->
+
+<html>
+    <head>
+        <title> .:: ONLINE DRIVING LICENSE ::. </title>
+        <link rel="stylesheet" type="text/css" href="/Nepal_DLReg/css/style.css" />
+        <link rel="Shortcut icon" href="/Nepal_DLReg/Images/favicon.ico" />
+        
+        
+        
+        
+    </head>
+    
+    
+    
+<script>
+    // disable right click
+    document.addEventListener('contextmenu', event => event.preventDefault());
+ 
+    document.onkeydown = function (e) {
+ 
+        // disable F12 key
+        if(e.keyCode == 123) {
+            return false;
+        }
+ 
+        // disable I key
+        if(e.ctrlKey && e.shiftKey && e.keyCode == 73){
+            return false;
+        }
+ 
+        // disable J key
+        if(e.ctrlKey && e.shiftKey && e.keyCode == 74) {
+            return false;
+        }
+ 
+        // disable U key
+        if(e.ctrlKey && e.keyCode == 85) {
+            return false;
+        }
+    }
+ 
+</script>
+<!--oncontextmenu="return false;"-->
+    <body class="body" >
+        
+        <div align="center">
+            <div style="width: 1000px;" >
+                
+
+
+<div id="header">
+</div>
+<div align="left">
+
+    <div>
+        <!--
+                <span style="display: inline-block;">
+                    <a href="home"  style="color: #ffcc00;">HOME</a>
+                </span>
+                <span style="display: inline-block;">
+                    <a href="newDlApplicationEntry_"  style="color: #ffcc00;">ONLINE DL REGISTRATION</a>
+                </span>
+                <span style="display: inline-block;">
+                    <a href="registerVRS_"  style="color: #ffcc00;">ONLINE VRS REGISTRATION</a>
+                </span>
+                <span style="display: inline-block;">
+                    <a href="nepalikaran_"  style="color: #ffcc00;">NEPALIKARAN</a>
+                </span>
+                <span style="display: inline-block;">
+                    <a href="rcRenewal_"  style="color: #ffcc00;">RC RENEWAL</a>
+                </span>
+                <span style="display: inline-block;">
+                    <a href="checkStatus"  style="color: #ffcc00;">CHECK STATUS</a>
+                </span>-->
+
+
+
+        <ul id="menu-bar">
+            
+        <li><a href="dlNewRegHome">ONLINE REGISTRATION</a></li> 
+            <li><a href="checkStatus">CHECK STATUS</a></li>
+<!--            <li><a href="dateWiseReport">REPORT</a></li>
+                
+            <!--            <li><a href="#">Vehicle Registration</a>
+                            <ul>
+                                <li><a href="showVrsHome">NEW REGISTRATION</a></li>
+                                <li><a href="rcRenewal_">RC RENEWAL</a></li>
+                                <li><a href="checkStatusvrs">CHECK STATUS</a></li>
+                            </ul>
+                        </li>-->
+
+        </ul>
+
+    </div>
+</div>
+
+            </div>
+
+        </div>
+        <div align="center">
+            
+
+<!--<div id="welcomeUser">
+
+    <span style="display: inline-block;">
+        <a href="logout"  style="color: #ffcc00;">[Log Out]</a>
+    </span>
+
+    <span style="display: inline-block;padding-right: 10px;text-decoration: blink">
+        <td>Welcome</td>
+    </span>
+
+</div>-->
+        </div> 
+
+
+
+        <div style="clear: both;"></div>
+
+        <div align="center">
+            <div style="height: 650px;width: 996px;overflow: auto;border: 2px solid #1f5a95;" >
+
+  <br>
+                <!--                <div style="float: right;width: 1000px;height: 500px;overflow: auto;border-right: 5px solid #1f5a95;">-->
+                
+                    <!--                        <div style="background-color:#3498db;height: 25px;color: white;font-size: 16px;text-align: center;font-weight: bold">-->
+                    <div style="height: 25px;color:#1f5a95;font-size: 16px;text-align: center;font-weight: bold;">
+                        ONLINE DRIVING LICENSE REGISTRATION FORM
+                    </div>
+                
+
+                
+
+
+
+<script language="JavaScript" type="text/javascript">
+    // Dojo configuration
+    djConfig = {
+        isDebug: false,
+        bindEncoding: "UTF-8"
+          ,baseRelativePath: "/Nepal_DLReg/struts/dojo/"
+          ,baseScriptUri: "/Nepal_DLReg/struts/dojo/"
+         ,parseWidgets : false
+        
+    };
+</script>
+
+
+
+  <script language="JavaScript" type="text/javascript"
+        src="/Nepal_DLReg/struts/dojo/struts_dojo.js"></script>
+
+<script language="JavaScript" type="text/javascript"
+        src="/Nepal_DLReg/struts/ajax/dojoRequire.js"></script>
+<link rel="stylesheet" href="/Nepal_DLReg/struts/xhtml/styles.css" type="text/css"/>
+
+<script language="JavaScript" src="/Nepal_DLReg/struts/utils.js" type="text/javascript"></script>
+<script language="JavaScript" src="/Nepal_DLReg/struts/xhtml/validation.js" type="text/javascript"></script>
+<script language="JavaScript" src="/Nepal_DLReg/struts/css_xhtml/validation.js" type="text/javascript"></script>
+
+<script type="text/javascript" src="/Nepal_DLReg/js/jquery.min.js"></script>
+
+<script type="text/javascript" src="/Nepal_DLReg/js/custom.js"></script>
+<script type="text/javascript" src="/Nepal_DLReg/js/conformDialog.js"></script>
+
+<script type="text/javascript" src="/Nepal_DLReg/js/new/jquery.calendars.js"></script>
+<script type="text/javascript" src="/Nepal_DLReg/js/new/jquery.calendars.nepali.js"></script>
+<script type="text/javascript" src="/Nepal_DLReg/js/new/jquery.calendars.plus.js"></script>
+<link media="all" rel="stylesheet" type="text/css" href="/Nepal_DLReg/css/new/jquery.calendars.picker.css">
+<script type="text/javascript" src="/Nepal_DLReg/js/new/jquery.plugin.js"></script>
+<script type="text/javascript" src="/Nepal_DLReg/js/new/jquery.calendars.picker.js"></script>
+
+<script type="text/javascript" src="/Nepal_DLReg/js/alertMessage.js"></script>
+
+
+
+
+
+<style type="text/css">
+    .errorTextfield{
+        border: #cc0033 1px solid;
+    }
+</style>
+<style>
+    .captcha-box {
+        border: 1px solid #2b6a9c;
+        width: 30%;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+</style>
+
+<script type="text/javascript">
+    function reloadCaptcha() {
+
+        var d = new Date();
+        $("#captcha_image").attr("src", "/Nepal_DLReg/jcaptcha.jpg?" + d.getTime());
+        window.scrollTo(0, document.querySelector("</body>").scrollHeight);
+    }
+</script>
+</head>
+
+
+
+<input type="hidden" id="path" value="/Nepal_DLReg"/>
+
+
+
+
+
+
+
+ <script type="text/javascript" src="/Nepal_DLReg/struts/css_xhtml/validation.js"></script>
+        
+<form id="appEntry" name="appEntry" onsubmit="return validateForm_appEntry();" action="/Nepal_DLReg/saveApplicationEntry.action" method="post"  onreset="clearErrorMessages(this);clearErrorLabels(this);"
+>
+
+
+
+    <fieldset style="width: 90%;border-color: #0273dd"> <legend>SUMMARY INFO</legend>
+        <div style="color: #cc0033">REGISTRATION DETAILS</div>
+
+        <div class="application">
+            <table style="width: 100%">
+                <thead>
+                    <tr>
+                        <th colspan="4" align="center">
+                            <label id="appEntry_com_eagle_edlvrs_dl_action_NewDlApplicationEntryAction_demographicsdetails">DEMOGRAPHIC DETAILS</label>
+                        </th>
+                    </tr>
+                </thead>
+                <tr>
+                    <td>
+                        <label id="appEntry_com_eagle_edlvrs_dl_action_NewDlApplicationEntryAction_applicant_firstname">APPLICANT FIRST NAME</label>
+                        <font style="color: red">* </font>
+                    </td>
+                    <td>
+                        INDRAMANI
+                    </td>
+                    <td>
+                        <label id="appEntry_com_eagle_edlvrs_dl_action_NewDlApplicationEntryAction_applicant_middlename">APPLICANT MIDDLE NAME</label>
+                    </td>
+                    
+                    
+                        <td>
+                            --
+                        </td>
+                    
+
+
+                </tr>
+                <tr>
+                    <td>
+                        <label id="appEntry_com_eagle_edlvrs_dl_action_NewDlApplicationEntryAction_applicant_lastname">APPLICANT LAST NAME</label>
+                        <font style="color: red">* </font>
+                    </td>
+                    <td>
+                        YADAV
+                    </td>
+                    <td>
+                        <label id="appEntry_com_eagle_edlvrs_dl_action_NewDlApplicationEntryAction_dob">DOB</label>
+                        <font style="color: red">*</font>
+                    </td>
+                    <td> <div style="color: #cc0033">English</div>
+                        30-Nov-2002
+                        <div style="color: #cc0033">Nepali</div>
+                        2059-08-14
+
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label id="appEntry_com_eagle_edlvrs_dl_action_NewDlApplicationEntryAction_age">AGE</label><font style="color: red">*</font></td>
+                    <td>
+                        19
+
+                    </td>
+
+                    <td>
+                        <label id="appEntry_com_eagle_edlvrs_dl_action_NewDlApplicationEntryAction_gender">GENDER</label>
+                        <font style="color: red">* </font>
+                    </td>
+                    <td>
+                        Male
+
+                    </td>
+
+                </tr>
+                <tr>
+                    <td>
+                        <label id="appEntry_com_eagle_edlvrs_dl_action_NewDlApplicationEntryAction_applicant_occupation">OCCUPATION </label>
+                    </td>
+                    
+                    
+                        <td>
+                            --
+                        </td>
+                    
+
+                    <td>
+                        <label id="appEntry_com_eagle_edlvrs_dl_action_NewDlApplicationEntryAction_applicant_education">EDUCATION</label>
+                    </td>
+
+                    
+                    
+                        <td>
+                            --
+                        </td>
+                    
+                </tr>
+                <tr>
+                    <td>
+                        <label id="appEntry_com_eagle_edlvrs_dl_action_NewDlApplicationEntryAction_bloodgroup">BLOOD GROUP</label>
+                        <font style="color: red">* </font>
+                    </td>
+                    <td>
+                        A+
+                    </td>
+                    <td>
+                        <label id="appEntry_com_eagle_edlvrs_dl_action_NewDlApplicationEntryAction_citizenship">CITIZENSHIP</label>
+                        <font style="color: red">* </font>
+                    </td>
+                    <td>
+                        Nepal
+                        <input type="hidden" name="citizenshipID" value="269" id="appEntry_citizenshipID"/>
+                    </td>
+                </tr>
+                <tr>
+                    
+                        <td width="25%">
+                            <label id="appEntry_com_eagle_edlvrs_dl_action_NewDlApplicationEntryAction_citizenshipnumber">CITIZENSHIP NO.</label>
+                            <font style="color: red">*</font>
+                        </td>
+                        <td>
+                            37-01-78-00566
+                        </td>
+                    
+                    
+
+                    
+                        <td width="25%">
+                            <label id="appEntry_com_eagle_edlvrs_dl_action_NewDlApplicationEntryAction_citizenshipissuedistrict">CITIZENSHIP ISSUE DISTRICT</label>
+                            <font style="color: red">*</font>
+                        </td>
+                        <td>
+                            Rupandehi
+                        </td>
+                    
+                    
+
+                </tr>
+
+
+                <tr>
+
+
+                    
+                        <td>
+                            <label id="appEntry_com_eagle_edlvrs_dl_action_NewDlApplicationEntryAction_applicant_passportnumber">PASSPORT NO.</label>
+                            <!--                    <font style="color: red">* </font>-->
+                        </td>
+                        
+                        
+                            <td>
+                                --
+                            </td>
+                        
+
+                        <td>
+                            <label id="appEntry_com_eagle_edlvrs_dl_action_NewDlApplicationEntryAction_passportCitizenship">PASSPORT ISSUED COUNTRY</label>
+                            <!--                    <font style="color: red">* </font>-->
+                        </td>
+
+
+                        
+                        
+                            <td>
+                                --
+                            </td>
+                        
+
+                    
+                                       
+
+                </tr>
+
+
+
+                <tr>
+                    <td>
+                        <label id="appEntry_com_eagle_edlvrs_dl_action_NewDlApplicationEntryAction_applicant_identitymark">IDENTITY MARK</label>
+                    </td>
+
+                    
+                    
+                        <td>
+                            --
+                        </td>
+                    
+
+
+
+                </tr>
+                <tr>
+                    <td>
+                        <label id="appEntry_com_eagle_edlvrs_dl_action_NewDlApplicationEntryAction_applicant_witnessfirstname">WITNESS FIRST NAME</label>
+                        <font style="color: red">* </font>
+                    </td>
+                    <td>
+                        DINA
+                    </td>
+                    <td>
+                        <label id="appEntry_com_eagle_edlvrs_dl_action_NewDlApplicationEntryAction_applicant_witnessmiddlename">WITNESS MIDDLE NAME</label>
+                    </td>
+                    
+                        <td>
+                            NATH
+                        </td>
+                    
+                    
+
+                </tr>
+
+                <tr>
+                    <td>
+                        <label id="appEntry_com_eagle_edlvrs_dl_action_NewDlApplicationEntryAction_applicant_witnesslastname">WITNESS LAST NAME</label>
+                        <font style="color: red">* </font>
+                    </td>
+                    <td>
+                        YADAV
+                    </td>
+
+                    <td>
+                        <label id="appEntry_com_eagle_edlvrs_dl_action_NewDlApplicationEntryAction_relationship">WITNESS RELATIONSHIP</label>
+                        <font style="color: red">* </font>
+                    </td>
+                    <td>
+                        Father
+                    </td>
+                </tr>
+                <tr>
+
+                    <td>
+                        <label id="appEntry_com_eagle_edlvrs_dl_action_NewDlApplicationEntryAction_trainingdetailinfo_trainername">TRAINER NAME</label>
+                    </td>
+                    
+                    
+                        <td>
+                            --
+                        </td>
+                    
+
+                    <td>
+                        <label id="appEntry_com_eagle_edlvrs_dl_action_NewDlApplicationEntryAction_trainingdetailinfo_trainerlicensenumber">TRAINER LICENSE NO.</label>
+                    </td>
+                    
+                    
+                        <td>
+                            --
+                        </td>
+                                        
+                </tr>
+            </table>
+        </div>
+
+
+        <div style="clear: both;"></div>
+        
+            <div class="application">
+
+                <table style="width: 100%" >
+                    <thead>
+                        <tr>
+                            <th colspan="4" align="center">
+                                <label id="appEntry_com_eagle_edlvrs_dl_action_NewDlApplicationEntryAction_addressdetails">ADDRESS DETAILS</label>
+                            </th>
+                        </tr>
+
+                    </thead>
+                    <th  colspan="4" align="center">
+                        <label id="appEntry_com_eagle_edlvrs_dl_action_NewDlApplicationEntryAction_permanentaddress">PERMANENT ADDRESS</label>
+                    </th>
+                    <tr>
+                        <td>
+                            <label id="appEntry_com_eagle_edlvrs_dl_action_NewDlApplicationEntryAction_zone">ZONE</label>
+                            <font style="color: red">* </font>
+                        </td>
+                        <td>
+                            Lumbini
+                        </td>
+
+                        <td>
+                            <label id="appEntry_com_eagle_edlvrs_dl_action_NewDlApplicationEntryAction_district">DISTRICT</label>
+                            <font style="color: red">* </font>
+                        </td>
+                        <td>
+                            Rupandehi
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td>
+                            <label id="appEntry_com_eagle_edlvrs_dl_action_NewDlApplicationEntryAction_village">VILLAGE</label>
+                            <font style="color: red">* </font>
+                        </td>
+                        <td>
+                            Lumbini
+                        </td>
+                        <td width="25%">
+                            <label id="appEntry_com_eagle_edlvrs_dl_action_NewDlApplicationEntryAction_wardnumber">WARD NO.</label>
+                            <font style="color: red">* </font>
+                        </td>
+                        <td>
+                            7
+                        </td>
+
+
+                    </tr>
+
+                    <tr>
+                        <td width="25%">
+                            <label id="appEntry_com_eagle_edlvrs_dl_action_NewDlApplicationEntryAction_tole">TOLE</label>
+                            <font style="color: red">* </font>
+                        </td>
+                        <td>
+                            Lumbini
+                        </td>
+                        <td>
+                            <label id="appEntry_com_eagle_edlvrs_dl_action_NewDlApplicationEntryAction_blocknumber">BLOCK NO.</label>
+                            <!--                    <font style="color: red">* </font>-->
+                        </td>
+
+                        
+                        
+                            <td>
+                                --
+                            </td>
+                        
+
+
+
+                    </tr>
+
+                    <tr> <td>
+                            <label id="appEntry_com_eagle_edlvrs_dl_action_NewDlApplicationEntryAction_mobilenumber">MOBILE NO.</label><font style="color: red">* </font>
+                        </td>
+                        <td>
+                            9807483612
+                        </td>
+
+                        <td>
+                            <label id="appEntry_com_eagle_edlvrs_dl_action_NewDlApplicationEntryAction_contactoffice">OFFICE CONTACT NO.</label>
+                        </td>
+                        
+                        
+                            <td>
+                                --
+                            </td>
+                        
+
+
+                    </tr>
+                    <tr>
+
+                        <td>
+                            <label id="appEntry_com_eagle_edlvrs_dl_action_NewDlApplicationEntryAction_contactnumber">CONTACT NO.</label>
+                        </td>
+                        
+                        
+                            <td>
+                                --
+                            </td>
+                        
+
+
+                        <td>
+                            <label id="appEntry_com_eagle_edlvrs_dl_action_NewDlApplicationEntryAction_email">EMAIL</label>
+                        </td>
+                        
+                        
+                            <td>
+                                --
+                            </td>
+                        
+
+
+                    </tr>
+
+                </table>
+            </div>
+        
+        
+
+
+        <div class="application">
+
+            <table style="width: 100%">
+                <th colspan="4" align="center">
+                    <label id="appEntry_com_eagle_edlvrs_dl_action_NewDlApplicationEntryAction_presentaddress">PRESENT ADDRESS</label>
+
+                </th>
+                <tr>
+                    <td>
+                        <label id="appEntry_com_eagle_edlvrs_dl_action_NewDlApplicationEntryAction_zone">ZONE</label>
+                        <font style="color: red">* </font>
+                    </td>
+                    <td>
+                        Lumbini
+                    </td>
+
+                    <td>
+                        <label id="appEntry_com_eagle_edlvrs_dl_action_NewDlApplicationEntryAction_district">DISTRICT</label>
+                        <font style="color: red">* </font>
+                    </td>
+                    <td>
+                        Rupandehi
+                    </td>
+
+                </tr>
+                <tr>
+                    <td>
+                        <label id="appEntry_com_eagle_edlvrs_dl_action_NewDlApplicationEntryAction_village">VILLAGE</label>
+                        <font style="color: red">* </font>
+                    </td>
+                    <td>
+                        Lumbini
+
+                    </td>
+                    <td width="25%">
+                        <label id="appEntry_com_eagle_edlvrs_dl_action_NewDlApplicationEntryAction_wardnumber">WARD NO.</label>
+                        <font style="color: red">* </font>
+                    </td>
+                    <td>
+                        7
+                    </td>
+
+
+                </tr>
+                <tr>
+                    <td width="25%">
+                        <label id="appEntry_com_eagle_edlvrs_dl_action_NewDlApplicationEntryAction_tole">TOLE</label>
+                        <font style="color: red">* </font>
+                    </td>
+                    <td>
+                        Lumbini
+                    </td>
+                    <td>
+                        <label id="appEntry_com_eagle_edlvrs_dl_action_NewDlApplicationEntryAction_blocknumber">BLOCK NO.</label>
+                        <!--                    <font style="color: red">* </font>-->
+                    </td>
+                    
+                    
+                        <td>
+                            --
+                        </td>
+                    
+
+
+                </tr>
+
+                <tr>
+                    <td>
+                        <label id="appEntry_com_eagle_edlvrs_dl_action_NewDlApplicationEntryAction_mobilenumber">MOBILE NO.</label><font style="color: red">* </font>
+                    </td>
+                    <td>
+                        9807483612
+                    </td>
+
+                    <td>
+                        <label id="appEntry_com_eagle_edlvrs_dl_action_NewDlApplicationEntryAction_contactoffice">OFFICE CONTACT NO.</label>
+                    </td>
+                    
+                    
+                        <td>
+                            --
+                        </td>
+                    
+
+                </tr>
+                <tr>
+
+                    <td>
+                        <label id="appEntry_com_eagle_edlvrs_dl_action_NewDlApplicationEntryAction_contactnumber">CONTACT NO.</label>
+                    </td>
+                    
+                    
+                        <td>
+                            --
+                        </td>
+                    
+
+
+                    <td>
+                        <label id="appEntry_com_eagle_edlvrs_dl_action_NewDlApplicationEntryAction_email">EMAIL</label>
+                    </td>
+                    
+                    
+                        <td>
+                            --
+                        </td>
+                    
+
+
+                </tr>
+            </table>
+        </div>
+        <div class="application">
+            <table width="100%">
+                <thead>
+                    <tr>
+                        <th colspan="4" align="center">
+                            <label id="appEntry_com_eagle_edlvrs_dl_action_NewDlApplicationEntryAction_examinformation">EXAM INFORMATION</label>
+                        </th>
+                    </tr>
+                </thead>
+                <tr>
+                    <td>
+                        <label id="appEntry_com_eagle_edlvrs_dl_action_NewDlApplicationEntryAction_exam_selectedcategories">SELECT CATEGORY</label><font style="color: red">* </font>
+                    </td>
+                    <td>
+                        <table id="tbl1">
+                            <tr>
+                                <td>
+                                    1
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                <br/>
+            </table>
+            <div class="application">
+                <table width="100%">
+                    <tr>
+                        <td>
+                            <label id="appEntry_com_eagle_edlvrs_dl_action_NewDlApplicationEntryAction_professionalnonprofessional">PROFESSIONAL OR NONPROFESSIONAL</label><font style="color: red">* </font>
+                        </td>
+                        <td>
+                    
+                                    Non-professional
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td>
+                            <label id="appEntry_com_eagle_edlvrs_dl_action_NewDlApplicationEntryAction_selectzone">SELECT ZONE</label><font style="color: red">* </font>
+                        </td>
+                        <td>
+                            Lumbini
+                        
+        
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label id="appEntry_com_eagle_edlvrs_dl_action_NewDlApplicationEntryAction_license_issue_office">LICENSE ISSUE OFFICE</label>
+                            <font style="color: red">* </font>
+                        </td>
+                        <td>
+                            Lumbini,Nepal
+                        </td>
+                    </tr>
+
+
+                </table>
+            </div>
+        </div>
+        <br>
+        <div class="captcha-box">
+            <img src="/Nepal_DLReg/jcaptcha.jpg" id="captcha_image"/>
+            <img src="/Nepal_DLReg/Images/refresh-button.png" onclick="reloadCaptcha()" alt="reload"
+                 style="width: 35px;height: 35px;"/>
+            <span  style="color:red;"><strong> </strong> </span>
+            <div id="wwgrp_appEntry_jcaptcha" class="wwgrp">
+<div id="wwctrl_appEntry_jcaptcha" class="wwctrl">
+<input type="text" name="jcaptcha" value="seethed" id="appEntry_jcaptcha" style="width: 240px;"/></div> </div>
+        </div>
+        <br>
+        <table width="40%" align="center">
+            <tr>
+                
+                <td colspan="0" align="center">
+                    <input type="hidden" name="statusType" value="NEWLICENSE" id="appEntry_statusType"/>
+                    <div align="center"    id="wwctrl_confirmBox"><input type="submit" id="confirmBox" name="saveDetails" value="SAVE DETAILS" class="button_example" style="padding:0px 0px 5px 0px;"/>
+</div> 
+                </td>
+                <td colspan="0" align="center">
+                    <input type="hidden" name="statusType" value="NEWLICENSE" id="appEntry_statusType"/>
+                    <div align="center"    id="wwctrl_confirmBox"><input type="submit" id="confirmBox" name="action:editApplicationEntry" value="EDIT DETAILS" class="button_example" style="padding:0px 0px 5px 0px;"/>
+</div> 
+                </td>
+            </tr>
+        </table>
+    </fieldset>
+</form>
+
+
+
+<script type="text/javascript">
+    function validateForm_appEntry() {
+        var getFieldValue = function(field) {
+            var type = field.type ? field.type : field[0].type;
+            if (type == 'select-one' || type == 'select-multiple') {
+                return (field.selectedIndex == -1 ? "" : field.options[field.selectedIndex].value);
+            } else if (type == 'checkbox' || type == 'radio') {
+                if (!field.length) {
+                    field = [field];
+                }
+                for (var i = 0; i < field.length; i++) {
+                    if (field[i].checked) {
+                        return field[i].value;
+                    }
+                }
+                return "";
+            }
+            return field.value;
+        }
+        form = document.getElementById("appEntry");
+        clearErrorMessages(form);
+        clearErrorLabels(form);
+
+        var errors = false;
+        var continueValidation = true;
+
+        return !errors;
+    }
+</script>
+
+
+
+                <!--                </div>-->
+
+            </div>
+        </div>
+        <div style="clear: both" ></div>
+
+
+        <div align="center" >
+            <div style="width: 1000px;" >
+                
+<div id="footer">
+        </div>
+            </div>
+        </div>
+        
+
+    </body>
+</html>
