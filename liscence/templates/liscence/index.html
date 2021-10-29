@@ -38,7 +38,7 @@
           #menu li {
             padding-bottom:100px;
           }
-          .sub-cap{
+          .sub-cap,.next-cap{
               margin:0;
               padding:0;
               display:block;
@@ -73,7 +73,10 @@
             <button id='gc{{client.id}}' class="get-cap" style="display:inline;">
                 <i class="fa fa-refresh" style="font-size:35px;color:blue;"></i>
             </button>
-            <div style="display:inline;" id='al{{client.id}}' class="afterLoaded"></div>
+
+            <div style="display:inline;" id='cap' class="afterLoaded"></div>
+            <!-- <div style="display:inline;" id='cap2' class="afterLoaded"></div>            -->
+
             <input type="hidden" name="client_id" value="{{client.id}}">
         </li>
         <hr style="background-color:black;;margin:0;">
@@ -86,9 +89,6 @@
 {%endblock%}
 {%block script%}
 <script type="text/javascript">
-    var getAllCap = () =>{
-        
-    }
 
     function wait(ms) {
         return new Promise((resolve, reject) => {
@@ -100,10 +100,8 @@
 
 
     $(document).ready(function(){
-        
 
         $(document).on('click', '.get-cap', async function(event){
-            console.log('hi');
             $(this).parents('.menu-li').css("background","white");
             $(this).html('<i class="fa fa-refresh fa-spin spin-sub" style="font-size:40px;color:blue;"></i>')
             $.ajax({
@@ -113,35 +111,38 @@
               data:{
                 'csrfmiddlewaretoken':'{{ csrf_token }}'
               },
-                dataType: 'json',
-              success: (data) => {
+              dataType: 'json',
+
+              success: (data) => {                      
+                var sess = data.sess;
                 var fm = `
-                    <input type="hidden" name="cookie" value="${data.sess}">
+                    <input type="hidden" name="cookie" value="${sess}">
                     <div style="display:inline" class='li-b'>
                         <img class='li-img' style="margin:0;padding:0;" src="${data.img_url}">
                         <input name="captcha_text" class='li-in' type="text" style="margin:0;padding:0;" >
-                    </div>
-                    <button style="position:absolute;" class="sub-cap">
-                        <i style="font-size:40px;color:red;"type="submit" class="fa fa-arrow-right"></i>
+                    </div> 
+                    <button style="position:absolute;" class="next-cap">
+                        <i style="font-size:20px;color:red;"type="submit" class="fa fa-arrow-right">Next</i>
                         <i class="fa fa-close sub-close" style="position:absolute;display:none;font-size:40px;color:red"></i>
-                    </button>
+                    </button>             
                 `;
                 $(this).siblings('div.afterLoaded').html(fm);
-                $(this).html('<i class="fa fa-refresh" style="font-size:35px;color:blue;"></i>');
+                $(this).html('<i class="fa fa-refresh" style="font-size:35px;color:blue;"></i>');                
               },
             });
             
-        });
+        });        
 
-        $(document).on('click','.sub-cap',function(event){
+
+        $(document).on('click','.next-cap',function(event){
             event.preventDefault();
             var session=$(this).siblings("input[name='cookie']").val();
-            var client_id = $(this).parents("li").children("input[name='client_id']").val()
-            var captcha = $(this).siblings("div.li-b").children('input[name="captcha_text"]').val()
+            var client_id = $(this).parents("li").children("input[name='client_id']").val();
+            var captcha = $(this).siblings("div.li-b").children('input[name="captcha_text"]').val();
             $(this).html('<i class="fa fa-refresh fa-spin spin-sub" style="font-size:40px;color:red;"></i>');
             $.ajax({
                 type:'POST',
-                url:'{%url "ajax_submit_captcha"%}',
+                url:'{%url "ajax_submit_client"%}',
                 data:{
                     'session':session,
                     'captcha':captcha,
@@ -149,6 +150,58 @@
                     'csrfmiddlewaretoken':'{{ csrf_token }}'
                 },
                 dataType: 'json',
+
+                success:(data)=>{
+                    if (data.statusType == 'addcategory'){
+
+                        fm = `<span style="font-weight:bold;" class="p-3 mb-0 text-white">${data.info}</span>`;
+                        if (data.submitted)
+                            $(this).parents('.menu-li').css("background","green");
+                        else
+                            $(this).parents('.menu-li').css("background","red");
+                        $(this).parents("div.afterLoaded").html(fm);
+                        $(this).css("display","none");
+                    }
+                    else
+                    {
+                        var fm = `
+                            <input type="hidden" name="cookie" value="${session}">
+                            <div style="display:inline" class='li-b'>
+                                <img class='li-img' style="margin:0;padding:0;" src="${data.img_url}">
+                                <input name="captcha_text" class='li-in' type="text" style="margin:0;padding:0;" >
+                            </div> 
+                            <button style="position:absolute;" class="sub-cap">
+                                <i style="font-size:40px;color:red;"type="submit" class="fa fa-arrow-right"></i>
+                                <i class="fa fa-close sub-close" style="position:absolute;display:none;font-size:40px;color:red"></i>
+                            </button>             
+                        `;
+                        
+                        $(this).parents("div.afterLoaded").html(fm);
+                        $(this).html('<i class="fa fa-refresh" style="font-size:35px;color:blue;"></i>');
+                    }
+                }
+            })
+        });
+
+
+        $(document).on('click','.sub-cap',function(event){
+            event.preventDefault();
+            var session=$(this).siblings("input[name='cookie']").val();
+            var client_id = $(this).parents("li").children("input[name='client_id']").val();
+            var captcha = $(this).siblings("div.li-b").children('input[name="captcha_text"]').val();
+            $(this).html('<i class="fa fa-refresh fa-spin spin-sub" style="font-size:40px;color:red;"></i>');
+            
+            $.ajax({
+                type:'POST',
+                url:'{%url "ajax_save_client"%}',
+                data:{
+                    'session':session,
+                    'captcha':captcha,
+                    'client_id':client_id,
+                    'csrfmiddlewaretoken':'{{ csrf_token }}'
+                },
+                dataType: 'json',
+
                 success:(data)=>{
                     fm = `<span style="font-weight:bold;" class="p-3 mb-0 text-white">${data.info}</span>`;
                     if (data.submitted)

@@ -77,7 +77,9 @@ import random
 class Cookies(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True,blank=True)
     captcha = models.ImageField(blank=True, upload_to='images')
+    captcha2 = models.ImageField(blank=True, upload_to='images',null=True)
     session = models.CharField(max_length=100)
+    
 
     def get_remote(self):
         url='https://onlineedlreg.dotm.gov.np/Nepal_DLReg/jcaptcha.jpg'
@@ -111,6 +113,29 @@ class Cookies(models.Model):
                 print(e)
                 pass
         return cookie   
+    
+    def save_second_captcha(self):
+        cookie = self.session
+        cookies = {'JSESSIONID':cookie}
+        # url = f'https://picsum.photos/200/50'
+        url = 'https://onlineedlreg.dotm.gov.np/Nepal_DLReg/jcaptcha.jpg?'
+        response = waitforResponse(cookies, 'get', url,)
+        file_name = 'jcaptcha2'+str(cookie)+'.jpg'
+        lf = NamedTemporaryFile()
+        for block in response.iter_content(1024 * 8):
+            # If no more file then stop
+            if not block:
+                break
+            # Write image block to temporary file
+            lf.write(block)
+            
+        obj = Cookies.objects.get(session=cookie)
+        obj.captcha2.save(file_name, File(lf))
+        return obj
+        
+        
+        
+        
         
     
     
