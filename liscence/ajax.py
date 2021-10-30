@@ -157,10 +157,12 @@ def add_category(client,cookie,captcha,current_user):
     response = waitforResponse(cookies,'post',url,params=detail)
     
     if 'newDlApplicationEntryResult' in str(response.url):
-        client.update({'success_url': response.url,
-                       'submitted_by': current_user,
-                       'submitted': True,
-                       'clientSubmittedAt': dt.now(local)})
+        client.update(**{
+            # 'success_url': response.url,
+            'submitted_by': current_user,
+            'submitted': True,
+            'clientSubmittedAt': dt.now(local)
+        })
         notice = (f"Successfully Category Added!!!")
         data = {'info': notice,
                 'submitted': True}
