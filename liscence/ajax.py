@@ -158,7 +158,7 @@ def add_category(client,cookie,captcha,current_user):
     
     if 'newDlApplicationEntryResult' in str(response.url):
         client.update(**{
-            # 'success_url': response.url,
+            'success_url': response.url,
             'submitted_by': current_user,
             'submitted': True,
             'clientSubmittedAt': dt.now(local)
