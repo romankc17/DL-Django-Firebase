@@ -127,12 +127,23 @@
                     </button>             
                 `;
                 $(this).siblings('div.afterLoaded').html(fm);
-                $(this).html('<i class="fa fa-refresh" style="font-size:35px;color:blue;"></i>');                
-              },
-            });
-            
-        });        
+                $(this).html('<i class="fa fa-refresh" style="font-size:35px;color:blue;"></i>'); 
 
+                $('input.li-in').bind('enterKey', function(e){
+                    $(this).parents('.li-b').siblings('button').click();
+                });
+                $('input.li-in').keyup(function(e){                    
+                    if(e.keyCode == 13)
+                    {
+                        $(this).trigger("enterKey");
+                    }
+                });  
+
+              },
+            });                    
+        });
+        
+        
 
         $(document).on('click','.next-cap',function(event){
             event.preventDefault();
@@ -178,6 +189,16 @@
                         
                         $(this).parents("div.afterLoaded").html(fm);
                         $(this).html('<i class="fa fa-refresh" style="font-size:35px;color:blue;"></i>');
+
+                        $('input.li-in').bind('enterKey', function(e){
+                            $(this).parents('.li-b').siblings('button').click();
+                        });
+                        $('input.li-in').keyup(function(e){                    
+                            if(e.keyCode == 13)
+                            {
+                                $(this).trigger("enterKey");
+                            }
+                        });
                     }
                 }
             })
