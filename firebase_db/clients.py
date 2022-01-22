@@ -134,7 +134,6 @@ class Client:
         return self.get_by_id(id)    
     
     def search(self,value,staff=None):
-        value = value.strip().title()
         if value.isnumeric():
             query = self.clients_ref.where(u'mobileNumber',u'==',value)
         else:                

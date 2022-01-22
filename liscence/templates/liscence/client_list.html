@@ -483,7 +483,7 @@
                 else{
                     var submitted_readable_date = new Date(client.clientSubmittedAt).toDateString();
                     sub += (
-                        `<a style="color:red;" href="{%url 'success_link' client_id=1 %}">
+                        `<a style="color:red;" href="${client.success_url}">
                             ${submitted_readable_date}
                         </a>`
                     );
